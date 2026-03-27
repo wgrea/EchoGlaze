@@ -1,80 +1,65 @@
-<!-- src/routes/echoglaze/accommodation/+page.svelte -->
+<!-- src/routes/accommodation/+page.svelte -->
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { loadAccommodationOptions } from '$lib/echoglaze/loaders/accommodationLoader';
-  import StayOptionCard from '$lib/components/echoglazeui/cards/StayOptionCard.svelte';
+  import type { StayOption } from '$lib/schema/types';
+  import { loadAllStayOptions } from '$lib/loaders/stayLoader';
+  import { loadCities } from '$lib/loaders/cityLoader';
   
-  let accommodations: any[] = [];
-  let loading = true;
-  let filterType: string = 'all';
+  // UI Components
+  import StayOptionCard from '$lib/components/StayOptionCard.svelte';
+  import FilterBar from '$lib/components/FilterBar.svelte';
+  import ValueUpgradeBridge from '$lib/components/ValueUpgradeBridge.svelte';
+  
+  let stayOptions: (StayOption & { cityName: string; cityMultiplier: number })[] = [];
+  let filteredOptions: (StayOption & { cityName: string; cityMultiplier: number })[] = [];
+  let filters = {
+    type: 'all',
+    wifiMin: 3.0,
+    priceTier: 'all',
+    socialTone: 'all'
+  };
   
   onMount(async () => {
     try {
-      accommodations = await loadAccommodationOptions();
+      const options = await loadAllStayOptions();
+      stayOptions = options;
+      filteredOptions = options;
     } catch (error) {
-      console.error('Failed to load accommodations:', error);
-    } finally {
-      loading = false;
+      console.error('Failed to load stay options:', error);
     }
   });
   
-  $: filtered = filterType === 'all' 
-    ? accommodations 
-    : accommodations.filter(a => a.type === filterType);
+  function applyFilters() {
+    filteredOptions = stayOptions.filter(option => {
+      if (filters.type !== 'all' && option.type !== filters.type) return false;
+      if (filters.priceTier !== 'all' && option.priceTier.toString() !== filters.priceTier) return false;
+      if (filters.socialTone !== 'all' && option.socialTone !== filters.socialTone) return false;
+      return true;
+    });
+  }
 </script>
 
-<div class="max-w-6xl mx-auto p-6">
-  <div class="text-center mb-8">
-    <h1 class="text-4xl font-bold bg-gradient-to-r from-amber-800 to-orange-600 bg-clip-text text-transparent">
-      Accommodation Options
-    </h1>
-    <p class="text-gray-600 mt-2">Find the perfect place to stay based on your work style</p>
+<div class="max-w-6xl mx-auto px-4 py-8">
+  <h1 class="text-3xl font-bold text-gray-900 mb-2">🏠 Accommodation Finder</h1>
+  <p class="text-gray-600 mb-8">Find hostels and coliving spaces with verified WiFi and work-friendly amenities</p>
+  
+  <!-- Filter Bar -->
+  <FilterBar bind:filters on:change={applyFilters} />
+  
+  <!-- Value Upgrade Bridge (if applicable) -->
+  <ValueUpgradeBridge options={filteredOptions} />
+  
+  <!-- Results Grid -->
+  <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+    {#each filteredOptions as option}
+      <StayOptionCard {option} />
+    {/each}
   </div>
   
-  <div class="flex gap-3 justify-center mb-8">
-    <button 
-      on:click={() => filterType = 'all'}
-      class="pill-button {filterType === 'all' ? 'bg-amber-500 text-white' : 'bg-white'}"
-    >
-      All
-    </button>
-    <button 
-      on:click={() => filterType = 'hostel'}
-      class="pill-button {filterType === 'hostel' ? 'bg-amber-500 text-white' : 'bg-white'}"
-    >
-      🎒 Hostel Spot
-    </button>
-    <button 
-      on:click={() => filterType = 'coliving'}
-      class="pill-button {filterType === 'coliving' ? 'bg-amber-500 text-white' : 'bg-white'}"
-    >
-      💼 Coliving Hub
-    </button>
-  </div>
-  
-  {#if loading}
+  <!-- Empty State -->
+  {#if filteredOptions.length === 0}
     <div class="text-center py-12">
-      <div class="animate-spin text-4xl">🏠</div>
-    </div>
-  {:else}
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {#each filtered as option}
-        <StayOptionCard option={option} />
-      {/each}
+      <p class="text-gray-500">No accommodations match your filters. Try adjusting your criteria.</p>
     </div>
   {/if}
 </div>
-
-<style>
-  .pill-button {
-    padding: 0.5rem 1.5rem;
-    border-radius: 9999px;
-    font-weight: 500;
-    transition: all 0.2s;
-    border: 1px solid #f59e0b20;
-  }
-  .pill-button:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  }
-</style>

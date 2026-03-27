@@ -1,5 +1,7 @@
 // src/lib/echoglaze/schema/types.ts
 
+// Most important file for drafting Svelte files accordingly
+
 // Base interfaces
 export interface BaseEntity {
   id: string;

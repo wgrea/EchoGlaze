@@ -1,36 +1,50 @@
-<!-- src/routes/echoglaze/country/[id]/+page.svelte -->
+<!-- src/routes/country/[id]/+page.svelte -->
 <script lang="ts">
   import { onMount } from 'svelte';
   import { page } from '$app/stores';
-  import { error } from '@sveltejs/kit';
-  import { loadCountry } from '$lib/echoglaze/loaders/countryLoader';
-  import { loadCitiesByCountry } from '$lib/echoglaze/loaders/cityLoader';
-  import CountryPageComponent from '$lib/components/echoglazeui/pages/CountryPage.svelte';
+  import type { Country, City } from '$lib/schema/types';
+  import { loadCountry } from '$lib/loaders/countryLoader';
+  import { loadCitiesByCountry } from '$lib/loaders/cityLoader';
+  import { loadVisa } from '$lib/loaders/visaLoader';
+  import { loadFlights } from '$lib/loaders/flightsLoader';
   
-  let country: any = null;
-  let cities: any[] = [];
+  // UI Components
+  import PersonaFitBadge from '$lib/components/PersonaFitBadge.svelte';
+  import NomadFriendlinessCard from '$lib/components/NomadFriendlinessCard.svelte';
+  import ResonanceSignalsChart from '$lib/components/ResonanceSignalsChart.svelte';
+  import SeasonalMultiplierNote from '$lib/components/SeasonalMultiplierNote.svelte';
+  import VisaSummaryCard from '$lib/components/VisaSummaryCard.svelte';
+  import FlightsSummaryCard from '$lib/components/FlightsSummaryCard.svelte';
+  import CityPreviewGrid from '$lib/components/CityPreviewGrid.svelte';
+  
+  let country: Country | null = null;
+  let cities: City[] = [];
+  let visa: any = null;
+  let flights: any = null;
   let loading = true;
   
   onMount(async () => {
+    const { id } = $page.params;
+    if (!id) {
+      console.error('No country ID provided');
+      loading = false;
+      return;
+    }
+    
     try {
-      const id = $page.params.id;
+      const [countryData, citiesData, visaData, flightsData] = await Promise.all([
+        loadCountry(id),
+        loadCitiesByCountry(id),
+        loadVisa(id),
+        loadFlights(id)
+      ]);
       
-      // Handle undefined ID
-      if (!id) {
-        throw error(404, 'Country ID is required');
-      }
-      
-      const countryData = await loadCountry(id);
-      if (!countryData) {
-        throw error(404, 'Country not found');
-      }
       country = countryData;
-      
-      const citiesData = await loadCitiesByCountry(country.id);
       cities = citiesData;
-    } catch (err) {
-      console.error('Failed to load country:', err);
-      throw error(404, 'Country not found');
+      visa = visaData;
+      flights = flightsData;
+    } catch (error) {
+      console.error('Failed to load country data:', error);
     } finally {
       loading = false;
     }
@@ -38,15 +52,46 @@
 </script>
 
 {#if loading}
-  <div class="flex items-center justify-center min-h-[60vh]">
-    <div class="text-center">
-      <div class="inline-block animate-spin text-4xl">🌍</div>
-      <p class="text-gray-600 mt-2">Loading destination...</p>
-    </div>
+  <div class="flex justify-center items-center h-64">
+    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600"></div>
   </div>
 {:else if country}
-  <CountryPageComponent 
-    country={country}
-    cities={cities}
-  />
+  <div class="max-w-6xl mx-auto px-4 py-8">
+    <!-- Header -->
+    <div class="mb-8">
+      <h1 class="text-4xl font-bold text-gray-900 mb-2">{country.name}</h1>
+      <p class="text-gray-600">{country.region}</p>
+    </div>
+    
+    <!-- Persona Fit & Avoid If -->
+    <PersonaFitBadge 
+      personaFit={country.personaFit} 
+      avoidIf={country.decisionAttributes.avoidIf}
+    />
+    
+    <!-- Nomad Friendliness -->
+    <NomadFriendlinessCard 
+      infra={country.decisionAttributes.nomadFriendliness.infra}
+      vibe={country.decisionAttributes.nomadFriendliness.vibe}
+      safety={country.decisionAttributes.safety}
+    />
+    
+    <!-- Seasonal Note -->
+    <SeasonalMultiplierNote 
+      seasonalMultipliers={country.seasonality.seasonalMultipliers}
+      bestMonths={country.seasonality.bestMonths ?? []}
+    />
+    
+    <!-- Resonance Signals -->
+    <ResonanceSignalsChart signals={country.resonanceSignals} />
+    
+    <!-- Key Cities -->
+    <CityPreviewGrid cities={cities} countryName={country.name} />
+    
+    <!-- Visa & Flights -->
+    <div class="grid md:grid-cols-2 gap-6 mt-8">
+      <VisaSummaryCard visa={visa} />
+      <FlightsSummaryCard flights={flights} />
+    </div>
+  </div>
 {/if}

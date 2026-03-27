@@ -1,3 +1,4 @@
+<!-- src/routes/+page.svelte -->
 <script lang="ts">
   import { onMount } from 'svelte';
   import { loadAllCountries } from '$lib/loaders/countryLoader';
@@ -29,7 +30,7 @@
     { title: "Destination Finder", description: "Find places that match your travel style", icon: "🔍", path: "/country", color: "from-blue-50 to-indigo-50", accent: "text-blue-600" },
     { title: "Visa Requirements", description: "Check visa needs and application process", icon: "📝", path: "/visa", color: "from-purple-50 to-pink-50", accent: "text-purple-600" },
     { title: "Travel Essentials", description: "Packing lists and travel must-haves", icon: "🎒", path: "/travel-essentials", color: "from-green-50 to-emerald-50", accent: "text-green-600" },
-    { title: "Flight Costs & Timing", description: "Find best seasons and flight prices", icon: "✈️", path: "/flight-costs", color: "from-cyan-50 to-sky-50", accent: "text-cyan-600" },
+    { title: "Flight Costs & Timing", description: "Find best seasons and flight prices", icon: "✈️", path: "/flights", color: "from-cyan-50 to-sky-50", accent: "text-cyan-600" },
     { title: "Accommodation", description: "Find hostels and coliving spaces", icon: "🏠", path: "/accommodation", color: "from-amber-50 to-orange-50", accent: "text-amber-600" },
     { title: "Transportation", description: "Compare local and intercity travel costs", icon: "🚗", path: "/transportation", color: "from-rose-50 to-red-50", accent: "text-rose-600" }
   ];
@@ -44,7 +45,7 @@
   <!-- Header -->
   <div class="home-header">
     <div class="text-6xl mb-4">🌎</div>
-    <h1 class="home-title">Echotrip</h1>
+    <h1 class="home-title">EchoGlaze</h1>
     <p class="home-subtitle">
       Your comprehensive guide to planning the perfect trip. Find destinations, compare costs, and organize everything in one place.
     </p>
