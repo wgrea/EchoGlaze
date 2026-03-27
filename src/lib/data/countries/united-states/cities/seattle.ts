@@ -1,0 +1,67 @@
+// src/lib/data/countries/united-states/cities/seattle.ts
+export default {
+  id: 'SEA',
+  name: 'Seattle',
+  type: 'hub',
+  costMultiplier: 2.1,
+  avoidIf: [
+    'Hates drizzly weather',
+    'Sensitive to "Seattle Freeze" social vibes',
+    'No car for nature access'
+  ],
+  safetyPattern: {
+    day: 3,
+    night: 2,
+    notes: 'Urban-Pockets Pattern — safe in tech hubs (SLU); unpredictable in transit corridors'
+  },
+  foodAffordability: {
+    grocery: 6,
+    streetFood: 7,
+    diningOut: 4
+  },
+  wifiScore: 5,
+  coworkingDensity: 5,
+  englishLevel: 5,
+  vibe: ['Tech hub', 'Outdoor access', 'Coffee culture'],
+  seasonalMultipliers: {
+    winter: 0.9,
+    summer: 1.4,
+    shoulder: 1.1
+  },
+  stayOptions: [
+    {
+      id: 'liberty-bank',
+      name: 'The Stay at Liberty Bank Building',
+      type: 'coliving',
+      verifiedWifi: true,
+      socialTone: 'mixed',
+      amenities: ['dedicated coworking lounge', 'gym', 'community kitchen'],
+      priceTier: 3
+    },
+    {
+      id: 'american-hostel',
+      name: 'American Hotel Hostel',
+      type: 'hostel',
+      verifiedWifi: true,
+      socialTone: 'quiet',
+      amenities: ['renovated common room', 'high-tops workspace', 'kitchen'],
+      priceTier: 2
+    }
+  ],
+  resonanceSignals: {
+    nightlifeOverall: 6,
+    lateNightDining: 4,
+    musicScene: 9,
+    danceScene: 5,
+    barDensity: 7,
+    safetyAtNight: 6,
+    socialMeetups: 7,
+    waterActivities: 8,
+    snowActivities: 8,
+    natureAccess: 10,
+    festivalCulture: 7,
+    socialFriction: 4,
+    soloFriendly: 8,
+    expatCommunityStrength: 6
+  }
+};

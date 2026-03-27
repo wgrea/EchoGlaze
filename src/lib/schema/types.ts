@@ -1,0 +1,181 @@
+// src/lib/echoglaze/schema/types.ts
+
+// Base interfaces
+export interface BaseEntity {
+  id: string;
+  createdAt?: number;
+  updatedAt?: number;
+}
+
+export interface NamedEntity extends BaseEntity {
+  name: string;
+  slug?: string;
+}
+
+// Country interface
+export interface Country extends BaseEntity {
+  id: string;
+  name: string;
+  region: string;
+  viewMode: 'country-first' | 'city-first' | 'grid' | 'list' | 'map';
+  resonanceMode: 'country-first' | 'city-first' | 'dynamic' | 'static';
+  registrationRequiredAfterDays: number;
+  
+  personaFit: string[] | {
+    digitalNomad: number;
+    backpacker: number;
+    luxuryTraveler: number;
+    family: number;
+  };
+  
+  costTier?: string;
+  
+  decisionAttributes: {
+    visaEase: number;
+    digitalNomadVisa: boolean;
+    nomadFriendliness: {
+      infra: number;
+      vibe: number;
+    };
+    safety: number;
+    englishLevel: number;
+    avoidIf: string[];
+    majorHubs: string[];
+  };
+  
+  likelihoodScores?: {
+    nightlife: number;
+    hiking: number;
+    coworking: number;
+    food: number;
+    history: number;
+    safety: number;
+  };
+  
+  seasonality: {
+    bestMonths: number[];
+    expensiveMonths: number[];
+    cheapMonths: number[];
+    seasonalMultipliers: {
+      winter: number;
+      summer: number;
+      shoulder: number;
+    };
+  };
+  
+  resonanceSignals: ResonanceSignals;
+  visaSummary: {
+    type: string;
+    duration: number;
+    extensionPossible: boolean;
+    cost: number;
+    difficulty: number;
+  };
+  flightsSummary: {
+    fromMajorHubs: Record<string, {
+      avgPrice: number;
+      duration: number;
+      airlines: string[];
+    }>;
+    bestTimeToBook: string;
+    notes: string;
+  };
+}
+
+// City interface
+export interface City extends BaseEntity {
+  id: string;
+  countryId: string;
+  name: string;
+  type: 'capital' | 'hub' | 'beach' | 'mountain' | 'cultural' | 'emerging';
+  costMultiplier: number;
+  vibe: string[];
+  avoidIf: string[];
+  safetyPattern: {
+    day: number;
+    night: number;
+    notes: string;
+  };
+  foodAffordability: {
+    grocery: number;
+    streetFood: number;
+    diningOut: number;
+  };
+  wifiScore?: number;
+  coworkingDensity?: number;
+  englishLevel?: number;
+  sweetSpotMonths?: number[];
+  seasonalMultipliers: {
+    winter: number;
+    summer: number;
+    shoulder: number;
+  };
+  resonanceSignals: ResonanceSignals;
+  stayOptions?: StayOption[];
+}
+
+// Stay Option interface
+export interface StayOption {
+  id: string;
+  name: string;
+  type: 'hostel' | 'coliving' | 'hotel' | 'apartment';
+  verifiedWifi: boolean;
+  socialTone: 'quiet' | 'social' | 'party' | 'mixed';
+  amenities: string[];
+  priceTier: 1 | 2 | 3 | 4 | 5;
+}
+
+// Costs interface - includes countryId for JSON storage
+export interface Costs extends BaseEntity {
+  countryId: string;
+  baseMultiplier: number;
+  cityMultipliers: Record<string, number>;
+  eventMultipliers: Record<string, number>;
+  accommodation: {
+    budget: number;
+    midRange: number;
+    luxury: number;
+  };
+  food: {
+    budget: number;
+    midRange: number;
+    luxury: number;
+  };
+  transport: {
+    local: number;
+    intercity: number;
+  };
+}
+
+// Visa interface - includes countryId for JSON storage
+export interface Visa extends BaseEntity {
+  countryId: string;
+  method: 'evisa' | 'visaOnArrival' | 'embassy' | 'visaFree';
+  processingDays: number;
+  costUSD: number;
+  nationalGroupings: Record<string, string[]>;
+}
+
+// Resonance Signals interface
+export interface ResonanceSignals {
+  // Core Signals (1-10 scale)
+  nightlifeOverall: number;
+  lateNightDining: number;
+  musicScene: number;
+  danceScene: number;
+  barDensity: number;
+  safetyAtNight: number;
+  socialMeetups: number;
+  
+  // Seasonal Signals
+  waterActivities: number;
+  snowActivities: number;
+  natureAccess: number;
+  festivalCulture: number;
+  
+  // Social Atmosphere Signals
+  socialFriction: number;
+  soloFriendly: number;
+  expatCommunityStrength: number;
+}
+
