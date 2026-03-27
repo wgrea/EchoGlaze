@@ -38,13 +38,13 @@ const exclude = [
 function listFiles(dir, indent = '') {
   try {
     const items = fs.readdirSync(dir);
-    
+
     items.sort((a, b) => {
       const pathA = path.join(dir, a);
       const pathB = path.join(dir, b);
       const statA = fs.statSync(pathA);
       const statB = fs.statSync(pathB);
-      
+
       if (statA.isDirectory() && !statB.isDirectory()) return -1;
       if (!statA.isDirectory() && statB.isDirectory()) return 1;
       return a.localeCompare(b);
@@ -60,33 +60,38 @@ function listFiles(dir, indent = '') {
       })) continue;
 
       const fullPath = path.join(dir, item);
-      
+
       try {
         const stats = fs.statSync(fullPath);
 
-        // Special handling for country data folders
-        const isCountryDataFolder = stats.isDirectory() && 
-                                  fullPath.includes('countries') && 
-                                  fs.readdirSync(fullPath).some(f => 
-                                    f === 'flight.ts' || f === 'living-costs.ts' || 
-                                    f === 'nomad.ts' || f === 'resonance.ts' || 
-                                    f === 'visa.ts' || f === 'index.ts'
-                                  );
+        // Detect country folder
+        const isCountryDataFolder =
+          stats.isDirectory() &&
+          fullPath.includes(path.join('data', 'countries')) &&
+          fs.readdirSync(fullPath).includes('index.ts');
 
         if (isCountryDataFolder) {
-          const countryFiles = fs.readdirSync(fullPath).filter(f => f.endsWith('.ts'));
-          console.log(indent + '🌍 ' + item + `/ (${countryFiles.length} data modules)`);
-        } else {
-          console.log(indent + (stats.isDirectory() ? '📁 ' : '📄 ') + item);
+          console.log(indent + `🌍 ${item}/ (index.ts, contains city data)`);
 
-          if (stats.isDirectory()) {
-            listFiles(fullPath, indent + '  ');
-          }
+          // Virtual cities folder
+          console.log(indent + '  📁 cities/ (defined inside index.ts)');
+
+          // Do not recurse into country folder
+          continue;
         }
+
+        // Normal printing
+        console.log(indent + (stats.isDirectory() ? '📁 ' : '📄 ') + item);
+
+        if (stats.isDirectory()) {
+          listFiles(fullPath, indent + '  ');
+        }
+
       } catch (err) {
         console.log(indent + '❌ ' + item + ' (error reading)');
       }
     }
+
   } catch (err) {
     console.log('Error reading directory:', dir, err.message);
   }
