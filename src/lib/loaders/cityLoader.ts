@@ -1,71 +1,72 @@
-//  src/lib/loaders/cityLoader.ts
+// src/lib/loaders/cityLoader.ts
 import type { City } from '$lib/schema/types';
 
-// Import your existing city data
+// 1. IMPORT RAW DATA
 import chicagoData from '$lib/data/countries/united-states/cities/chicago.js';
+import austinData from '$lib/data/countries/united-states/cities/austin.js';
+import denverData from '$lib/data/countries/united-states/cities/denver.js';
+import miamiData from '$lib/data/countries/united-states/cities/miami.js';
+import seattleData from '$lib/data/countries/united-states/cities/seattle.js';
 import bakuData from '$lib/data/countries/azerbaijan/cities/baku.js';
 
-// Helper to normalize city data
+/**
+ * NORMALIZE: Ensures raw data matches our strict 'City' interface.
+ * Line 23 Fix: Ensures properties are properly comma-separated.
+ */
 function normalizeCity(data: any, countryId: string): City {
   return {
-    id: data.id.toLowerCase(),
+    ...data,
+    id: data.id.toLowerCase(), 
     countryId: countryId,
-    name: data.name,
-    type: data.type,
-    costMultiplier: data.costMultiplier,
-    vibe: data.vibe,
-    avoidIf: data.avoidIf,
-    safetyPattern: data.safetyPattern,
-    foodAffordability: data.foodAffordability,
-    wifiScore: data.wifiScore,
-    coworkingDensity: data.coworkingDensity,
-    englishLevel: data.englishLevel,
-    sweetSpotMonths: data.sweetSpotMonths,
-    seasonalMultipliers: data.seasonalMultipliers,
-    resonanceSignals: data.resonanceSignals,
-    stayOptions: data.stayOptions
+    foodStrategy: data.foodStrategy || null 
   };
 }
 
+/**
+ * SINGLE FETCH: Loads a specific city by its ID.
+ * Fixed: Uses 'cityId' consistently to avoid "Cannot find name" errors.
+ */
 export async function loadCity(id: string): Promise<City | null> {
-  // Chicago
-  if (id === 'chicago') {
-    return normalizeCity(chicagoData, 'united-states');
+  if (!id) return null;
+  const cityId = id.toLowerCase();
+
+  switch (cityId) {
+    case 'chicago':
+    case 'chi':
+      return normalizeCity(chicagoData, 'united-states');
+    case 'austin':
+    case 'aus':
+      return normalizeCity(austinData, 'united-states');
+    case 'denver':
+    case 'den':
+      return normalizeCity(denverData, 'united-states');
+    case 'miami':
+    case 'mia':
+      return normalizeCity(miamiData, 'united-states');
+    case 'seattle':
+    case 'sea':
+      return normalizeCity(seattleData, 'united-states');
+    case 'baku':
+    case 'bak':
+      return normalizeCity(bakuData, 'azerbaijan');
+    default:
+      return null;
   }
-  
-  // Baku
-  if (id === 'baku') {
-    return normalizeCity(bakuData, 'azerbaijan');
-  }
-  
-  return null;
 }
 
+/**
+ * REGIONAL FETCH: Groups cities by country.
+ */
 export async function loadCitiesByCountry(countryId: string): Promise<City[]> {
-  const allCities: City[] = [];
-  
-  if (countryId === 'united-states') {
-    const chicago = await loadCity('chicago');
-    if (chicago) allCities.push(chicago);
-  }
-  
-  if (countryId === 'azerbaijan') {
-    const baku = await loadCity('baku');
-    if (baku) allCities.push(baku);
-  }
-  
-  return allCities;
+  const all = await loadCities();
+  return all.filter(city => city.countryId === countryId);
 }
 
+/**
+ * GLOBAL FETCH: Returns every city registered in the app.
+ */
 export async function loadCities(): Promise<City[]> {
-  const [chicago, baku] = await Promise.all([
-    loadCity('chicago'),
-    loadCity('baku')
-  ]);
-  
-  const cities: City[] = [];
-  if (chicago) cities.push(chicago);
-  if (baku) cities.push(baku);
-  
-  return cities;
+  const cityIds = ['chicago', 'austin', 'denver', 'miami', 'seattle', 'baku'];
+  const results = await Promise.all(cityIds.map(id => loadCity(id)));
+  return results.filter((city): city is City => city !== null);
 }

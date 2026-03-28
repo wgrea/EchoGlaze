@@ -18,6 +18,13 @@ export default {
     streetFood: 8,
     diningOut: 5
   },
+  foodStrategy: {
+  breakfast: { bestValue: "Grocery: Taco Deli (at Whole Foods/HEB)", cheapest: "Fast Food: P. Terry's Breakfast Burger" },
+  lunch: { bestValue: "Street: Food Truck Tacos (Corn tortillas = Healthy)", cheapest: "Grocery: HEB Meal Deal combo" },
+  dinner: { bestValue: "Shared: BBQ Family Style (split by weight)", cheapest: "Street: 6th St. Pizza Slice" },
+  dessert: { bestValue: "Tradition: Amy's Ice Cream", cheapest: "Grocery: Round Rock Donuts (Store bought)" },
+  healthyCheap: "Central Market (North Lamar) bulk bins and salad bar are the highest quality-to-cost nutrition hub."
+},
   wifiScore: 5,
   coworkingDensity: 5,
   englishLevel: 5,

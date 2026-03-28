@@ -18,6 +18,13 @@ export default {
     streetFood: 6,
     diningOut: 6
   },
+  foodStrategy: {
+  breakfast: { bestValue: "Dine-out: Breakfast Burrito (with Green Chile)", cheapest: "Convenience: Kum & Go Coffee + Roll" },
+  lunch: { bestValue: "Street: Food Trucks at Civic Center Park", cheapest: "Grocery: King Soopers Deli Sandwich" },
+  dinner: { bestValue: "Bar: Happy Hour Sliders (filling/cheap)", cheapest: "National: Chipotle (bowl = 2 meals)" },
+  dessert: { bestValue: "Tradition: Little Man Ice Cream", cheapest: "Grocery: Enstrom's Toffee (sample size)" },
+  healthyCheap: "Sprouts Farmers Market is significantly cheaper for fresh produce than Safeway or Whole Foods."
+},
   wifiScore: 4,
   coworkingDensity: 4,
   englishLevel: 5,

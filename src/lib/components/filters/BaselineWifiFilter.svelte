@@ -1,4 +1,4 @@
-<!-- src/lib/components/echoglazeui/filters/BaselineWifiFilter.svelte -->
+<!-- src/lib/components/filters/BaselineWifiFilter.svelte -->
 <script lang="ts">
   import { writable } from 'svelte/store';
   

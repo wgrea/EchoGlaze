@@ -1,40 +1,23 @@
 // src/lib/loaders/stayLoader.ts
-import type { StayOption } from '$lib/schema/types';
-import { loadCity } from './cityLoader';
+import { loadCities } from './cityLoader';
 
-export async function loadStayOptions(cityId: string): Promise<StayOption[]> {
-  const city = await loadCity(cityId);
-  return city?.stayOptions || [];
-}
-
-export async function loadAllStayOptions(): Promise<(StayOption & { cityId: string; cityName: string; cityMultiplier: number })[]> {
-  const allOptions: (StayOption & { cityId: string; cityName: string; cityMultiplier: number })[] = [];
+export async function loadAllStayOptions() {
+  const cities = await loadCities();
+  const allOptions: any[] = [];
   
-  // Load Chicago's stay options
-  const chicago = await loadCity('chicago');
-  if (chicago && chicago.stayOptions) {
-    chicago.stayOptions.forEach(option => {
-      allOptions.push({
-        ...option,
-        cityId: chicago.id,
-        cityName: chicago.name,
-        cityMultiplier: chicago.costMultiplier
+  cities.forEach(city => {
+    // If city.stayOptions is undefined or empty, this skip ensures no crash
+    if (city.stayOptions && Array.isArray(city.stayOptions)) {
+      city.stayOptions.forEach(option => {
+        allOptions.push({
+          ...option,
+          cityId: city.id,       // Ensure this is 'sea', 'chi', etc.
+          cityName: city.name,
+          cityMultiplier: city.costMultiplier
+        });
       });
-    });
-  }
-  
-  // Load Baku's stay options
-  const baku = await loadCity('baku');
-  if (baku && baku.stayOptions) {
-    baku.stayOptions.forEach(option => {
-      allOptions.push({
-        ...option,
-        cityId: baku.id,
-        cityName: baku.name,
-        cityMultiplier: baku.costMultiplier
-      });
-    });
-  }
+    }
+  });
   
   return allOptions;
 }

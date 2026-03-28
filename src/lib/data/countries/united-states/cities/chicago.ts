@@ -18,6 +18,13 @@ export default {
     streetFood: 9,
     diningOut: 6
   },
+foodStrategy: {
+  breakfast: { bestValue: "Diner: Skillet (High Protein)", cheapest: "Convenience: 7-Eleven Coffee/Donut" },
+  lunch: { bestValue: "Grocery: Prepared Salad Bar", cheapest: "National: Costco Hot Dog/Slice" },
+  dinner: { bestValue: "Shared: Deep Dish (Heavy/Filling)", cheapest: "Street: Maxwell St. Polish" },
+  dessert: { bestValue: "Tradition: Rainbow Cone", cheapest: "Grocery: Eli's Cheesecake Slice" },
+  healthyCheap: "Mexican 'Tiendas' in neighborhoods like Pilsen offer cheap, fresh produce and rotisserie chicken."
+},
   wifiScore: 4,
   coworkingDensity: 4,
   englishLevel: 5,

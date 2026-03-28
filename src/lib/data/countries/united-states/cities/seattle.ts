@@ -19,6 +19,13 @@ export default {
     streetFood: 7,
     diningOut: 4
   },
+  foodStrategy: {
+  breakfast: { bestValue: "Grocery: Pike Place Piroshky", cheapest: "Convenience: Starbucks (Rewards/Basic)" },
+  lunch: { bestValue: "Healthy: Teriyaki (Seattle staple, filling/protein)", cheapest: "Street: Seattle Dog (Cream cheese hot dog)" },
+  dinner: { bestValue: "Shared: Dim Sum (International District)", cheapest: "Grocery: PCC Community Markets hot bar" },
+  dessert: { bestValue: "Tradition: Molly Moon's Ice Cream", cheapest: "Grocery: Theo Chocolate bar" },
+  healthyCheap: "Uwajimaya (International District) has high-quality fish and produce for significantly less than tech-hub markets."
+},
   wifiScore: 5,
   coworkingDensity: 5,
   englishLevel: 5,

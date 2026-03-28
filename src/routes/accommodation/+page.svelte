@@ -1,65 +1,107 @@
 <!-- src/routes/accommodation/+page.svelte -->
 <script lang="ts">
   import { onMount } from 'svelte';
-  import type { StayOption } from '$lib/schema/types';
   import { loadAllStayOptions } from '$lib/loaders/stayLoader';
   import { loadCities } from '$lib/loaders/cityLoader';
+  import type { City } from '$lib/schema/types';
   
-  // UI Components
-  import StayOptionCard from '$lib/components/StayOptionCard.svelte';
-  import FilterBar from '$lib/components/FilterBar.svelte';
-  import ValueUpgradeBridge from '$lib/components/ValueUpgradeBridge.svelte';
-  
-  let stayOptions: (StayOption & { cityName: string; cityMultiplier: number })[] = [];
-  let filteredOptions: (StayOption & { cityName: string; cityMultiplier: number })[] = [];
+  import FilterBar from '$lib/components/accommodation/FilterBar.svelte';
+  import StayOptionCard from '$lib/components/accommodation/StayOptionCard.svelte';
+  import FoodStrategyCard from '$lib/components/accommodation/FoodStrategyCard.svelte';
+
+  let stayOptions: any[] = [];
+  let filteredOptions: any[] = [];
+  let cities: City[] = [];
+  let selectedCity: City | null = null;
+  let selectedCityId = 'all';
+
   let filters = {
     type: 'all',
     wifiMin: 3.0,
-    priceTier: 'all',
+    maxPriceTier: 'all',
     socialTone: 'all'
   };
-  
+
   onMount(async () => {
-    try {
-      const options = await loadAllStayOptions();
-      stayOptions = options;
-      filteredOptions = options;
-    } catch (error) {
-      console.error('Failed to load stay options:', error);
-    }
+    const [optionsData, citiesData] = await Promise.all([
+      loadAllStayOptions(),
+      loadCities()
+    ]);
+    stayOptions = optionsData;
+    filteredOptions = optionsData;
+    cities = citiesData;
   });
-  
-  function applyFilters() {
-    filteredOptions = stayOptions.filter(option => {
-      if (filters.type !== 'all' && option.type !== filters.type) return false;
-      if (filters.priceTier !== 'all' && option.priceTier.toString() !== filters.priceTier) return false;
-      if (filters.socialTone !== 'all' && option.socialTone !== filters.socialTone) return false;
-      return true;
-    });
+
+  $: if (selectedCityId) {
+    selectedCity = cities.find(c => c.id === selectedCityId) || null;
+    applyFilters();
   }
+
+function applyFilters() {
+  filteredOptions = stayOptions.filter(option => {
+    // 1. City Filter
+    if (selectedCityId !== 'all' && option.cityId !== selectedCityId) return false;
+    
+    // 2. Type Check
+    if (filters.type !== 'all' && option.type !== filters.type) return false;
+    
+    // 3. WiFi Check 
+    // IMPORTANT: If the option doesn't have a score, use the city's score
+    // Since we added 'cityId' to the option, we can find the city's score
+    const city = cities.find(c => c.id === option.cityId);
+    const wifiValue = option.wifiScore || city?.wifiScore || 0; 
+    
+    if (wifiValue < filters.wifiMin) return false;
+    
+    // 4. Price Tier
+    if (filters.maxPriceTier !== 'all') {
+      const maxTier = parseInt(filters.maxPriceTier);
+      if (option.priceTier > maxTier) return false;
+    }
+    
+    return true;
+  });
+}
 </script>
 
-<div class="max-w-6xl mx-auto px-4 py-8">
-  <h1 class="text-3xl font-bold text-gray-900 mb-2">🏠 Accommodation Finder</h1>
-  <p class="text-gray-600 mb-8">Find hostels and coliving spaces with verified WiFi and work-friendly amenities</p>
+<div class="max-w-6xl mx-auto px-4 py-8 flex flex-col lg:flex-row gap-8">
   
-  <!-- Filter Bar -->
-  <FilterBar bind:filters on:change={applyFilters} />
-  
-  <!-- Value Upgrade Bridge (if applicable) -->
-  <ValueUpgradeBridge options={filteredOptions} />
-  
-  <!-- Results Grid -->
-  <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-    {#each filteredOptions as option}
-      <StayOptionCard {option} />
-    {/each}
-  </div>
-  
-  <!-- Empty State -->
-  {#if filteredOptions.length === 0}
-    <div class="text-center py-12">
-      <p class="text-gray-500">No accommodations match your filters. Try adjusting your criteria.</p>
+  <div class="flex-1">
+    <h1 class="text-3xl font-bold text-gray-900 mb-2">🏠 Accommodation Finder</h1>
+    <p class="text-gray-600 mb-8">Verified WiFi for digital nomads</p>
+    
+    <FilterBar bind:filters on:change={applyFilters} />
+    
+    <div class="grid md:grid-cols-2 gap-6 mt-8">
+      {#each filteredOptions as option}
+        <StayOptionCard {option} />
+      {/each}
     </div>
-  {/if}
+  </div>
+
+  <aside class="w-full lg:w-80 space-y-6">
+<div class="p-4 bg-gray-50 rounded-xl border border-gray-100">
+  <label for="city-selector" class="block text-[10px] font-bold text-gray-400 uppercase mb-2">
+    Select Location
+  </label>
+  <select 
+    id="city-selector" 
+    bind:value={selectedCityId} 
+    class="w-full p-2 border rounded-lg bg-white text-sm"
+  >
+    <option value="all">All Cities (Global View)</option>
+    {#each cities as city}
+      <option value={city.id}>{city.name}</option>
+    {/each}
+  </select>
+</div>
+
+    {#if selectedCity?.foodStrategy}
+      <FoodStrategyCard strategy={selectedCity.foodStrategy} />
+    {:else}
+      <div class="p-6 bg-orange-50 rounded-xl border border-orange-100 text-center">
+        <p class="text-xs text-orange-800">Select a city to see where to find the healthiest & cheapest meals.</p>
+      </div>
+    {/if}
+  </aside>
 </div>

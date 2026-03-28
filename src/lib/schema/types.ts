@@ -1,4 +1,4 @@
-// src/lib/echoglaze/schema/types.ts
+// src/lib/schema/types.ts
 
 // Most important file for drafting Svelte files accordingly
 
@@ -12,6 +12,20 @@ export interface BaseEntity {
 export interface NamedEntity extends BaseEntity {
   name: string;
   slug?: string;
+}
+
+export interface FoodMealStrategy {
+  bestValue: string;    // e.g., "Business Lunch Set"
+  cheapest: string;     // e.g., "Supermarket Grab-and-go"
+  note?: string;        // e.g., "Only available 12pm-3pm"
+}
+
+export interface FoodStrategy {
+  breakfast: FoodMealStrategy;
+  lunch: FoodMealStrategy;
+  dinner: FoodMealStrategy;
+  dessert: FoodMealStrategy;
+  nomadProTip?: string;
 }
 
 // Country interface
@@ -103,6 +117,7 @@ export interface City extends BaseEntity {
     streetFood: number;
     diningOut: number;
   };
+  foodStrategy?: FoodStrategy; 
   wifiScore?: number;
   coworkingDensity?: number;
   englishLevel?: number;

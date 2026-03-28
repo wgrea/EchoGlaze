@@ -19,6 +19,13 @@ export default {
     streetFood: 8,
     diningOut: 5
   },
+  foodStrategy: {
+  breakfast: { bestValue: "Street: Ventanita (Cuban Coffee + Croqueta)", cheapest: "Grocery: Publix BOGO deals" },
+  lunch: { bestValue: "Healthy: Poke or Ceviche (lunch specials)", cheapest: "Street: Empanadas from a window" },
+  dinner: { bestValue: "Shared: Large Cuban Platter (Rice/Beans/Protein)", cheapest: "Grocery: Publix 'PubSub' Sandwich" },
+  dessert: { bestValue: "Tradition: Key Lime Pie", cheapest: "Grocery: Frozen Mochi" },
+  healthyCheap: "Fresh coconut water from street vendors is cheaper than bottled drinks and highly hydrating in the heat."
+},
   wifiScore: 5,
   coworkingDensity: 4,
   englishLevel: 4,

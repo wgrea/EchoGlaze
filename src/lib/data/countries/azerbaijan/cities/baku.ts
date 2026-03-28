@@ -18,6 +18,13 @@ export default {
     streetFood: 9,
     diningOut: 10
   },
+foodStrategy: {
+  breakfast: { bestValue: "Bakery: Fresh Tandir + Honey", cheapest: "Grocery: Ayran + Bun" },
+  lunch: { bestValue: "Business Lunch: 3-Course Set", cheapest: "Street: Doner Kebab" },
+  dinner: { bestValue: "Shared: Saj Ichi (Split 2 ways)", cheapest: "Street: Pirozhki" },
+  dessert: { bestValue: "Tradition: Pakhlava + Tea", cheapest: "Grocery: Halva" },
+  healthyCheap: "Local fruit stalls (Bazar) offer the best nutrition-to-cost ratio in the Caucasus."
+},
   wifiScore: 4,
   coworkingDensity: 4,
   englishLevel: 3,

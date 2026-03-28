@@ -9,13 +9,13 @@
   import { loadFlights } from '$lib/loaders/flightsLoader';
   
   // UI Components
-  import PersonaFitBadge from '$lib/components/PersonaFitBadge.svelte';
-  import NomadFriendlinessCard from '$lib/components/NomadFriendlinessCard.svelte';
-  import ResonanceSignalsChart from '$lib/components/ResonanceSignalsChart.svelte';
-  import SeasonalMultiplierNote from '$lib/components/SeasonalMultiplierNote.svelte';
-  import VisaSummaryCard from '$lib/components/VisaSummaryCard.svelte';
-  import FlightsSummaryCard from '$lib/components/FlightsSummaryCard.svelte';
-  import CityPreviewGrid from '$lib/components/CityPreviewGrid.svelte';
+  import PersonaFitBadge from '$lib/components/country/PersonaFitBadge.svelte';
+  import NomadFriendlinessCard from '$lib/components/country/NomadFriendlinessCard.svelte';
+  import ResonanceSignalsChart from '$lib/components/country/ResonanceSignalsChart.svelte';
+  import SeasonalMultiplierNote from '$lib/components/country/SeasonalMultiplierNote.svelte';
+  import VisaSummaryCard from '$lib/components/country/VisaSummaryCard.svelte';
+  import FlightsSummaryCard from '$lib/components/country/FlightsSummaryCard.svelte';
+  import CityPreviewGrid from '$lib/components/country/CityPreviewGrid.svelte';
   
   let country: Country | null = null;
   let cities: City[] = [];

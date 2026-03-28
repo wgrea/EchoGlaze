@@ -8,15 +8,15 @@
   import { loadStayOptions } from '$lib/loaders/stayLoader';
   
   // UI Components
-  import WifiBadge from '$lib/components/WifiBadge.svelte';
-  import CoworkingDensityDisplay from '$lib/components/CoworkingDensityDisplay.svelte';
-  import SafetyPatternDisplay from '$lib/components/SafetyPatternDisplay.svelte';
-  import CostComparison from '$lib/components/CostComparison.svelte';
-  import StayOptionsList from '$lib/components/StayOptionsList.svelte';
-  import FoodStrategyCard from '$lib/components/FoodStrategyCard.svelte';
-  import SimCardInfo from '$lib/components/SimCardInfo.svelte';
-  import ResonanceSignalsChart from '$lib/components/ResonanceSignalsChart.svelte';
-  import SeasonalMultiplierNote from '$lib/components/SeasonalMultiplierNote.svelte';
+  import WifiBadge from '$lib/components/city/WifiBadge.svelte';
+  import CoworkingDensityDisplay from '$lib/components/city/CoworkingDensityDisplay.svelte';
+  import SafetyPatternDisplay from '$lib/components/city/SafetyPatternDisplay.svelte';
+  import CostComparison from '$lib/components/city/CostComparison.svelte';
+  import StayOptionsList from '$lib/components/accommodation/StayOptionsList.svelte';
+  import FoodStrategyCard from '$lib/components/city/FoodStrategyCard.svelte';
+  import SimCardInfo from '$lib/components/city/SimCardInfo.svelte';
+  import ResonanceSignalsChart from '$lib/components/country/ResonanceSignalsChart.svelte';
+  import SeasonalMultiplierNote from '$lib/components/country/SeasonalMultiplierNote.svelte';
   
   let city: City | null = null;
   let country: Country | null = null;
