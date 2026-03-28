@@ -37,6 +37,16 @@
     applyFilters();
   }
 
+/*
+Why this one worked:
+The second version performs a lookup:
+- It takes the option.cityId (which we added in the loader).
+- It goes to your cities array and finds the matching city object.
+- It says: "Okay, this hostel doesn't have a specific WiFi score, but it's in Chicago, and Chicago has a 4. I'll use 4."
+- Since 4 is greater than your filter minimum of 3.0, the hostel finally shows up.
+*/
+// src/routes/accommodation/+page.svelte
+
 function applyFilters() {
   filteredOptions = stayOptions.filter(option => {
     // 1. City Filter
@@ -45,12 +55,9 @@ function applyFilters() {
     // 2. Type Check
     if (filters.type !== 'all' && option.type !== filters.type) return false;
     
-    // 3. WiFi Check 
-    // IMPORTANT: If the option doesn't have a score, use the city's score
-    // Since we added 'cityId' to the option, we can find the city's score
-    const city = cities.find(c => c.id === option.cityId);
-    const wifiValue = option.wifiScore || city?.wifiScore || 0; 
-    
+    // 3. WiFi Check
+    // Since we attached wifiScore in the stayLoader, we just use it directly!
+    const wifiValue = option.wifiScore || 0; 
     if (wifiValue < filters.wifiMin) return false;
     
     // 4. Price Tier

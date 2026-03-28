@@ -6,14 +6,16 @@ export async function loadAllStayOptions() {
   const allOptions: any[] = [];
   
   cities.forEach(city => {
-    // If city.stayOptions is undefined or empty, this skip ensures no crash
     if (city.stayOptions && Array.isArray(city.stayOptions)) {
-      city.stayOptions.forEach(option => {
+      // Change (option) to (option: any) here
+      city.stayOptions.forEach((option: any) => { 
         allOptions.push({
           ...option,
-          cityId: city.id,       // Ensure this is 'sea', 'chi', etc.
+          cityId: city.id,
           cityName: city.name,
-          cityMultiplier: city.costMultiplier
+          cityMultiplier: city.costMultiplier,
+          // Now TypeScript won't complain about checking option.wifiScore
+          wifiScore: option.wifiScore ?? city.wifiScore ?? 0 
         });
       });
     }
