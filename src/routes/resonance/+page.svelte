@@ -1,6 +1,6 @@
 <script lang="ts">
     import { page } from '$app/stores';
-    import { transformToResonanceSignals } from '$lib/transformers/resonanceTransformer';
+    import { signalsToArray } from '$lib/transformers/resonanceTransformer';
     import ExploreBySignal from '$lib/components/resonance/ExploreBySignal.svelte';
     import LevelToggle from '$lib/components/resonance/LevelToggle.svelte';
 
@@ -42,25 +42,24 @@
         : (allCities.find(c => c.id === selectedCityId) || filteredCities[0]);
 
     // TRANSFORM for UI
-    $: displayData = rawActiveItem ? {
-        name: rawActiveItem.name,
-        sortedSignals: transformToResonanceSignals(rawActiveItem.resonanceSignals),
-        topSignals: transformToResonanceSignals(rawActiveItem.resonanceSignals).slice(0, 5),
-        // Logic shift: If it's a city, show stay options. If country, show cities.
-        places: level === 'country' 
-            ? (rawActiveItem.cities?.map((c: any) => ({ 
-                name: c.name, 
-                signalMatch: 85,
-                description: `Explore ${c.name}`,
-                slug: c.id.toLowerCase()
-              })) || [])
-            : (rawActiveItem.stayOptions?.map((s: any) => ({
-                name: s.name,
-                signalMatch: 90,
-                description: `${s.type.charAt(0).toUpperCase() + s.type.slice(1)} — ${s.socialTone} vibe`,
-                slug: s.id
-              })) || [])
-    } : null;
+$: displayData = rawActiveItem ? {
+    name: rawActiveItem.name,
+    rawSignals: rawActiveItem.resonanceSignals,
+    places: level === 'country' 
+        ? (rawActiveItem.cities?.map((c: any) => ({ 
+            name: c.name, 
+            signalMatch: 85,
+            description: `Explore ${c.name}`,
+            slug: c.id.toLowerCase()
+        })) || [])
+        : (rawActiveItem.stayOptions?.map((s: any) => ({
+            name: s.name,
+            signalMatch: 90,
+            description: `${s.type.charAt(0).toUpperCase() + s.type.slice(1)} — ${s.socialTone} vibe`,
+            slug: s.id
+        })) || [])
+} : null;
+
 </script>
 
 <div class="container mx-auto p-6">
@@ -107,16 +106,17 @@
 
     <hr class="border-gray-200 dark:border-gray-700 my-8" />
 
-    {#if !displayData || displayData.sortedSignals.length === 0}
+    {#if !displayData || !displayData.rawSignals || Object.keys(displayData.rawSignals).length === 0}
         <div class="py-12 text-center">
             <h2 class="text-2xl font-semibold mb-2">{displayData?.name || 'Loading...'}</h2>
             <p class="text-gray-500">No signals available for this location yet.</p>
         </div>
     {:else}
 
-        <ExploreBySignal
-            signals={displayData.sortedSignals}
-            places={displayData.places}
-        />
+<ExploreBySignal
+    rawSignals={displayData.rawSignals}
+    places={displayData.places}
+/>
+
     {/if}
 </div>

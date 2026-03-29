@@ -1,25 +1,41 @@
 <!-- src/lib/components/resonance/ExploreBySignal.svelte -->
 <script lang="ts">
-    import type { ResonanceSignal, ResonancePlace } from '$lib/schema/types';
+    import type { ResonanceSignals } from '$lib/schema/types';
 
-    // 1. Interfaces (no export)
-    // Already imported above
+    export let rawSignals: ResonanceSignals;
+    export let places: any[] = [];
 
-    // 2. Exported props
-    export let signals: ResonanceSignal[] = [];
-    export let places: ResonancePlace[] = [];
+    const signalNameMap: Record<string, string> = {
+        nightlifeOverall: "Nightlife",
+        lateNightDining: "Late Night Dining",
+        musicScene: "Music Scene",
+        danceScene: "Dance Scene",
+        barDensity: "Bar Density",
+        safetyAtNight: "Night Safety",
+        socialMeetups: "Social Meetups",
+        waterActivities: "Water Activities",
+        snowActivities: "Snow Activities",
+        natureAccess: "Nature Access",
+        festivalCulture: "Festival Culture",
+        socialProximity: "Social Ease",
+        soloFriendly: "Solo Friendly",
+        expatCommunityStrength: "Expat Community"
+    };
 
-    // 3. Local state
+    // ⭐ Make this reactive
+    $: signals = Object.entries(rawSignals).map(([key, value]) => ({
+        name: signalNameMap[key] ?? key,
+        intensity: value
+    }));
+
     let selectedSignals: string[] = [];
 
-    // 4. Functions
     function toggleSignal(name: string) {
         selectedSignals = selectedSignals.includes(name)
             ? selectedSignals.filter(s => s !== name)
             : [...selectedSignals, name];
     }
 
-    // 5. Reactive values
     $: filteredPlaces =
         selectedSignals.length === 0
             ? places
