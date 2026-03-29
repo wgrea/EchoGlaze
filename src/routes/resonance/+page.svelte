@@ -11,20 +11,17 @@
         id: string;
         name: string;
         countryName?: string;
-        type?: string;
-        topSignals?: any[];
         sortedSignals?: any[];
+        topSignals?: any[];
         places?: any[];
-        [key: string]: any;
     }
-    
+
     interface Country {
         id: string;
         name: string;
-        topSignals?: any[];
         sortedSignals?: any[];
+        topSignals?: any[];
         places?: any[];
-        [key: string]: any;
     }
     
     let level: 'country' | 'city' = 'country';
@@ -53,34 +50,42 @@
     <p class="text-gray-600 dark:text-gray-400 mb-6">
         Discover the unique characteristics and energy patterns of destinations
     </p>
-    
+
     <LevelToggle {level} onToggle={handleToggle} />
-    
+
     {#if level === 'city' && cities.length > 1}
         <div class="mb-6">
-            <label for="city-select" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Select City:
-            </label>
-            <select 
-                id="city-select"
-                bind:value={selectedCityId}
-                class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-            >
-                {#each cities as city (city.id)}
-                    <option value={city.id}>
-                        {city.name} - {city.countryName}
-                    </option>
-                {/each}
-            </select>
+<label for="city-select" class="block text-sm font-medium mb-2">
+    Select City:
+</label>
+
+<select
+    id="city-select"
+    bind:value={selectedCityId}
+    class="px-4 py-2 border rounded-lg bg-white dark:bg-gray-800"
+>
+    {#each cities as city (city.id)}
+        <option value={city.id}>
+            {city.name} — {city.countryName}
+        </option>
+    {/each}
+</select>
+
         </div>
     {/if}
-    
-    <div class="mt-6">
-        <TopSignals items={currentData?.topSignals || []} />
-        <SignalList items={currentData?.sortedSignals || []} />
-        <ExploreBySignal 
-            signals={currentData?.sortedSignals || []} 
-            places={currentData?.places || []}
+
+    <h2 class="text-xl font-semibold mt-8 mb-4">
+        {level === 'country' ? data.country.name : selectedCity?.name}
+    </h2>
+
+    {#if !currentData?.sortedSignals?.length}
+        <p class="text-gray-500 mt-4">No signals available for this location.</p>
+    {:else}
+        <TopSignals items={currentData.topSignals} />
+        <SignalList items={currentData.sortedSignals} />
+        <ExploreBySignal
+            signals={currentData.sortedSignals}
+            places={currentData.places}
         />
-    </div>
+    {/if}
 </div>
