@@ -1,7 +1,7 @@
 <!-- src/routes/country/+page.svelte -->
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { loadAllCountries } from '$lib/loaders/countryLoader';
+  import { loadCountries } from '$lib/loaders/countryLoader';
   import type { Country } from '$lib/schema/types';
   
   let countries: Country[] = [];
@@ -9,7 +9,7 @@
   
   onMount(async () => {
     try {
-      countries = await loadAllCountries();
+      countries = await loadCountries();
     } catch (error) {
       console.error('Failed to load countries:', error);
     } finally {

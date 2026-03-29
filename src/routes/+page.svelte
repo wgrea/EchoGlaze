@@ -1,7 +1,7 @@
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { loadAllCountries } from '$lib/loaders/countryLoader';
+  import { loadCountries } from '$lib/loaders/countryLoader';
   import type { Country } from '$lib/schema/types';
   
   // Import home components
@@ -17,7 +17,7 @@
   
   onMount(async () => {
     try {
-      const allCountries = await loadAllCountries();
+      const allCountries = await loadCountries();
       countries = allCountries.slice(0, 6);
     } catch (error) {
       console.error('Failed to load countries:', error);
@@ -27,7 +27,8 @@
   });
 
   const menuItems = [
-    { title: "Destination Finder", description: "Find places that match your travel style", icon: "🔍", path: "/country", color: "from-blue-50 to-indigo-50", accent: "text-blue-600" },
+    // Where would I need to add '/country'?
+    { title: "Destination Finder", description: "Find places that match your travel style", icon: "🔍", path: "/resonance", color: "from-blue-50 to-indigo-50", accent: "text-blue-600" },
     { title: "Visa Requirements", description: "Check visa needs and application process", icon: "📝", path: "/visa", color: "from-purple-50 to-pink-50", accent: "text-purple-600" },
     { title: "Travel Essentials", description: "Packing lists and travel must-haves", icon: "🎒", path: "/travel-essentials", color: "from-green-50 to-emerald-50", accent: "text-green-600" },
     { title: "Flight Costs & Timing", description: "Find best seasons and flight prices", icon: "✈️", path: "/flights", color: "from-cyan-50 to-sky-50", accent: "text-cyan-600" },

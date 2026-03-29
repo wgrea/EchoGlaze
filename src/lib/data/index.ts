@@ -1,6 +1,6 @@
-// src/lib/echoglaze/data/index.ts
-import { loadCountry, loadCosts, loadVisa } from '$lib/echoglaze/loaders';
-import { loadCitiesByCountry } from '$lib/echoglaze/loaders/cityLoader';
+// src/lib/data/index.ts
+import { loadCountry, loadCosts, loadVisa } from '$lib/loaders';
+import { loadCitiesByCountry } from '$lib/loaders/cityLoader';
 
 export interface CountryData {
   country: Awaited<ReturnType<typeof loadCountry>>;

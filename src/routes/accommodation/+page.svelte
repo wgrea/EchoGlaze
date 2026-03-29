@@ -1,4 +1,16 @@
 <!-- src/routes/accommodation/+page.svelte -->
+
+<!-- 
+Add Livability to StayOptionCard
+Even if it inherits from the city.
+
+Add a toggle: “Where to Stay / Food Strategy”
+This was in your sticky notes and it’s a great idea.
+
+-->
+
+<!-- Add a country/city selector when you have lots of stay options -->
+
 <script lang="ts">
   import { onMount } from 'svelte';
   import { loadAllStayOptions } from '$lib/loaders/stayLoader';

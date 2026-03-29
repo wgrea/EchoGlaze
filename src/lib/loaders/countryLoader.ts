@@ -46,7 +46,7 @@ export async function loadCountry(id: string): Promise<Country | null> {
   return null;
 }
 
-export async function loadAllCountries(): Promise<Country[]> {
+export async function loadCountries(): Promise<Country[]> {
   const countries = await Promise.all([
     loadCountry('azerbaijan'),
     loadCountry('united-states')
