@@ -186,12 +186,18 @@ export interface TravelReadiness {
     routingNotes: string;
     bestTimeToBook: string;
     lastMinuteVolatility: 'low' | 'medium' | 'high';
+    hubs?: string[];
   };
-
   seasonality: {
     cheapest: number[];
     sweetSpot: number[];
     peak: number[];
+  };
+  seasonalVolatility?: {
+    cheapest: 'low' | 'medium';
+    sweetSpot: 'medium';
+    neutral: 'medium' | 'high';
+    peak: 'high';
   };
 }
 

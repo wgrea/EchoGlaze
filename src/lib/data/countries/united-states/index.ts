@@ -64,12 +64,19 @@ export default {
       commonStops: 0,
       routingNotes: 'Massive internal hub network; direct flights available from most continents.',
       bestTimeToBook: '3 months in advance',
-      lastMinuteVolatility: 'medium'
+      lastMinuteVolatility: 'medium',
+      hubs: ['Chicago (ORD)', 'Atlanta (ATL)', 'New York (JFK)', 'Los Angeles (LAX)']
     },
     seasonality: {
       cheapest: [1, 2],
       sweetSpot: [5, 6, 9, 10], // Broadly true, though regional
       peak: [7, 8, 11, 12] // Added Nov/Dec for the massive holiday travel spikes
+    },
+    seasonalVolatility: {
+      cheapest: 'low',     // Deep winter (except ski hubs) is very stable.
+      sweetSpot: 'medium', // Shoulder season stability.
+      neutral: 'high',     // "Neutral" months like May/Sept often hit by business travel.
+      peak: 'high'         // Holiday travel is notoriously volatile.
     }
   }
 };

@@ -25,7 +25,7 @@
   <section class="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm space-y-4">
     <header class="flex items-center justify-between gap-4">
       <div>
-        <h2 class="text-sm font-black uppercase tracking-[0.18em] text-slate-400">Visa & Stay</h2>
+        <h2 class="text-sm font-black uppercase tracking-[0.18em] text-slate-400">Entry Rules & Stay</h2>
         <p class="text-lg font-semibold text-slate-900 mt-1">
           {readiness.visa.type} for {countryName}
         </p>
@@ -47,7 +47,12 @@
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
       <div class="space-y-1">
         <p class="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-400">Work Policy</p>
-        <p class="text-slate-700 leading-snug">{readiness.visa.workPolicy}</p>
+        <p class="text-slate-700 leading-snug">
+        {readiness.visa.workPolicy}
+        <span class="block text-[11px] text-slate-400 mt-1">
+            Remote work for your home‑country employer is generally tolerated, but local employment is not permitted under this visa.
+        </span>
+        </p>
       </div>
       <div class="space-y-1">
         <p class="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-400">Nomad Visa</p>
@@ -118,7 +123,18 @@
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
       <div class="space-y-1">
         <p class="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-400">Routing Notes</p>
-        <p class="text-slate-700 leading-snug">{readiness.flights.routingNotes}</p>
+       <p class="text-slate-700 leading-snug">
+  {readiness.flights.routingNotes}
+  {#if readiness.flights.hubs?.length}
+    <span class="block text-[11px] text-slate-400 mt-1">
+      Typical route: {readiness.flights.commonStops} stop{readiness.flights.commonStops === 1 ? '' : 's'}
+      {#if readiness.flights.hubs.length > 0}
+        (often {readiness.flights.hubs.join(', ')})
+      {/if}
+    </span>
+  {/if}
+</p>
+
       </div>
       <div class="space-y-1">
         <p class="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-400">Best Time to Book</p>
@@ -138,6 +154,21 @@
     <h2 class="text-sm font-black uppercase tracking-[0.18em] text-slate-400 mb-4">
       Seasonality for {countryName}
     </h2>
+    <p class="text-[11px] text-slate-400 mb-3">
+  💸 Cheapest · 🔥 Peak · ✨ Sweet spot · • Neutral
+</p>
+
+  <!-- ⭐ INSERT VOLATILITY INSIGHT HERE -->
+  {#if readiness.seasonalVolatility}
+    <p class="text-[11px] text-slate-400 mb-4">
+      Volatility tends to be 
+      <span class="font-medium">{readiness.seasonalVolatility.cheapest}</span> in 💸 cheapest months ·
+      <span class="font-medium">{readiness.seasonalVolatility.sweetSpot}</span> in ✨ sweet spot months ·
+      <span class="font-medium">{readiness.seasonalVolatility.neutral}</span> in • neutral months ·
+      <span class="font-medium">{readiness.seasonalVolatility.peak}</span> in 🔥 peak months
+    </p>
+  {/if}
+
     <div class="flex gap-2 overflow-x-auto pb-2">
       {#each Array(12) as _, i (i)}
         <div

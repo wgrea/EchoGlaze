@@ -63,12 +63,19 @@ export default {
       commonStops: 1,
       routingNotes: 'Typically requires a layover in Istanbul (IST) or Doha (DOH) from the US.',
       bestTimeToBook: '2-3 months in advance',
-      lastMinuteVolatility: 'high'
+      lastMinuteVolatility: 'high',
+      hubs: ['Istanbul (IST)', 'Doha (DOH)']
     },
     seasonality: {
       cheapest: [1, 2, 11], // Added November as a quiet, budget month
       sweetSpot: [5, 6, 9, 10], 
       peak: [7, 8, 3] // Added March due to Novruz holiday demand
+    },
+    seasonalVolatility: {
+      cheapest: 'low',     // Low demand; hotels are eager to fill rooms.
+      sweetSpot: 'medium', // Moderate competition for prime weather.
+      neutral: 'medium',   // Standard fluctuations.
+      peak: 'high'         // Extreme spikes during F1 (June) and Novruz (March).
     }
   }
 };
