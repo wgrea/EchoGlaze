@@ -48,12 +48,20 @@
         name: rawActiveItem.name,
         sortedSignals: transformToResonanceSignals(rawActiveItem.resonanceSignals),
         topSignals: transformToResonanceSignals(rawActiveItem.resonanceSignals).slice(0, 5),
-        places: rawActiveItem.cities?.map((c: any) => ({ 
-            name: c.name, 
-            signalMatch: 85,
-            description: `Explore ${c.name}`,
-            slug: c.id.toLowerCase()
-        })) || []
+        // Logic shift: If it's a city, show stay options. If country, show cities.
+        places: level === 'country' 
+            ? (rawActiveItem.cities?.map((c: any) => ({ 
+                name: c.name, 
+                signalMatch: 85,
+                description: `Explore ${c.name}`,
+                slug: c.id.toLowerCase()
+              })) || [])
+            : (rawActiveItem.stayOptions?.map((s: any) => ({
+                name: s.name,
+                signalMatch: 90,
+                description: `${s.type.charAt(0).toUpperCase() + s.type.slice(1)} — ${s.socialTone} vibe`,
+                slug: s.id
+              })) || [])
     } : null;
 </script>
 
