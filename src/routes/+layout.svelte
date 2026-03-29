@@ -17,7 +17,7 @@
       <a href="/" class="flex items-center gap-2 group">
         <span class="text-2xl">✈️</span>
         <span class="font-bold text-xl bg-gradient-to-r from-amber-700 to-orange-600 bg-clip-text text-transparent">
-          Travel Planner
+          EchoGlaze - Work Abroad  Planner
         </span>
       </a>
       

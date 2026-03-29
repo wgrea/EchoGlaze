@@ -33,19 +33,19 @@ export interface Country extends BaseEntity {
   id: string;
   name: string;
   region: string;
+
   viewMode: 'country-first' | 'city-first' | 'grid' | 'list' | 'map';
   resonanceMode: 'country-first' | 'city-first' | 'dynamic' | 'static';
-  registrationRequiredAfterDays: number;
-  
+
   personaFit: string[] | {
     digitalNomad: number;
     backpacker: number;
     luxuryTraveler: number;
     family: number;
   };
-  
+
   costTier?: string;
-  
+
   decisionAttributes: {
     visaEase: number;
     digitalNomadVisa: boolean;
@@ -58,7 +58,7 @@ export interface Country extends BaseEntity {
     avoidIf: string[];
     majorHubs: string[];
   };
-  
+
   likelihoodScores?: {
     nightlife: number;
     hiking: number;
@@ -67,35 +67,11 @@ export interface Country extends BaseEntity {
     history: number;
     safety: number;
   };
-  
-  seasonality: {
-    bestMonths: number[];
-    expensiveMonths: number[];
-    cheapMonths: number[];
-    seasonalMultipliers: {
-      winter: number;
-      summer: number;
-      shoulder: number;
-    };
-  };
-  
+
   resonanceSignals: ResonanceSignals;
-  visaSummary: {
-    type: string;
-    duration: number;
-    extensionPossible: boolean;
-    cost: number;
-    difficulty: number;
-  };
-  flightsSummary: {
-    fromMajorHubs: Record<string, {
-      avgPrice: number;
-      duration: number;
-      airlines: string[];
-    }>;
-    bestTimeToBook: string;
-    notes: string;
-  };
+
+  /** ⭐ NEW: Unified travel readiness block */
+  travelReadiness: TravelReadiness;
 }
 
 // City interface
@@ -191,3 +167,31 @@ export interface ResonanceSignals {
   soloFriendly: number;
   expatCommunityStrength: number;
 }
+
+export interface TravelReadiness {
+  visa: {
+    type: string;
+    stayLength: string;
+    easeLevel: 'simple' | 'moderate' | 'complex';
+    workPolicy: string;
+    incomeTier?: 'low' | 'medium' | 'high';
+    requirements: string[];
+    registrationAfterDays?: number;
+    nomadVisaAvailable: boolean;
+  };
+
+  flights: {
+    friction: 'low' | 'medium' | 'high';
+    commonStops: number;
+    routingNotes: string;
+    bestTimeToBook: string;
+    lastMinuteVolatility: 'low' | 'medium' | 'high';
+  };
+
+  seasonality: {
+    cheapest: number[];
+    sweetSpot: number[];
+    peak: number[];
+  };
+}
+

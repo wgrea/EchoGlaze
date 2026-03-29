@@ -5,7 +5,6 @@ export default {
   region: 'Caucasus / Eurasia',
   viewMode: 'country-first',
   resonanceMode: 'country-first',
-  registrationRequiredAfterDays: 15,
   personaFit: [
     'The Budget Architect',
     'The Silk Road Historian',
@@ -13,19 +12,16 @@ export default {
   ],
   costTier: 'Low–Medium',
   decisionAttributes: {
-    visaEase: 5, // High
+    visaEase: 5,
     digitalNomadVisa: false,
-    nomadFriendliness: {
-      infra: 8,
-      vibe: 7
-    },
+    nomadFriendliness: { infra: 8, vibe: 7 },
     safety: 8,
-    englishLevel: 3, // Low–Moderate
+    englishLevel: 3,
     avoidIf: [
       'Sensitive to "Grey-Zone" political tensions',
       'Requires high LGBTQ+ visibility'
     ],
-    majorHubs: ['ATL', 'DFW', 'ORD', 'DEN', 'LAX', 'JFK']
+    majorHubs: ['GYD'] 
   },
   likelihoodScores: {
     nightlife: 6,
@@ -35,17 +31,7 @@ export default {
     history: 10,
     safety: 8
   },
-  seasonality: {
-    bestMonths: [5, 6, 9, 10],
-    expensiveMonths: [7, 8, 12],
-    cheapMonths: [1, 2],
-    seasonalMultipliers: {
-      winter: 0.70,
-      summer: 1.50,
-      shoulder: 1.00
-    }
-  },
-resonanceSignals: {
+  resonanceSignals: {
     nightlifeOverall: 7,
     lateNightDining: 8.5,
     musicScene: 6,
@@ -57,23 +43,32 @@ resonanceSignals: {
     snowActivities: 8,
     natureAccess: 9,
     festivalCulture: 7,
-    socialProximity: 8, // High proximity/low friction
+    socialProximity: 8,
     soloFriendly: 8,
     expatCommunityStrength: 4
   },
-  visaSummary: {
-    type: 'ASAN e-Visa',
-    duration: 30,
-    extensionPossible: true,
-    cost: 26,
-    difficulty: 2
-  },
-  flightsSummary: {
-    fromMajorHubs: {
-      ATL: { avgPrice: 800, duration: 12, airlines: ['Turkish', 'Qatar'] },
-      JFK: { avgPrice: 750, duration: 11, airlines: ['Turkish', 'Emirates'] }
+  /** ⭐ NEW: Unified travel readiness block */
+  travelReadiness: {
+    visa: {
+      type: 'ASAN e-Visa',
+      stayLength: '30 days',
+      easeLevel: 'simple',
+      workPolicy: 'Tourist status; no local employment',
+      requirements: ['Passport valid 6 months', 'Hotel confirmation'],
+      registrationAfterDays: 15,
+      nomadVisaAvailable: false
     },
-    bestTimeToBook: '2-3 months in advance',
-    notes: 'Prices spike during F1 weekend in June'
+    flights: {
+      friction: 'medium',
+      commonStops: 1,
+      routingNotes: 'Typically requires a layover in Istanbul (IST) or Doha (DOH) from the US.',
+      bestTimeToBook: '2-3 months in advance',
+      lastMinuteVolatility: 'high'
+    },
+    seasonality: {
+      cheapest: [1, 2, 11], // Added November as a quiet, budget month
+      sweetSpot: [5, 6, 9, 10], 
+      peak: [7, 8, 3] // Added March due to Novruz holiday demand
+    }
   }
 };

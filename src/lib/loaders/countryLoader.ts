@@ -13,9 +13,10 @@ function normalizeCountry(data: any): Country {
     region: data.region,
     viewMode: data.viewMode || 'country-first',
     resonanceMode: data.resonanceMode || 'country-first',
-    registrationRequiredAfterDays: data.registrationRequiredAfterDays,
+
     personaFit: data.personaFit,
     costTier: data.costTier,
+
     decisionAttributes: {
       visaEase: data.decisionAttributes.visaEase,
       digitalNomadVisa: data.decisionAttributes.digitalNomadVisa,
@@ -25,11 +26,12 @@ function normalizeCountry(data: any): Country {
       avoidIf: data.decisionAttributes.avoidIf,
       majorHubs: data.decisionAttributes.majorHubs
     },
+
     likelihoodScores: data.likelihoodScores,
-    seasonality: data.seasonality,
     resonanceSignals: data.resonanceSignals,
-    visaSummary: data.visaSummary,
-    flightsSummary: data.flightsSummary
+
+    /** ⭐ NEW unified block */
+    travelReadiness: data.travelReadiness
   };
 }
 

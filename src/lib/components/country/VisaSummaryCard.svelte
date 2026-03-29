@@ -12,7 +12,6 @@
       {#if visa.extensionPossible}
         <p><span class="font-medium">Extension:</span> Possible</p>
       {/if}
-      <p><span class="font-medium">Cost:</span> ${visa.cost}</p>
       {#if visa.difficulty}
         <p><span class="font-medium">Difficulty:</span> {visa.difficulty}/10</p>
       {/if}

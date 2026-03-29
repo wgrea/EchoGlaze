@@ -5,7 +5,6 @@ export default {
   region: 'North America',
   viewMode: 'city-first',
   resonanceMode: 'city-first',
-  registrationRequiredAfterDays: 90,
   personaFit: [
     'The Corporate Renegade',
     'The National Park Junkie',
@@ -13,14 +12,11 @@ export default {
   ],
   costTier: 'High',
   decisionAttributes: {
-    visaEase: 3, // Moderate–Difficult
+    visaEase: 3,
     digitalNomadVisa: false,
-    nomadFriendliness: {
-      infra: 10,
-      vibe: 5
-    },
+    nomadFriendliness: { infra: 10, vibe: 5 },
     safety: 6,
-    englishLevel: 10, // Native
+    englishLevel: 10,
     avoidIf: [
       'Requires universal healthcare',
       'Low tolerance for car dependency',
@@ -36,17 +32,7 @@ export default {
     history: 6,
     safety: 6
   },
-  seasonality: {
-    bestMonths: [5, 6, 9, 10],
-    expensiveMonths: [7, 8, 12],
-    cheapMonths: [1, 2],
-    seasonalMultipliers: {
-      winter: 1.25,
-      summer: 1.40,
-      shoulder: 0.90
-    }
-  },
-resonanceSignals: {
+  resonanceSignals: {
     nightlifeOverall: 8,
     lateNightDining: 6.5,
     musicScene: 9.5,
@@ -62,19 +48,28 @@ resonanceSignals: {
     soloFriendly: 7,
     expatCommunityStrength: 9
   },
-  visaSummary: {
-    type: 'ESTA or B1/B2',
-    duration: 90,
-    extensionPossible: false,
-    cost: 21,
-    difficulty: 4
-  },
-  flightsSummary: {
-    fromMajorHubs: {
-      LHR: { avgPrice: 600, duration: 8, airlines: ['Delta', 'United', 'American'] },
-      CDG: { avgPrice: 650, duration: 9, airlines: ['Delta', 'Air France'] }
+  /** ⭐ NEW: Unified travel readiness block */
+  travelReadiness: {
+    visa: {
+      type: 'ESTA / B1/B2',
+      stayLength: '90 days',
+      easeLevel: 'moderate',
+      workPolicy: 'Strictly no local work; remote work is a grey area',
+      requirements: ['Digital authorization (ESTA) or Interview (B1/B2)', 'Proof of funds'],
+      registrationAfterDays: 90,
+      nomadVisaAvailable: false
     },
-    bestTimeToBook: '2-3 months in advance',
-    notes: 'Prices vary significantly by season and destination'
+    flights: {
+      friction: 'low',
+      commonStops: 0,
+      routingNotes: 'Massive internal hub network; direct flights available from most continents.',
+      bestTimeToBook: '3 months in advance',
+      lastMinuteVolatility: 'medium'
+    },
+    seasonality: {
+      cheapest: [1, 2],
+      sweetSpot: [5, 6, 9, 10], // Broadly true, though regional
+      peak: [7, 8, 11, 12] // Added Nov/Dec for the massive holiday travel spikes
+    }
   }
 };

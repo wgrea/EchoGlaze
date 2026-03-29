@@ -4,11 +4,11 @@ import unitedStatesData from '$lib/data/countries/united-states/index.js';
 
 export async function loadFlights(countryId: string) {
   if (countryId === 'azerbaijan') {
-    return azerbaijanData.flightsSummary;
+    return azerbaijanData.travelReadiness.flights;
   }
   
   if (countryId === 'united-states') {
-    return unitedStatesData.flightsSummary;
+    return unitedStatesData.travelReadiness.flights;
   }
   
   return null;

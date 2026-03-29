@@ -6,10 +6,7 @@
   
   // Import home components
   import MenuGrid from '$lib/components/home/MenuGrid.svelte';
-  import FeaturedDestinations from '$lib/components/home/FeaturedDestinations.svelte';
   import DigitalNomadLinks from '$lib/components/home/DigitalNomadLinks.svelte';
-  import FeaturesSection from '$lib/components/home/FeaturesSection.svelte';
-  import QuickTips from '$lib/components/home/QuickTips.svelte';
   import PriceNote from '$lib/components/home/PriceNote.svelte';
   
   let countries: Country[] = [];
@@ -53,19 +50,8 @@
   <!-- Main Menu Grid -->
   <MenuGrid {menuItems} />
   
-  <!-- Featured Destinations -->
-  {#if !loading && countries.length > 0}
-    <FeaturedDestinations {countries} />
-  {/if}
-  
   <!-- Digital Nomad Resources -->
   <DigitalNomadLinks links={digitalNomadLinks} />
-  
-  <!-- Features Section -->
-  <FeaturesSection />
-  
-  <!-- Quick Tips -->
-  <QuickTips />
   
   <!-- Price Note -->
   <PriceNote />
