@@ -27,11 +27,9 @@
   });
 
   const menuItems = [
-    // Where would I need to add '/country'?
-    { title: "Destination Finder", description: "Find places that match your travel style", icon: "🔍", path: "/resonance", color: "from-blue-50 to-indigo-50", accent: "text-blue-600" },
-    { title: "Visa Requirements", description: "Check visa needs and application process", icon: "📝", path: "/visa", color: "from-purple-50 to-pink-50", accent: "text-purple-600" },
+    { title: "Destination Finder", description: "Match places to your travel style", icon: "🔍", path: "/resonance", color: "from-blue-50 to-indigo-50", accent: "text-blue-600" },
+    { title: "Logistics", description: "Visa needs and flight intelligence", icon: "✈️", path: "/logistics", color: "from-purple-50 to-pink-50", accent: "text-purple-600" },
     { title: "Travel Essentials", description: "Packing lists and travel must-haves", icon: "🎒", path: "/travel-essentials", color: "from-green-50 to-emerald-50", accent: "text-green-600" },
-    { title: "Flight Costs & Timing", description: "Find best seasons and flight prices", icon: "✈️", path: "/flights", color: "from-cyan-50 to-sky-50", accent: "text-cyan-600" },
     { title: "Accommodation", description: "Find hostels and coliving spaces", icon: "🏠", path: "/accommodation", color: "from-amber-50 to-orange-50", accent: "text-amber-600" },
     { title: "Transportation", description: "Compare local and intercity travel costs", icon: "🚗", path: "/transportation", color: "from-rose-50 to-red-50", accent: "text-rose-600" }
   ];

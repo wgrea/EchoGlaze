@@ -1,5 +1,5 @@
 // src/lib/echoglaze/loaders/visaLoader.ts
-import type { Visa } from '$lib/echoglaze/schema/types';
+import type { Visa } from '$lib/schema/types';
 
 export async function loadVisa(countryId: string): Promise<Visa | null> {
   try {
