@@ -3,15 +3,15 @@
   import { onMount } from 'svelte';
   import { loadCountries } from '$lib/loaders/countryLoader';
   import type { Country } from '$lib/schema/types';
-  
-  // Import home components
+
+  // Home components
   import MenuGrid from '$lib/components/home/MenuGrid.svelte';
   import DigitalNomadLinks from '$lib/components/home/DigitalNomadLinks.svelte';
   import PriceNote from '$lib/components/home/PriceNote.svelte';
-  
+
   let countries: Country[] = [];
-  let loading = true;
-  
+  let loading = false;
+
   onMount(async () => {
     try {
       const allCountries = await loadCountries();
@@ -24,78 +24,94 @@
   });
 
   const menuItems = [
-    { title: "Destination Finder", description: "Match places to your travel style", icon: "🔍", path: "/resonance", color: "from-blue-50 to-indigo-50", accent: "text-blue-600" },
-    { title: "Logistics", description: "Visa needs and flight intelligence", icon: "✈️", path: "/logistics", color: "from-purple-50 to-pink-50", accent: "text-purple-600" },
-    { title: "Travel Essentials", description: "Packing lists and travel must-haves", icon: "🎒", path: "/travel-essentials", color: "from-green-50 to-emerald-50", accent: "text-green-600" },
-    { title: "Accommodation", description: "Find hostels and coliving spaces", icon: "🏠", path: "/accommodation", color: "from-amber-50 to-orange-50", accent: "text-amber-600" },
-    { title: "Transportation", description: "Compare local and intercity travel costs", icon: "🚗", path: "/transportation", color: "from-rose-50 to-red-50", accent: "text-rose-600" }
+    {
+      title: 'Destination Finder',
+      description: 'Match places to your travel style',
+      icon: '🔍',
+      path: '/resonance',
+      color: 'from-blue-50 to-indigo-50',
+      accent: 'text-blue-600'
+    },
+    {
+      title: 'Logistics',
+      description: 'Visa needs and flight intelligence',
+      icon: '✈️',
+      path: '/logistics',
+      color: 'from-purple-50 to-pink-50',
+      accent: 'text-purple-600'
+    },
+    {
+      title: 'Travel Essentials',
+      description: 'Packing lists and travel must‑haves',
+      icon: '🎒',
+      path: '/travel-essentials',
+      color: 'from-green-50 to-emerald-50',
+      accent: 'text-green-600'
+    },
+    {
+      title: 'Accommodation',
+      description: 'Find hostels and coliving spaces',
+      icon: '🏠',
+      path: '/accommodation',
+      color: 'from-amber-50 to-orange-50',
+      accent: 'text-amber-600'
+    },
+    {
+      title: 'Transportation',
+      description: 'Compare local and intercity travel costs',
+      icon: '🚗',
+      path: '/transportation',
+      color: 'from-rose-50 to-red-50',
+      accent: 'text-rose-600'
+    }
   ];
 
   const digitalNomadLinks = [
-    { title: "Supports & Communities", description: "Expat networks and mental health resources", icon: "👥", path: "/digital-nomad/support", color: "from-indigo-50 to-blue-50", accent: "text-indigo-600" },
-    { title: "Work From Anywhere", description: "Remote jobs and location-independent careers", icon: "💼", path: "/digital-nomad/how-to-work-from-anywhere", color: "from-teal-50 to-cyan-50", accent: "text-teal-600" }
+    {
+      title: 'Supports & Communities',
+      description: 'Expat networks and mental health resources',
+      icon: '👥',
+      path: '/digital-nomad/support',
+      color: 'from-indigo-50 to-blue-50',
+      accent: 'text-indigo-600'
+    },
+    {
+      title: 'Work From Anywhere',
+      description: 'Remote jobs and location‑independent careers',
+      icon: '💼',
+      path: '/digital-nomad/how-to-work-from-anywhere',
+      color: 'from-teal-50 to-cyan-50',
+      accent: 'text-teal-600'
+    }
   ];
 </script>
 
-<div class="nostalgic-container py-8">
-  <!-- Header -->
-  <div class="home-header">
-    <div class="text-6xl mb-4">🌎</div>
-    <h1 class="home-title">EchoGlaze</h1>
-    <p class="home-subtitle">
-      Your comprehensive guide to planning the perfect trip. Find destinations, compare costs, and organize everything in one place.
+<div class="home-page-container py-8">
+  <!-- Hero -->
+  <div class="text-center mb-12">
+    <h1 class="text-4xl font-extrabold text-gray-900 mb-2">
+      EchoGlaze
+    </h1>
+    <p class="text-lg text-gray-600 max-w-xl mx-auto leading-relaxed">
+      A decision‑first planner for digital nomads who care more about vibe and legality
+      than exact prices.
     </p>
   </div>
 
-  <!-- Main Menu Grid -->
+  <!-- Main menu grid -->
   <MenuGrid {menuItems} />
-  
-  <!-- Digital Nomad Resources -->
+
+  <!-- Digital Nomad quick‑links -->
   <DigitalNomadLinks links={digitalNomadLinks} />
-  
-  <!-- Price Note -->
+
+  <!-- Price philosophy note -->
   <PriceNote />
 </div>
 
 <style>
-  /* Homepage specific styles that aren't in components */
-  .home-header {
-    text-align: center;
-    margin-bottom: 3rem;
-    position: relative;
-  }
-  
-  .home-title {
-    font-size: 3.5rem;
-    font-weight: 600;
-    background: linear-gradient(135deg, #b45309 0%, #f59e0b 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    margin-bottom: 1rem;
-    letter-spacing: -0.02em;
-  }
-  
-  .home-subtitle {
-    color: #6b5a4a;
-    font-size: 1.125rem;
-    max-width: 32rem;
-    margin: 0 auto;
-    line-height: 1.6;
-  }
-  
-  .nostalgic-container {
+  .home-page-container {
     max-width: 72rem;
     margin: 0 auto;
     padding: 0 1.5rem;
-    position: relative;
-    z-index: 2;
-  }
-  
-  /* Responsive adjustments */
-  @media (max-width: 768px) {
-    .home-title {
-      font-size: 2.5rem;
-    }
   }
 </style>
