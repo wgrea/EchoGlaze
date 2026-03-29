@@ -26,6 +26,8 @@ function normalizeCity(data: any, countryId: string): City {
  * SINGLE FETCH: Loads a specific city by its ID.
  * Fixed: Uses 'cityId' consistently to avoid "Cannot find name" errors.
  */
+// src/lib/loaders/cityLoader.ts
+
 export async function loadCity(id: string): Promise<City | null> {
   if (!id) return null;
   const cityId = id.toLowerCase();
@@ -33,22 +35,22 @@ export async function loadCity(id: string): Promise<City | null> {
   switch (cityId) {
     case 'chicago':
     case 'chi':
-      return normalizeCity(chicagoData, 'united-states');
+      return normalizeCity(chicagoData, 'USA'); // Change from 'united-states'
     case 'austin':
     case 'aus':
-      return normalizeCity(austinData, 'united-states');
+      return normalizeCity(austinData, 'USA'); // Change from 'united-states'
     case 'denver':
     case 'den':
-      return normalizeCity(denverData, 'united-states');
+      return normalizeCity(denverData, 'USA'); 
     case 'miami':
     case 'mia':
-      return normalizeCity(miamiData, 'united-states');
+      return normalizeCity(miamiData, 'USA');
     case 'seattle':
     case 'sea':
-      return normalizeCity(seattleData, 'united-states');
+      return normalizeCity(seattleData, 'USA');
     case 'baku':
     case 'bak':
-      return normalizeCity(bakuData, 'azerbaijan');
+      return normalizeCity(bakuData, 'AZE'); // Change from 'azerbaijan'
     default:
       return null;
   }

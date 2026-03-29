@@ -1,48 +1,60 @@
-<!-- src/routes/resonance/+page.svelte -->
 <script lang="ts">
     import { page } from '$app/stores';
+    import { transformToResonanceSignals } from '$lib/transformers/resonanceTransformer';
     import TopSignals from '$lib/components/resonance/TopSignals.svelte';
     import SignalList from '$lib/components/resonance/SignalList.svelte';
     import ExploreBySignal from '$lib/components/resonance/ExploreBySignal.svelte';
     import LevelToggle from '$lib/components/resonance/LevelToggle.svelte';
-    
-    // Define types for city data
-    interface City {
-        id: string;
-        name: string;
-        countryName?: string;
-        sortedSignals?: any[];
-        topSignals?: any[];
-        places?: any[];
+
+    // Reactive data from the loader
+    $: countries = ($page.data.data.allCountries as any[]) || [];
+    $: allCities = ($page.data.data.allCities as any[]) || [];
+
+    let level: 'country' | 'city' = 'country';
+    let selectedCountryId = '';
+    let selectedCityId = '';
+
+    // Initialize selection
+    $: if (countries.length > 0 && !selectedCountryId) {
+        selectedCountryId = countries[0].id;
     }
 
-    interface Country {
-        id: string;
-        name: string;
-        sortedSignals?: any[];
-        topSignals?: any[];
-        places?: any[];
+    // This ensures that when the country changes, we select the first city available
+    $: if (selectedCountryId) {
+        const citiesForCountry = allCities.filter(c => c.countryId === selectedCountryId);
+        if (citiesForCountry.length > 0) {
+            // Only reset if the current city isn't part of the new country
+            if (!citiesForCountry.find(c => c.id === selectedCityId)) {
+                selectedCityId = citiesForCountry[0].id;
+            }
+        }
     }
-    
-    let level: 'country' | 'city' = 'country';
-    let selectedCityId: string | null = null;
-    
+
+    // Toggle logic
     function handleToggle() {
         level = level === 'country' ? 'city' : 'country';
-        selectedCityId = null; // Reset city selection when switching levels
     }
-    
-    $: data = $page.data.data;
-    $: countries = ($page.data.data?.allCountries as Country[]) || [];
-    $: cities = ($page.data.data?.allCities as City[]) || [];
-    
-    $: selectedCity = selectedCityId 
-        ? cities.find((c: City) => c.id === selectedCityId) 
-        : cities[0];
-    
-    $: currentData = level === 'country' 
-        ? data?.country 
-        : (selectedCity || data?.city);
+
+    // Reactive filtering
+    $: filteredCities = allCities.filter(c => c.countryId === selectedCountryId);
+
+    // Get the RAW active item based on user selection
+    $: rawActiveItem = level === 'country' 
+        ? countries.find(c => c.id === selectedCountryId)
+        : (allCities.find(c => c.id === selectedCityId) || filteredCities[0]);
+
+    // TRANSFORM for UI
+    $: displayData = rawActiveItem ? {
+        name: rawActiveItem.name,
+        sortedSignals: transformToResonanceSignals(rawActiveItem.resonanceSignals),
+        topSignals: transformToResonanceSignals(rawActiveItem.resonanceSignals).slice(0, 5),
+        places: rawActiveItem.cities?.map((c: any) => ({ 
+            name: c.name, 
+            signalMatch: 85,
+            description: `Explore ${c.name}`,
+            slug: c.id.toLowerCase()
+        })) || []
+    } : null;
 </script>
 
 <div class="container mx-auto p-6">
@@ -53,39 +65,54 @@
 
     <LevelToggle {level} onToggle={handleToggle} />
 
-    {#if level === 'city' && cities.length > 1}
-        <div class="mb-6">
-<label for="city-select" class="block text-sm font-medium mb-2">
-    Select City:
-</label>
-
-<select
-    id="city-select"
-    bind:value={selectedCityId}
-    class="px-4 py-2 border rounded-lg bg-white dark:bg-gray-800"
->
-    {#each cities as city (city.id)}
-        <option value={city.id}>
-            {city.name} — {city.countryName}
-        </option>
-    {/each}
-</select>
-
+    <div class="flex flex-wrap gap-4 mt-6 mb-6">
+        <div>
+            <label for="country-select" class="block text-sm font-medium mb-2">Select Country:</label>
+            <select
+                id="country-select"
+                bind:value={selectedCountryId}
+                class="px-4 py-2 border rounded-lg bg-white dark:bg-gray-800"
+            >
+                {#each countries as country}
+                    <option value={country.id}>{country.name}</option>
+                {/each}
+            </select>
         </div>
-    {/if}
 
-    <h2 class="text-xl font-semibold mt-8 mb-4">
-        {level === 'country' ? data.country.name : selectedCity?.name}
-    </h2>
+        {#if level === 'city'}
+            <div>
+                <label for="city-select" class="block text-sm font-medium mb-2">Select City:</label>
+                <select
+                    id="city-select"
+                    bind:value={selectedCityId}
+                    class="px-4 py-2 border rounded-lg bg-white dark:bg-gray-800"
+                >
+                    {#if filteredCities.length === 0}
+                        <option disabled>No cities found</option>
+                    {:else}
+                        {#each filteredCities as city}
+                            <option value={city.id}>{city.name}</option>
+                        {/each}
+                    {/if}
+                </select>
+            </div>
+        {/if}
+    </div>
 
-    {#if !currentData?.sortedSignals?.length}
-        <p class="text-gray-500 mt-4">No signals available for this location.</p>
+    <hr class="border-gray-200 dark:border-gray-700 my-8" />
+
+    {#if !displayData || displayData.sortedSignals.length === 0}
+        <div class="py-12 text-center">
+            <h2 class="text-2xl font-semibold mb-2">{displayData?.name || 'Loading...'}</h2>
+            <p class="text-gray-500">No signals available for this location yet.</p>
+        </div>
     {:else}
-        <TopSignals items={currentData.topSignals} />
-        <SignalList items={currentData.sortedSignals} />
+        <h2 class="text-2xl font-bold mb-6">{displayData.name}</h2>
+        <TopSignals items={displayData.topSignals} />
+        <SignalList items={displayData.sortedSignals} />
         <ExploreBySignal
-            signals={currentData.sortedSignals}
-            places={currentData.places}
+            signals={displayData.sortedSignals}
+            places={displayData.places}
         />
     {/if}
 </div>

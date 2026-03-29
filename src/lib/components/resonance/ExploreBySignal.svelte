@@ -1,43 +1,25 @@
+<!-- src/lib/components/resonance/ExploreBySignal.svelte -->
 <script lang="ts">
-    /* -----------------------------
-       1. Interfaces (no export)
-    ------------------------------ */
-    interface SignalItem {
-        name: string;
-        intensity: number;
-        description?: string;
-    }
+    import type { ResonanceSignal, ResonancePlace } from '$lib/schema/types';
 
-    interface PlaceItem {
-        name: string;
-        slug: string;
-        description: string;
-        signalMatch: number;
-    }
+    // 1. Interfaces (no export)
+    // Already imported above
 
-    /* -----------------------------
-       2. Exported props
-    ------------------------------ */
-    export let signals: SignalItem[] = [];
-    export let places: PlaceItem[] = [];
+    // 2. Exported props
+    export let signals: ResonanceSignal[] = [];
+    export let places: ResonancePlace[] = [];
 
-    /* -----------------------------
-       3. Local state
-    ------------------------------ */
+    // 3. Local state
     let selectedSignals: string[] = [];
 
-    /* -----------------------------
-       4. Functions
-    ------------------------------ */
+    // 4. Functions
     function toggleSignal(name: string) {
         selectedSignals = selectedSignals.includes(name)
             ? selectedSignals.filter(s => s !== name)
             : [...selectedSignals, name];
     }
 
-    /* -----------------------------
-       5. Reactive values
-    ------------------------------ */
+    // 5. Reactive values
     $: filteredPlaces =
         selectedSignals.length === 0
             ? places

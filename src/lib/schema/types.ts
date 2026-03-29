@@ -173,9 +173,10 @@ export interface Visa extends BaseEntity {
   nationalGroupings: Record<string, string[]>;
 }
 
-// Resonance Signals interface
+// src/lib/schema/types.ts
+
+// Raw input (you already have this)
 export interface ResonanceSignals {
-  // Core Signals (1-10 scale)
   nightlifeOverall: number;
   lateNightDining: number;
   musicScene: number;
@@ -183,16 +184,54 @@ export interface ResonanceSignals {
   barDensity: number;
   safetyAtNight: number;
   socialMeetups: number;
-  
-  // Seasonal Signals
+
   waterActivities: number;
   snowActivities: number;
   natureAccess: number;
   festivalCulture: number;
-  
-  // Social Atmosphere Signals
+
   socialFriction: number;
   soloFriendly: number;
   expatCommunityStrength: number;
 }
 
+// Transformed signal (UI-ready)
+export interface ResonanceSignal {
+  name: string;
+  intensity: number;      // always 0–100
+  description?: string;
+  rawValue?: number;      // original 1–10 or 0–100
+}
+
+// Places shown in ExploreBySignal
+export interface ResonancePlace {
+  name: string;
+  slug: string;
+  description: string;
+  signalMatch: number;    // 0–100
+}
+
+// Country-level resonance object
+export interface ResonanceCountry {
+  id: string;
+  name: string;
+  region?: string;
+  costTier?: string;
+  sortedSignals: ResonanceSignal[];
+  topSignals: ResonanceSignal[];
+  places: ResonancePlace[];
+}
+
+// City-level resonance object
+export interface ResonanceCity {
+  id: string;
+  name: string;
+  type?: string;
+  countryName?: string;
+  vibe?: string;
+  wifiScore?: number;
+  coworkingDensity?: number;
+  sortedSignals: ResonanceSignal[];
+  topSignals: ResonanceSignal[];
+  places: ResonancePlace[];
+}

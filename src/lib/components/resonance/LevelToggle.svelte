@@ -4,33 +4,21 @@
     export let onToggle: () => void;
 </script>
 
-<div class="flex gap-4 mb-6" role="group" aria-label="View level toggle">
+<div class="inline-flex items-center gap-2 mb-6">
+    <span class="text-sm font-medium">Country Level</span>
+
     <button
         type="button"
-        class="px-6 py-2 rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
-        class:bg-blue-600={level === 'country'}
-        class:text-white={level === 'country'}
-        class:bg-gray-200={level !== 'country'}
-        class:text-gray-700={level !== 'country'}
-        class:dark:bg-gray-700={level !== 'country'}
-        class:dark:text-gray-300={level !== 'country'}
+        class="relative inline-flex h-6 w-11 items-center rounded-full transition
+               {level === 'city' ? 'bg-blue-600' : 'bg-gray-300 dark:bg-gray-700'}"
         on:click={onToggle}
-        aria-pressed={level === 'country'}
+        aria-label="Toggle between country and city level"
     >
-        Country Level
+        <span
+            class="inline-block h-4 w-4 transform rounded-full bg-white shadow transition
+                   {level === 'city' ? 'translate-x-5' : 'translate-x-1'}"
+        ></span>
     </button>
-    <button
-        type="button"
-        class="px-6 py-2 rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
-        class:bg-blue-600={level === 'city'}
-        class:text-white={level === 'city'}
-        class:bg-gray-200={level !== 'city'}
-        class:text-gray-700={level !== 'city'}
-        class:dark:bg-gray-700={level !== 'city'}
-        class:dark:text-gray-300={level !== 'city'}
-        on:click={onToggle}
-        aria-pressed={level === 'city'}
-    >
-        City Level
-    </button>
+
+    <span class="text-sm font-medium">City Level</span>
 </div>

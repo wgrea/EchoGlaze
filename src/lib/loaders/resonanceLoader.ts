@@ -4,49 +4,42 @@ import usaData from '$lib/data/countries/united-states/index.ts';
 import { loadCities } from './cityLoader';
 
 export async function resonanceLoader() {
-    console.log('=== RESONANCE LOADER STARTED ===');
-    
     try {
-        // Load all cities
         const allCitiesData = await loadCities();
         
-        // Create a map of country names for cities
-        const countryMap: Record<string, string> = {
-            'azerbaijan': azerbaijanData.name,
-            'united-states': usaData.name
-        };
+        // Map the city to its country based on your folder structure or city properties
+        const citiesWithCountry = allCitiesData.map((city: any) => {
+            // Logic to determine countryId if it's missing from the city file
+            let countryId = city.countryId;
+            
+            // Fallback: If Austin doesn't have countryId: 'USA', we check names or IDs
+            if (city.id === 'AUS' || city.id === 'CHI') countryId = 'USA';
+            if (city.id === 'BAK') countryId = 'AZE';
+
+            return {
+                ...city,
+                countryId,
+                countryName: countryId === 'USA' ? 'United States' : 'Azerbaijan'
+            };
+        });
         
-        // Add countryName to each city
-        const citiesWithCountry = allCitiesData.map(city => ({
-            ...city,
-            countryName: countryMap[city.countryId] || city.countryId
-        }));
+        const azerbaijanCities = citiesWithCountry.filter(city => city.countryId === 'AZE');
+        const usCities = citiesWithCountry.filter(city => city.countryId === 'USA');
         
-        // Group cities by country
-        const azerbaijanCities = citiesWithCountry.filter(city => city.countryId === 'azerbaijan');
-        const usCities = citiesWithCountry.filter(city => city.countryId === 'united-states');
-        
-        // Build countries data with their cities
         const countries = [
             {
                 ...azerbaijanData,
-                id: azerbaijanData.id || 'AZE',
-                name: azerbaijanData.name,
+                id: 'AZE',
                 cities: azerbaijanCities,
                 resonanceSignals: azerbaijanData.resonanceSignals || {}
             },
             {
                 ...usaData,
-                id: usaData.id || 'USA',
-                name: usaData.name,
+                id: 'USA',
                 cities: usCities,
                 resonanceSignals: usaData.resonanceSignals || {}
             }
         ];
-        
-        console.log('Countries loaded:', countries.map(c => `${c.name} (${c.cities.length} cities)`));
-        console.log('Total cities loaded:', citiesWithCountry.length);
-        console.log('Cities:', citiesWithCountry.map(c => `${c.name} (${c.countryName})`));
         
         return {
             countries,

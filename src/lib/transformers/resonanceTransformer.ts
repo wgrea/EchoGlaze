@@ -1,13 +1,48 @@
 // src/lib/transformers/resonanceTransformer.ts
-export function resonanceTransformer(rawData: any) {
+
+export function transformToResonanceSignals(signalsObj: any): ResonanceSignal[] {
+    if (!signalsObj) return [];
+    
+    const signalMap: Record<string, { name: string; description: string }> = {
+        nightlifeOverall: { name: 'Nightlife', description: 'Nightlife scene and activities' },
+        lateNightDining: { name: 'Late Night Dining', description: 'Food availability after dark' },
+        musicScene: { name: 'Music Scene', description: 'Live music and venues' },
+        // ... (rest of your map)
+    };
+
+    const signals: ResonanceSignal[] = [];
+    for (const [key, value] of Object.entries(signalsObj)) {
+        if (!signalMap[key] || typeof value !== 'number') continue;
+        let intensity = value <= 10 ? value * 10 : value;
+        signals.push({
+            name: signalMap[key].name,
+            intensity: Math.min(100, intensity),
+            description: signalMap[key].description
+        });
+    }
+    return signals.sort((a, b) => b.intensity - a.intensity);
+}
+
+import type {
+    ResonanceSignals,
+    ResonanceSignal,
+    ResonancePlace,
+    ResonanceCountry,
+    ResonanceCity
+} from '$lib/schema/types';
+
+export function resonanceTransformer(rawData: any): {
+    country: ResonanceCountry;
+    city: ResonanceCity;
+} {
     console.log('=== RESONANCE TRANSFORMER STARTED ===');
     console.log('Countries count:', rawData.countries?.length);
     console.log('Cities count:', rawData.cities?.length);
 
     // Convert resonance signals object → sorted array
-    function signalsToArray(signalsObj: any) {
+    function signalsToArray(signalsObj: ResonanceSignals | undefined): ResonanceSignal[] {
         if (!signalsObj) return [];
-        if (Array.isArray(signalsObj)) return signalsObj;
+        if (Array.isArray(signalsObj)) return signalsObj as ResonanceSignal[];
 
         const signalMap: Record<string, { name: string; description: string }> = {
             nightlifeOverall: { name: 'Nightlife', description: 'Nightlife scene and activities' },
@@ -26,7 +61,7 @@ export function resonanceTransformer(rawData: any) {
             expatCommunityStrength: { name: 'Expat Community', description: 'Size and activity of expat community' }
         };
 
-        const signals = [];
+        const signals: ResonanceSignal[] = [];
 
         for (const [key, value] of Object.entries(signalsObj)) {
             if (!signalMap[key] || typeof value !== 'number') continue;
@@ -49,9 +84,10 @@ export function resonanceTransformer(rawData: any) {
         return signals.sort((a, b) => b.intensity - a.intensity);
     }
 
-    const getTopSignals = (signals: any[]) => signals.slice(0, 5);
+    const getTopSignals = (signals: ResonanceSignal[]): ResonanceSignal[] =>
+        signals.slice(0, 5);
 
-    const getPlaces = (item: any) => {
+    const getPlaces = (item: any): ResonancePlace[] => {
         if (!item.cities || !Array.isArray(item.cities)) return [];
 
         return item.cities.slice(0, 6).map((city: any) => ({
@@ -60,7 +96,7 @@ export function resonanceTransformer(rawData: any) {
             description: city.type === 'capital'
                 ? `${city.name}, the capital city`
                 : `Explore ${city.name}`,
-            signalMatch: 85 // placeholder until real scoring logic
+            signalMatch: 85
         }));
     };
 
@@ -68,43 +104,47 @@ export function resonanceTransformer(rawData: any) {
     const firstCountry = rawData.countries?.[0];
     const countrySignals = signalsToArray(firstCountry?.resonanceSignals);
 
-    const countryData = firstCountry ? {
-        name: firstCountry.name,
-        id: firstCountry.id,
-        region: firstCountry.region,
-        costTier: firstCountry.costTier,
-        sortedSignals: countrySignals,
-        topSignals: getTopSignals(countrySignals),
-        places: getPlaces(firstCountry)
-    } : {
-        name: 'No Country Data',
-        id: 'none',
-        sortedSignals: [],
-        topSignals: [],
-        places: []
-    };
+    const countryData: ResonanceCountry = firstCountry
+        ? {
+              name: firstCountry.name,
+              id: firstCountry.id,
+              region: firstCountry.region,
+              costTier: firstCountry.costTier,
+              sortedSignals: countrySignals,
+              topSignals: getTopSignals(countrySignals),
+              places: getPlaces(firstCountry)
+          }
+        : {
+              name: 'No Country Data',
+              id: 'none',
+              sortedSignals: [],
+              topSignals: [],
+              places: []
+          };
 
     // CITY
     const firstCity = rawData.cities?.[0];
     const citySignals = signalsToArray(firstCity?.resonanceSignals);
 
-    const cityData = firstCity ? {
-        name: firstCity.name,
-        id: firstCity.id,
-        type: firstCity.type,
-        vibe: firstCity.vibe,
-        wifiScore: firstCity.wifiScore,
-        coworkingDensity: firstCity.coworkingDensity,
-        sortedSignals: citySignals,
-        topSignals: getTopSignals(citySignals),
-        places: getPlaces(firstCity)
-    } : {
-        name: 'No City Data',
-        id: 'none',
-        sortedSignals: [],
-        topSignals: [],
-        places: []
-    };
+    const cityData: ResonanceCity = firstCity
+        ? {
+              name: firstCity.name,
+              id: firstCity.id,
+              type: firstCity.type,
+              vibe: firstCity.vibe,
+              wifiScore: firstCity.wifiScore,
+              coworkingDensity: firstCity.coworkingDensity,
+              sortedSignals: citySignals,
+              topSignals: getTopSignals(citySignals),
+              places: getPlaces(firstCity)
+          }
+        : {
+              name: 'No City Data',
+              id: 'none',
+              sortedSignals: [],
+              topSignals: [],
+              places: []
+          };
 
     return {
         country: countryData,
