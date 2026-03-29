@@ -8,6 +8,10 @@ export const load: PageLoad = async () => {
     const transformedData = resonanceTransformer(rawData);
     
     return {
-        data: transformedData
+        data: {
+            ...transformedData,
+            allCountries: rawData.countries,
+            allCities: rawData.cities
+        }
     };
 };

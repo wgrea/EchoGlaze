@@ -1,54 +1,56 @@
 // src/lib/loaders/resonanceLoader.ts
-// Import your actual data files
 import azerbaijanData from '$lib/data/countries/azerbaijan/index.ts';
-import bakuData from '$lib/data/countries/azerbaijan/cities/baku.ts';
 import usaData from '$lib/data/countries/united-states/index.ts';
-
-// Import US cities - you'll need to add these files
-// For now, let's create a mock US city or import if exists
-// import chicagoData from '$lib/data/countries/united-states/cities/chicago.ts';
-// import nycData from '$lib/data/countries/united-states/cities/new-york.ts';
+import { loadCities } from './cityLoader';
 
 export async function resonanceLoader() {
     console.log('=== RESONANCE LOADER STARTED ===');
     
     try {
-        // Build countries data
+        // Load all cities
+        const allCitiesData = await loadCities();
+        
+        // Create a map of country names for cities
+        const countryMap: Record<string, string> = {
+            'azerbaijan': azerbaijanData.name,
+            'united-states': usaData.name
+        };
+        
+        // Add countryName to each city
+        const citiesWithCountry = allCitiesData.map(city => ({
+            ...city,
+            countryName: countryMap[city.countryId] || city.countryId
+        }));
+        
+        // Group cities by country
+        const azerbaijanCities = citiesWithCountry.filter(city => city.countryId === 'azerbaijan');
+        const usCities = citiesWithCountry.filter(city => city.countryId === 'united-states');
+        
+        // Build countries data with their cities
         const countries = [
             {
                 ...azerbaijanData,
                 id: azerbaijanData.id || 'AZE',
                 name: azerbaijanData.name,
-                cities: [bakuData], // Add more cities as you have them
+                cities: azerbaijanCities,
                 resonanceSignals: azerbaijanData.resonanceSignals || {}
             },
             {
                 ...usaData,
                 id: usaData.id || 'USA',
                 name: usaData.name,
-                cities: [], // Add US cities here when you have them
+                cities: usCities,
                 resonanceSignals: usaData.resonanceSignals || {}
             }
         ];
         
-        // Get all cities from all countries
-        const allCities = countries.flatMap(country => 
-            (country.cities || []).map((city: any) => ({
-                ...city,
-                countryName: country.name,
-                countryId: country.id,
-                resonanceSignals: city.resonanceSignals || {}
-            }))
-        );
-        
-        console.log('Countries loaded successfully:', countries.length);
-        console.log('Cities loaded successfully:', allCities.length);
-        console.log('First country:', countries[0]?.name);
-        console.log('First city:', allCities[0]?.name);
+        console.log('Countries loaded:', countries.map(c => `${c.name} (${c.cities.length} cities)`));
+        console.log('Total cities loaded:', citiesWithCountry.length);
+        console.log('Cities:', citiesWithCountry.map(c => `${c.name} (${c.countryName})`));
         
         return {
             countries,
-            cities: allCities
+            cities: citiesWithCountry
         };
     } catch (error) {
         console.error('Error in resonanceLoader:', error);

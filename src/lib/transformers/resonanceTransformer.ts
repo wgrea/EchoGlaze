@@ -4,48 +4,60 @@ export function resonanceTransformer(rawData: any) {
     console.log('Countries count:', rawData.countries?.length);
     console.log('Cities count:', rawData.cities?.length);
     
-    // Helper function to convert resonanceSignals object to array
-    function signalsToArray(signalsObj: any) {
-        if (!signalsObj) return [];
-        
-        // If it's already an array, return it
-        if (Array.isArray(signalsObj)) return signalsObj;
-        
-        // Map your specific signal names to display names
-        const signalMap: Record<string, { name: string; description: string }> = {
-            nightlifeOverall: { name: 'Nightlife', description: 'Nightlife scene and activities' },
-            lateNightDining: { name: 'Late Night Dining', description: 'Food availability after dark' },
-            musicScene: { name: 'Music Scene', description: 'Live music and venues' },
-            danceScene: { name: 'Dance Scene', description: 'Clubs and dancing opportunities' },
-            barDensity: { name: 'Bar Density', description: 'Number and variety of bars' },
-            safetyAtNight: { name: 'Night Safety', description: 'Safety perception after dark' },
-            socialMeetups: { name: 'Social Meetups', description: 'Community events and gatherings' },
-            waterActivities: { name: 'Water Activities', description: 'Beaches, boating, water sports' },
-            snowActivities: { name: 'Snow Activities', description: 'Winter sports and activities' },
-            natureAccess: { name: 'Nature Access', description: 'Parks, trails, outdoor spaces' },
-            festivalCulture: { name: 'Festival Culture', description: 'Local festivals and events' },
-            socialFriction: { name: 'Social Ease', description: 'Ease of social integration' },
-            soloFriendly: { name: 'Solo Friendly', description: 'How welcoming for solo travelers' },
-            expatCommunityStrength: { name: 'Expat Community', description: 'Size and activity of expat community' }
-        };
-        
-        const signals = [];
-        for (const [key, value] of Object.entries(signalsObj)) {
-            if (signalMap[key] && typeof value === 'number') {
-                // Values are already on 0-10 scale, convert to 0-100
-                const intensity = Math.min(100, Math.max(0, value * 10));
-                
-                signals.push({
-                    name: signalMap[key].name,
-                    intensity: intensity,
-                    description: signalMap[key].description,
-                    rawValue: value
-                });
+// src/lib/transformers/resonanceTransformer.ts - Update the signalsToArray function
+
+function signalsToArray(signalsObj: any) {
+    if (!signalsObj) return [];
+    
+    // If it's already an array, return it
+    if (Array.isArray(signalsObj)) return signalsObj;
+    
+    // Map your specific signal names to display names
+    const signalMap: Record<string, { name: string; description: string }> = {
+        nightlifeOverall: { name: 'Nightlife', description: 'Nightlife scene and activities' },
+        lateNightDining: { name: 'Late Night Dining', description: 'Food availability after dark' },
+        musicScene: { name: 'Music Scene', description: 'Live music and venues' },
+        danceScene: { name: 'Dance Scene', description: 'Clubs and dancing opportunities' },
+        barDensity: { name: 'Bar Density', description: 'Number and variety of bars' },
+        safetyAtNight: { name: 'Night Safety', description: 'Safety perception after dark' },
+        socialMeetups: { name: 'Social Meetups', description: 'Community events and gatherings' },
+        waterActivities: { name: 'Water Activities', description: 'Beaches, boating, water sports' },
+        snowActivities: { name: 'Snow Activities', description: 'Winter sports and activities' },
+        natureAccess: { name: 'Nature Access', description: 'Parks, trails, outdoor spaces' },
+        festivalCulture: { name: 'Festival Culture', description: 'Local festivals and events' },
+        socialFriction: { name: 'Social Ease', description: 'Ease of social integration' },
+        soloFriendly: { name: 'Solo Friendly', description: 'How welcoming for solo travelers' },
+        expatCommunityStrength: { name: 'Expat Community', description: 'Size and activity of expat community' }
+    };
+    
+    const signals = [];
+    for (const [key, value] of Object.entries(signalsObj)) {
+        if (signalMap[key] && typeof value === 'number') {
+            // Handle different value ranges correctly
+            let intensity = value;
+            
+            // If value is between 0-10, multiply by 10
+            if (value <= 10 && value >= 0) {
+                intensity = Math.round(value * 10);
             }
+            // If value is already 0-100, use as is
+            else if (value > 10 && value <= 100) {
+                intensity = Math.round(value);
+            }
+            // Cap at 100
+            intensity = Math.min(100, Math.max(0, intensity));
+            
+            signals.push({
+                name: signalMap[key].name,
+                intensity: intensity,
+                description: signalMap[key].description,
+                rawValue: value
+            });
         }
-        
-        return signals.sort((a, b) => b.intensity - a.intensity);
     }
+    
+    return signals.sort((a, b) => b.intensity - a.intensity);
+}
     
     function getTopSignals(signals: any[]) {
         return signals.slice(0, 5);
