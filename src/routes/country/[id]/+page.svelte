@@ -5,8 +5,7 @@
   import type { Country, City } from '$lib/schema/types';
   import { loadCountry } from '$lib/loaders/countryLoader';
   import { loadCitiesByCountry } from '$lib/loaders/cityLoader';
-  import { loadVisa } from '$lib/loaders/visaLoader';
-  import { loadFlights } from '$lib/loaders/flightsLoader';
+  import { loadFlights } from '$lib/loaders/logisticsLoader';
   
   // UI Components
   import PersonaFitBadge from '$lib/components/country/PersonaFitBadge.svelte';
@@ -14,7 +13,6 @@
   import ResonanceSignalsChart from '$lib/components/country/ResonanceSignalsChart.svelte';
   import SeasonalMultiplierNote from '$lib/components/country/SeasonalMultiplierNote.svelte';
   import VisaSummaryCard from '$lib/components/country/VisaSummaryCard.svelte';
-  import FlightsSummaryCard from '$lib/components/country/FlightsSummaryCard.svelte';
   import CityPreviewGrid from '$lib/components/country/CityPreviewGrid.svelte';
   
   let country: Country | null = null;
@@ -32,17 +30,15 @@
     }
     
     try {
-      const [countryData, citiesData, visaData, flightsData] = await Promise.all([
+      const [countryData, citiesData, visaData] = await Promise.all([
         loadCountry(id),
         loadCitiesByCountry(id),
-        loadVisa(id),
         loadFlights(id)
       ]);
       
       country = countryData;
       cities = citiesData;
       visa = visaData;
-      flights = flightsData;
     } catch (error) {
       console.error('Failed to load country data:', error);
     } finally {
@@ -76,11 +72,7 @@
       safety={country.decisionAttributes.safety}
     />
     
-    <!-- Seasonal Note -->
-    <SeasonalMultiplierNote 
-      seasonalMultipliers={country.seasonality.seasonalMultipliers}
-      bestMonths={country.seasonality.bestMonths ?? []}
-    />
+
     
     <!-- Resonance Signals -->
     <ResonanceSignalsChart signals={country.resonanceSignals} />
@@ -91,7 +83,7 @@
     <!-- Visa & Flights -->
     <div class="grid md:grid-cols-2 gap-6 mt-8">
       <VisaSummaryCard visa={visa} />
-      <FlightsSummaryCard flights={flights} />
+
     </div>
   </div>
 {/if}

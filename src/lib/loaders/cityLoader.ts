@@ -2,12 +2,14 @@
 import type { City } from '$lib/schema/types';
 
 // 1. IMPORT RAW DATA
-import chicagoData from '$lib/data/countries/united-states/cities/chicago.js';
-import austinData from '$lib/data/countries/united-states/cities/austin.js';
-import denverData from '$lib/data/countries/united-states/cities/denver.js';
-import miamiData from '$lib/data/countries/united-states/cities/miami.js';
-import seattleData from '$lib/data/countries/united-states/cities/seattle.js';
-import bakuData from '$lib/data/countries/azerbaijan/cities/baku.js';
+import chicagoData from '$lib/data/countries/united-states/chicago.ts';
+import austinData from '$lib/data/countries/united-states/austin.ts';
+import denverData from '$lib/data/countries/united-states/denver.ts';
+import miamiData from '$lib/data/countries/united-states/miami.ts';
+import seattleData from '$lib/data/countries/united-states/seattle.ts';
+import bakuData from '$lib/data/countries/azerbaijan/baku.ts';
+import instanbulData from '$lib/data/countries/turkey/instanbul.ts';
+
 
 /**
  * NORMALIZE: Ensures raw data matches our strict 'City' interface.
@@ -51,6 +53,9 @@ export async function loadCity(id: string): Promise<City | null> {
     case 'baku':
     case 'bak':
       return normalizeCity(bakuData, 'AZE'); // Change from 'azerbaijan'
+    case 'instanbul':
+    case 'ins':
+      return normalizeCity(instanbulData, 'TUR');
     default:
       return null;
   }
@@ -68,7 +73,7 @@ export async function loadCitiesByCountry(countryId: string): Promise<City[]> {
  * GLOBAL FETCH: Returns every city registered in the app.
  */
 export async function loadCities(): Promise<City[]> {
-  const cityIds = ['chicago', 'austin', 'denver', 'miami', 'seattle', 'baku'];
+  const cityIds = ['chicago', 'austin', 'denver', 'miami', 'seattle', 'baku', 'instanbul'];
   const results = await Promise.all(cityIds.map(id => loadCity(id)));
   return results.filter((city): city is City => city !== null);
 }

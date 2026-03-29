@@ -1,4 +1,4 @@
-// src/lib/echoglaze/loaders/accommodationLoader.ts
+// src/lib/loaders/accommodationLoader.ts
 import type { StayOption } from '../schema/types';
 
 export async function loadAccommodationOptions(): Promise<StayOption[]> {

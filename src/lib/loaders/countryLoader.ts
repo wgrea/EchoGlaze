@@ -2,8 +2,10 @@
 import type { Country } from '$lib/schema/types';
 
 // Import your existing country data
-import azerbaijanData from '$lib/data/countries/azerbaijan/index.js';
-import unitedStatesData from '$lib/data/countries/united-states/index.js';
+import azerbaijanData from '$lib/data/countries/azerbaijan/index.ts';
+import unitedStatesData from '$lib/data/countries/united-states/index.ts';
+import turkeyData from '$lib/data/countries/turkey/index.ts';
+
 
 // Helper to normalize data to match the Country interface
 function normalizeCountry(data: any): Country {
@@ -36,12 +38,18 @@ function normalizeCountry(data: any): Country {
 }
 
 export async function loadCountry(id: string): Promise<Country | null> {
-  // Map URL-friendly IDs to your data
-  if (id === 'azerbaijan') {
-    return normalizeCountry(azerbaijanData);
+  const normalizedId = id.toLowerCase();
+
+  // Mapping URL slugs or IDs to the data
+  if (normalizedId === 'turkey' || normalizedId === 'tur') {
+    return normalizeCountry(turkeyData);
   }
   
-  if (id === 'united-states' || id === 'usa') {
+  if (normalizedId === 'azerbaijan' || normalizedId === 'aze') {
+    return normalizeCountry(azerbaijanData);
+  }
+
+  if (normalizedId === 'united-states' || normalizedId === 'usa') {
     return normalizeCountry(unitedStatesData);
   }
   
@@ -51,7 +59,8 @@ export async function loadCountry(id: string): Promise<Country | null> {
 export async function loadCountries(): Promise<Country[]> {
   const countries = await Promise.all([
     loadCountry('azerbaijan'),
-    loadCountry('united-states')
+    loadCountry('united-states'),
+    loadCountry('turkey')
   ]);
   return countries.filter(c => c !== null) as Country[];
 }

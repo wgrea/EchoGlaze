@@ -1,5 +1,3 @@
-// src/lib/echoglaze/loaders/index.ts
-export { loadCountry, loadAllCountries } from './countryLoader';
+// src/lib/loaders/index.ts
+export { loadCountry } from './countryLoader';
 export { loadCity, loadCitiesByCountry } from './cityLoader';
-export { loadCosts } from './costsLoader';
-export { loadVisa } from './visaLoader';

@@ -12,7 +12,7 @@
   import CoworkingDensityDisplay from '$lib/components/city/CoworkingDensityDisplay.svelte';
   import SafetyPatternDisplay from '$lib/components/city/SafetyPatternDisplay.svelte';
   import CostComparison from '$lib/components/city/CostComparison.svelte';
-  import StayOptionsList from '$lib/components/accommodation/StayOptionsList.svelte';
+
   import FoodStrategyCard from '$lib/components/city/FoodStrategyCard.svelte';
   import SimCardInfo from '$lib/components/city/SimCardInfo.svelte';
   import ResonanceSignalsChart from '$lib/components/country/ResonanceSignalsChart.svelte';
@@ -127,12 +127,6 @@
     
     <!-- SIM Cards -->
     <SimCardInfo />
-    
-    <!-- Stay Options -->
-    <StayOptionsList 
-      options={stayOptions}
-      cityName={city.name}
-      cityMultiplier={city.costMultiplier}
-    />
+  
   </div>
 {/if}

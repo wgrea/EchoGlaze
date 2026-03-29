@@ -1,4 +1,4 @@
-<!-- src/routes/echoglaze/logistics/+page.svelte -->
+<!-- src/routes/logistics/+page.svelte -->
 <script lang="ts">
   import { loadCountry } from '$lib/loaders/countryLoader';
   import type { Country } from '$lib/schema/types';
@@ -12,7 +12,8 @@
 
   const countries = [
     { id: 'united-states', name: 'United States', icon: '🇺🇸' },
-    { id: 'azerbaijan', name: 'Azerbaijan', icon: '🇦🇿' }
+    { id: 'azerbaijan', name: 'Azerbaijan', icon: '🇦🇿' },
+    { id: 'turkey', name: 'Turkey', icon: '🇹🇷' } // <-- ADD THIS
   ];
 
   $: if (from && to) updateLogistics(from, to);
