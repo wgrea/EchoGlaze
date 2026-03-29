@@ -45,24 +45,19 @@ export default {
       shoulder: 1.00
     }
   },
-  resonanceSignals: {
-    // Core Signals
+resonanceSignals: {
     nightlifeOverall: 7,
-    lateNightDining: 85, // Will be normalized
+    lateNightDining: 8.5,
     musicScene: 6,
     danceScene: 5,
     barDensity: 6,
     safetyAtNight: 9,
     socialMeetups: 4,
-    
-    // Seasonal Signals
     waterActivities: 6,
     snowActivities: 8,
     natureAccess: 9,
     festivalCulture: 7,
-    
-    // Social Atmosphere Signals
-    socialFriction: 2, // Low friction
+    socialProximity: 8, // High proximity/low friction
     soloFriendly: 8,
     expatCommunityStrength: 4
   },

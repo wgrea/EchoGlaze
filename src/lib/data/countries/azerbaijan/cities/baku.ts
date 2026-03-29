@@ -57,7 +57,7 @@ foodStrategy: {
     snowActivities: 7,
     natureAccess: 6,
     festivalCulture: 7,
-    socialFriction: 9,
+    socialProximity: 7,
     soloFriendly: 7,
     expatCommunityStrength: 6
   }

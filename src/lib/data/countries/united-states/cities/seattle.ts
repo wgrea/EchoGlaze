@@ -55,7 +55,7 @@ export default {
       priceTier: 2
     }
   ],
-  resonanceSignals: {
+resonanceSignals: {
     nightlifeOverall: 6,
     lateNightDining: 4,
     musicScene: 9,
@@ -67,7 +67,7 @@ export default {
     snowActivities: 8,
     natureAccess: 10,
     festivalCulture: 7,
-    socialFriction: 4,
+    socialProximity: 4,
     soloFriendly: 8,
     expatCommunityStrength: 6
   }

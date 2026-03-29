@@ -44,7 +44,7 @@
     // TRANSFORM for UI
 $: displayData = rawActiveItem ? {
     name: rawActiveItem.name,
-    rawSignals: rawActiveItem.resonanceSignals,
+    signals: signalsToArray(rawActiveItem.resonanceSignals), // <-- FIXED
     places: level === 'country' 
         ? (rawActiveItem.cities?.map((c: any) => ({ 
             name: c.name, 
@@ -59,6 +59,7 @@ $: displayData = rawActiveItem ? {
             slug: s.id
         })) || [])
 } : null;
+
 
 </script>
 
@@ -106,17 +107,18 @@ $: displayData = rawActiveItem ? {
 
     <hr class="border-gray-200 dark:border-gray-700 my-8" />
 
-    {#if !displayData || !displayData.rawSignals || Object.keys(displayData.rawSignals).length === 0}
-        <div class="py-12 text-center">
-            <h2 class="text-2xl font-semibold mb-2">{displayData?.name || 'Loading...'}</h2>
-            <p class="text-gray-500">No signals available for this location yet.</p>
-        </div>
-    {:else}
+{#if !displayData || !displayData.signals || displayData.signals.length === 0}
+    <div class="py-12 text-center">
+        <h2 class="text-2xl font-semibold mb-2">{displayData?.name || 'Loading...'}</h2>
+        <p class="text-gray-500">No signals available for this location yet.</p>
+    </div>
+{:else}
 
 <ExploreBySignal
-    rawSignals={displayData.rawSignals}
+    signals={displayData.signals}
     places={displayData.places}
 />
 
-    {/if}
+{/if}
+
 </div>

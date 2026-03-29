@@ -5,15 +5,32 @@ import type { ResonanceSignals } from '$lib/schema/types';
 /**
  * Convert raw ResonanceSignals → UI-friendly array
  */
+const SIGNAL_LABELS: Record<string, string> = {
+    nightlifeOverall: "Nightlife",
+    lateNightDining: "Late Night Dining",
+    musicScene: "Music Scene",
+    danceScene: "Dance Scene",
+    barDensity: "Bar Density",
+    safetyAtNight: "Night Safety",
+    socialMeetups: "Social Meetups",
+    waterActivities: "Water Activities",
+    snowActivities: "Snow Activities",
+    natureAccess: "Nature Access",
+    festivalCulture: "Festival Culture",
+    socialProximity: "Social Ease",
+    soloFriendly: "Solo Friendly",
+    expatCommunityStrength: "Expat Community"
+};
+
 export function signalsToArray(raw: ResonanceSignals | undefined) {
     if (!raw) return [];
 
     return Object.entries(raw)
         .map(([key, value]) => ({
-            name: key,
+            name: SIGNAL_LABELS[key] ?? key,
             intensity: value
         }))
-        .sort((a, b) => b.intensity - a.intensity);
+        .sort((a, b) => b.intensity - a.intensity); // DESCENDING
 }
 
 /**

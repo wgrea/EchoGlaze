@@ -57,7 +57,7 @@ export default {
     snowActivities: 1,
     natureAccess: 8,
     festivalCulture: 10,
-    socialFriction: 7,
+    socialProximity: 7,
     soloFriendly: 9,
     expatCommunityStrength: 5
   }

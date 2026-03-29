@@ -45,7 +45,7 @@ foodStrategy: {
       priceTier: 3
     }
   ],
-  resonanceSignals: {
+resonanceSignals: {
     nightlifeOverall: 9,
     lateNightDining: 9,
     musicScene: 9,
@@ -57,7 +57,7 @@ foodStrategy: {
     snowActivities: 2,
     natureAccess: 5,
     festivalCulture: 9,
-    socialFriction: 8,
+    socialProximity: 8,
     soloFriendly: 8,
     expatCommunityStrength: 7
   }

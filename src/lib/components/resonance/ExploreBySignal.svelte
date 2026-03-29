@@ -2,7 +2,7 @@
 <script lang="ts">
     import type { ResonanceSignals } from '$lib/schema/types';
 
-    export let rawSignals: ResonanceSignals;
+    export let signals: { name: string; intensity: number }[] = [];
     export let places: any[] = [];
 
     const signalNameMap: Record<string, string> = {
@@ -21,12 +21,6 @@
         soloFriendly: "Solo Friendly",
         expatCommunityStrength: "Expat Community"
     };
-
-    // ⭐ Make this reactive
-    $: signals = Object.entries(rawSignals).map(([key, value]) => ({
-        name: signalNameMap[key] ?? key,
-        intensity: value
-    }));
 
     let selectedSignals: string[] = [];
 
@@ -51,7 +45,7 @@
             <h3 class="text-lg font-medium">Signals</h3>
 
             <div class="space-y-2">
-                {#each signals.slice(0, 5) as signal (signal.name)}
+                {#each signals as signal (signal.name)}
                     <button
                         type="button"
                         class="w-full text-left p-3 rounded-lg border transition
