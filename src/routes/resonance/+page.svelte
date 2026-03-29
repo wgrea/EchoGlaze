@@ -1,8 +1,6 @@
 <script lang="ts">
     import { page } from '$app/stores';
     import { transformToResonanceSignals } from '$lib/transformers/resonanceTransformer';
-    import TopSignals from '$lib/components/resonance/TopSignals.svelte';
-    import SignalList from '$lib/components/resonance/SignalList.svelte';
     import ExploreBySignal from '$lib/components/resonance/ExploreBySignal.svelte';
     import LevelToggle from '$lib/components/resonance/LevelToggle.svelte';
 
@@ -115,9 +113,7 @@
             <p class="text-gray-500">No signals available for this location yet.</p>
         </div>
     {:else}
-        <h2 class="text-2xl font-bold mb-6">{displayData.name}</h2>
-        <TopSignals items={displayData.topSignals} />
-        <SignalList items={displayData.sortedSignals} />
+
         <ExploreBySignal
             signals={displayData.sortedSignals}
             places={displayData.places}

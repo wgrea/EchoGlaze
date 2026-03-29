@@ -54,24 +54,5 @@
                 {/each}
             </div>
         </div>
-
-        <!-- PLACES -->
-        <div class="space-y-4">
-            <h3 class="text-lg font-medium">Recommended Places</h3>
-
-            <div class="space-y-2">
-                {#each filteredPlaces as place (place.name)}
-                    <div class="p-3 rounded-lg border bg-gray-50 dark:bg-gray-800">
-                        <div class="font-medium">{place.name}</div>
-                        <div class="text-sm text-gray-600 dark:text-gray-400">
-                            {place.description}
-                        </div>
-                        <div class="text-xs text-green-600 dark:text-green-400 mt-1">
-                            Signal Match: {place.signalMatch}%
-                        </div>
-                    </div>
-                {/each}
-            </div>
-        </div>
     </div>
 </div>
