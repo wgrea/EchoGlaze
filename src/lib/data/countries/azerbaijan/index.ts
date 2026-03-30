@@ -1,4 +1,5 @@
 // src/lib/data/countries/azerbaijan/index.ts
+
 export default {
   id: 'AZE',
   name: 'Azerbaijan',
@@ -21,7 +22,7 @@ export default {
       'Sensitive to "Grey-Zone" political tensions',
       'Requires high LGBTQ+ visibility'
     ],
-    majorHubs: ['GYD'] 
+    majorHubs: ['GYD']
   },
   likelihoodScores: {
     nightlife: 6,
@@ -47,38 +48,59 @@ export default {
     soloFriendly: 8,
     expatCommunityStrength: 4
   },
-travelReadiness: {
+
+  travelReadiness: {
     visa: {
-      type: 'ASAN e-Visa',
-      stayLength: 'Short-term',
-      easeLevel: 'simple',
-      workPolicy: 'Tourist status; no local employment',
+      touristStayDays: 30,
+      longStayTouristVisaMonths: null,
+      nomadVisa: {
+        available: false,
+        durationMonths: null
+      },
+      workPolicy: "Tourist status; no local employment",
+      registrationAfterDays: 15,
       requirements: [
-        'Passport valid for 6+ months',
-        'Confirmed accommodation details',
-        'Clean background check'
-      ],
-      registrationAfterDays: 'Required after short-term stay',
-      nomadVisaAvailable: false
-    },
-    flights: {
-      friction: 'medium',
-      commonStops: 1,
-      routingNotes: 'Typically requires a layover in Istanbul (IST) or Doha (DOH) from the US.',
-      bestTimeToBook: '2-3 months in advance',
-      lastMinuteVolatility: 'high',
-      hubs: ['Istanbul (IST)', 'Doha (DOH)']
+        "E-visa (ASAN Visa)",
+        "Passport valid 6+ months",
+        "Proof of accommodation"
+      ]
     },
     seasonality: {
-      cheapest: [1, 2, 11], // Added November as a quiet, budget month
-      sweetSpot: [5, 6, 9, 10], 
-      peak: [7, 8, 3] // Added March due to Novruz holiday demand
+      cheapest: [1, 2, 11],
+      sweetSpot: [5, 6, 9, 10],
+      peak: [7, 8, 3]
     },
     seasonalVolatility: {
-      cheapest: 'low',     // Low demand; hotels are eager to fill rooms.
-      sweetSpot: 'medium', // Moderate competition for prime weather.
-      neutral: 'medium',   // Standard fluctuations.
-      peak: 'high'         // Extreme spikes during F1 (June) and Novruz (March).
+      cheapest: 'low',
+      sweetSpot: 'medium',
+      neutral: 'medium',
+      peak: 'high'
+    }
+  },
+
+  transportation: {
+    daytime: {
+      defaultMode: 'bus',
+      cheapestMode: 'bus',
+      recommendedCard: 'BakıKart',
+      notes:
+        'Baku has a highly efficient metro and "red bus" system. Avoid older purple/smaller buses as they don\'t always accept the card.'
+    },
+    nighttime: {
+      safestMode: 'rideHailing',
+      recommendedApps: ['Bolt', 'Uber AZ'],
+      notes:
+        'Metro closes at midnight. Avoid "unmarked" street taxis; Bolt is extremely cheap and tracks your GPS.'
+    },
+    apps: {
+      rideHailing: ['Bolt', 'Uber AZ', 'Yango'],
+      transit: ['BakiKart', '2GIS', 'Google Maps'],
+      navigation: ['Waze', 'Google Maps']
+    },
+    intercity: {
+      cheapest: 'bus',
+      fastest: 'train',
+      recommended: 'train'
     }
   }
 };

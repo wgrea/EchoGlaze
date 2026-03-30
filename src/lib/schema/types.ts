@@ -2,6 +2,36 @@
 
 // Most important file for drafting Svelte files accordingly
 
+export interface Country {
+  id: string;
+  name: string;
+  region: string;
+  travelReadiness: TravelReadiness;
+  transportation: Transportation; // <-- add this here
+}
+
+export interface City {
+  id: string;
+  name: string;
+  countryId: string;
+
+  stayOptions?: StayOption[];
+  costMultiplier?: number;
+
+  wifiScore?: number;
+  foodStrategy?: {
+    staples: string[];
+    cheapEats: string[];
+    groceryTips: string[];
+    notes?: string;
+  };
+
+  transportation?: Transportation; // <-- REQUIRED for loader return
+  transportationOverrides?: Partial<Transportation>;
+}
+
+
+
 // Base interfaces
 export interface BaseEntity {
   id: string;
@@ -26,85 +56,6 @@ export interface FoodStrategy {
   dinner: FoodMealStrategy;
   dessert: FoodMealStrategy;
   nomadProTip?: string;
-}
-
-// Country interface
-export interface Country extends BaseEntity {
-  id: string;
-  name: string;
-  region: string;
-
-  viewMode: 'country-first' | 'city-first' | 'grid' | 'list' | 'map';
-  resonanceMode: 'country-first' | 'city-first' | 'dynamic' | 'static';
-
-  personaFit: string[] | {
-    digitalNomad: number;
-    backpacker: number;
-    luxuryTraveler: number;
-    family: number;
-  };
-
-  costTier?: string;
-
-  decisionAttributes: {
-    visaEase: number;
-    digitalNomadVisa: boolean;
-    nomadFriendliness: {
-      infra: number;
-      vibe: number;
-    };
-    safety: number;
-    englishLevel: number;
-    avoidIf: string[];
-    majorHubs: string[];
-  };
-
-  likelihoodScores?: {
-    nightlife: number;
-    hiking: number;
-    coworking: number;
-    food: number;
-    history: number;
-    safety: number;
-  };
-
-  resonanceSignals: ResonanceSignals;
-
-  /** ⭐ NEW: Unified travel readiness block */
-  travelReadiness: TravelReadiness;
-}
-
-// City interface
-export interface City extends BaseEntity {
-  id: string;
-  countryId: string;
-  name: string;
-  type: 'capital' | 'hub' | 'beach' | 'mountain' | 'cultural' | 'emerging';
-  costMultiplier: number;
-  vibe: string[];
-  avoidIf: string[];
-  safetyPattern: {
-    day: number;
-    night: number;
-    notes: string;
-  };
-  foodAffordability: {
-    grocery: number;
-    streetFood: number;
-    diningOut: number;
-  };
-  foodStrategy?: FoodStrategy; 
-  wifiScore?: number;
-  coworkingDensity?: number;
-  englishLevel?: number;
-  sweetSpotMonths?: number[];
-  seasonalMultipliers: {
-    winter: number;
-    summer: number;
-    shoulder: number;
-  };
-  resonanceSignals: ResonanceSignals;
-  stayOptions?: StayOption[];
 }
 
 // Stay Option interface
@@ -168,18 +119,17 @@ export interface ResonanceSignals {
   expatCommunityStrength: number;
 }
 
-// ... (keep all your Base, Food, Country, and City interfaces as they are)
-
 export interface TravelReadiness {
   visa: {
-    type: string;
-    stayLength: string;
-    easeLevel: 'simple' | 'moderate' | 'complex';
-    workPolicy: string;
-    incomeTier?: 'low' | 'medium' | 'high';
-    requirements: string[];
-    registrationAfterDays?: number;
-    nomadVisaAvailable: boolean;
+    touristStayDays: number; // e.g., 30, 60, 90, 180, 365
+    longStayTouristVisaMonths?: number | null; // e.g., 6 or 12
+    nomadVisa: {
+      available: boolean;
+      durationMonths?: number | null;
+    };
+    workPolicy: string; // "Tourist status; no local employment"
+    registrationAfterDays?: number | null; // e.g., 15 for Azerbaijan
+    requirements: string[]; // evergreen, simple
   };
 
   /** ⭐ UPDATED: Lean Flight Schema */
@@ -201,5 +151,48 @@ export interface TravelReadiness {
     sweetSpot: 'medium';
     neutral: 'medium' | 'high';
     peak: 'high';
+  };
+}
+
+type TransportMode =
+  | 'metro'
+  | 'bus'
+  | 'tram'
+  | 'walk'
+  | 'rideHailing'
+  | 'taxi'
+  | 'mixed';
+
+type IntercityMode = 'bus' | 'train' | 'flight' | 'ferry'; // optional
+
+export interface Transportation {
+  daytime: {
+    /**
+     * Most common everyday mode locals use during the day.
+     * Helps anchor the user's mental model of "how people actually move here."
+     */
+    defaultMode: TransportMode;
+
+    cheapestMode: TransportMode;
+    recommendedCard?: string;
+    notes?: string;
+  };
+
+  nighttime: {
+    safestMode: TransportMode;
+    recommendedApps: string[]; // flexible: ride-hailing + local safety apps
+    notes?: string;
+  };
+
+  apps: {
+    rideHailing: string[];
+    transit: string[];
+    navigation?: string[];
+  };
+
+  intercity?: {
+    cheapest: IntercityMode;
+    fastest: IntercityMode;
+    recommended: IntercityMode;
   };
 }

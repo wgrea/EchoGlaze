@@ -2,7 +2,7 @@
 <!-- src/lib/components/accommodation/StayOptionCard.svelte -->
 <script lang="ts">
   export let option: any;
-  
+
   function getPriceTierLabel(tier: number): string {
     const labels: Record<number, string> = {
       1: 'Ultra Budget',
@@ -13,37 +13,38 @@
     };
     return labels[tier] || 'Contact for Price';
   }
-  
-function getWorkabilityStatus(score: number) {
-  // 4.5 - 5.0: The Elite Tier (4K, Heavy Uploads, Zero Latency)
-  if (score >= 4.5) {
-    return { 
-      label: 'High-Bandwidth / 4K Ready', 
-      color: 'bg-indigo-100 text-indigo-700' 
+
+  function getWorkabilityStatus(score: number) {
+    if (score >= 4.5) {
+      return {
+        label: 'High-Bandwidth / 4K Ready',
+        color: 'bg-indigo-100 text-indigo-700'
+      };
+    }
+    return {
+      label: 'Standard Video Sync',
+      color: 'bg-blue-100 text-blue-700'
     };
   }
-  
-  // 3.0 - 4.4: The Professional Standard (Stable Zoom, Screenshare, VPN)
-  // Since we don't add data below 3.0, this is our "Baseline"
-  return { 
-    label: 'Standard Video Sync', 
-    color: 'bg-blue-100 text-blue-700' 
-  };
-}
 
-  // RECTIVE DECLARATION: This replaces the const declaration.
-  // It will automatically re-calculate if 'option' changes.
   $: workStatus = getWorkabilityStatus(option.wifiScore || 0);
 </script>
 
 <div class="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden hover:shadow-md transition-shadow">
   <div class="p-5">
     <div class="flex justify-between items-start mb-2">
-      <h3 class="text-lg font-bold text-gray-800">{option.name}</h3>
+      <div>
+        <h3 class="text-lg font-bold text-gray-800">{option.name}</h3>
+        <p class="text-xs text-gray-500">
+          {option.city?.name}, {option.city?.countryName}
+        </p>
+      </div>
+
       <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-1 bg-gray-50 text-gray-400 rounded">
         {option.type}
       </span>
     </div>
+
 
     <div class="flex items-center gap-2 mb-4">
       <span class={`text-xs font-bold px-2 py-0.5 rounded-full ${workStatus.color}`}>

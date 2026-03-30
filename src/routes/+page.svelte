@@ -2,69 +2,40 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { loadCountries } from '$lib/loaders/countryLoader';
-  import type { Country } from '$lib/schema/types';
-
+ 
   // Home components
   import MenuGrid from '$lib/components/home/MenuGrid.svelte';
   import DigitalNomadLinks from '$lib/components/home/DigitalNomadLinks.svelte';
   import PriceNote from '$lib/components/home/PriceNote.svelte';
 
-  let countries: Country[] = [];
   let loading = false;
 
-  onMount(async () => {
-    try {
-      const allCountries = await loadCountries();
-      countries = allCountries.slice(0, 6);
-    } catch (error) {
-      console.error('Failed to load countries:', error);
-    } finally {
-      loading = false;
-    }
-  });
-
-  const menuItems = [
-    {
-      title: 'Destination Finder',
-      description: 'Match places to your travel style',
-      icon: '🔍',
-      path: '/resonance',
-      color: 'from-blue-50 to-indigo-50',
-      accent: 'text-blue-600'
-    },
-    {
-      title: 'Logistics',
-      description: 'Visa needs and flight intelligence',
-      icon: '✈️',
-      path: '/logistics',
-      color: 'from-purple-50 to-pink-50',
-      accent: 'text-purple-600'
-    },
-    {
-      title: 'Travel Essentials',
-      description: 'Packing lists and travel must‑haves',
-      icon: '🎒',
-      path: '/travel-essentials',
-      color: 'from-green-50 to-emerald-50',
-      accent: 'text-green-600'
-    },
-    {
-      title: 'Accommodation',
-      description: 'Find hostels and coliving spaces',
-      icon: '🏠',
-      path: '/accommodation',
-      color: 'from-amber-50 to-orange-50',
-      accent: 'text-amber-600'
-    },
-    {
-      title: 'Transportation',
-      description: 'Compare local and intercity travel costs',
-      icon: '🚗',
-      path: '/transportation',
-      color: 'from-rose-50 to-red-50',
-      accent: 'text-rose-600'
-    }
-  ];
+const menuItems = [
+  {
+    title: 'Destination Finder',
+    description: 'Match places to your travel style',
+    icon: '🌅',  // sunset for beach vibe
+    path: '/resonance',
+    color: 'from-pink-50 via-orange-50 to-yellow-100',  // pink-orange-yellow sunset
+    accent: 'text-pink-600 drop-shadow-lg'
+  },
+  {
+    title: 'Logistics', 
+    description: 'Visa needs and flight intelligence',
+    icon: '✈️',
+    path: '/logistics',
+    color: 'from-indigo-50 via-blue-50 to-cyan-50',  // Frutiger Aero glassy blue
+    accent: 'text-blue-600 drop-shadow-sm'
+  },
+  {
+    title: 'Accommodation',
+    description: 'Find hostels and coliving spaces',
+    icon: '🏠',
+    path: '/accommodation',
+    color: 'from-amber-50 via-emerald-50 to-stone-100',  // Cozy wood cabin warmth
+    accent: 'text-amber-600 drop-shadow-md'
+  }
+];
 
   const digitalNomadLinks = [
     {
@@ -86,32 +57,51 @@
   ];
 </script>
 
-<div class="home-page-container py-8">
-  <!-- Hero -->
-  <div class="text-center mb-12">
-    <h1 class="text-4xl font-extrabold text-gray-900 mb-2">
-      EchoGlaze
-    </h1>
-    <p class="text-lg text-gray-600 max-w-xl mx-auto leading-relaxed">
-      A decision‑first planner for digital nomads who care more about vibe and legality
-      than exact prices.
-    </p>
+<div class="home-page-container min-h-screen">
+  <!-- Beach + Glacier hero bg -->
+  <div class="absolute inset-0">
+    <div class="beach-glacier-bg absolute inset-0"></div>
   </div>
+  
+  <!-- Your existing content -->
+  <div class="relative z-10 py-12 space-y-16 max-w-6xl mx-auto px-4">
+    <!-- Hero -->
+    <div class="text-center mb-20">
+      <h1 class="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-blue-500 to-cyan-400 bg-clip-text text-transparent mb-6 drop-shadow-2xl">
+        EchoGlaze
+      </h1>
+      <p class="text-xl text-slate-600/90 max-w-2xl mx-auto leading-relaxed drop-shadow-sm">
+        A decision‑first planner for digital nomads who care more about vibe and legality than exact prices.
+      </p>
+    </div>
 
-  <!-- Main menu grid -->
-  <MenuGrid {menuItems} />
+    <!-- PriceNote -->
+    <PriceNote class="max-w-md mx-auto" />
 
-  <!-- Digital Nomad quick‑links -->
-  <DigitalNomadLinks links={digitalNomadLinks} />
-
-  <!-- Price philosophy note -->
-  <PriceNote />
+    <!-- 3-button grid -->
+    <MenuGrid {menuItems} />
+  </div>
 </div>
 
 <style>
-  .home-page-container {
-    max-width: 72rem;
-    margin: 0 auto;
-    padding: 0 1.5rem;
+  .beach-glacier-bg {
+    background: 
+      /* Beach sunset base */
+      radial-gradient(circle at 20% 80%, rgba(253, 242, 248, 0.6) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(165, 243, 252, 0.4) 0%, transparent 50%),
+      
+      /* Glacier ice blue */
+      radial-gradient(circle at 40% 30%, rgba(147, 197, 253, 0.5) 0%, transparent 40%),
+      radial-gradient(circle at 70% 60%, rgba(219, 234, 254, 0.7) 0%, transparent 50%),
+      
+      /* Ocean horizon */
+      linear-gradient(135deg, 
+        #f8fafc 0%, 
+        #e2e8f0 30%, 
+        #f1f5f9 70%, 
+        #f8fafc 100%);
+    
+    filter: blur(20px) brightness(1.1);
+    transform: scale(1.1);
   }
 </style>

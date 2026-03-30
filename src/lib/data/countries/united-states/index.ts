@@ -51,29 +51,17 @@ export default {
   /** ⭐ NEW: Unified travel readiness block */
 /** ⭐ NEW: Unified travel readiness block */
 travelReadiness: {
-    visa: {
-      type: 'ESTA / B1/B2',
-      stayLength: 'Standard seasonal stay',
-      easeLevel: 'moderate',
-      workPolicy: 'Strictly limited to incidental remote work',
-      requirements: [
-        'Digital authorization or interview',
-        'Proof of stable income',
-        'Passport valid for 6+ months',
-        'Evidence of ties to home country',
-        'Clean background check'
-      ],
-      registrationAfterDays: 'Not applicable for standard stay',
-      nomadVisaAvailable: false
+visa: {
+    touristStayDays: 90,
+    longStayTouristVisaMonths: 6, // Short-term residence permit (Ikamet)
+    nomadVisa: {
+      available: true, 
+      durationMonths: 12,
     },
-    flights: {
-      friction: 'low',
-      commonStops: 0,
-      routingNotes: 'Massive internal hub network; direct flights available from most continents.',
-      bestTimeToBook: '3 months in advance',
-      lastMinuteVolatility: 'medium',
-      hubs: ['Chicago (ORD)', 'Atlanta (ATL)', 'New York (JFK)', 'Los Angeles (LAX)']
-    },
+    workPolicy: "Tourist status; no local employment",
+    registrationAfterDays: null,
+    requirements: ["E-visa or visa-free entry", "Proof of funds", "Address registration for long stays"],
+  },
     seasonality: {
       cheapest: [1, 2],
       sweetSpot: [5, 6, 9, 10], // Broadly true, though regional
@@ -85,5 +73,28 @@ travelReadiness: {
       neutral: 'high',     // "Neutral" months like May/Sept often hit by business travel.
       peak: 'high'         // Holiday travel is notoriously volatile.
     }
+  },
+
+  transportation: {
+  daytime: {
+    defaultMode: 'mixed', // Highly city-dependent
+    cheapestMode: 'bus',
+    notes: 'Except for NYC, Chicago, and DC, a car is usually required. In 2026, many cities use "Tap to Pay" via phone/bank card.'
+  },
+  nighttime: {
+    safestMode: 'rideHailing',
+    recommendedApps: ['Uber', 'Lyft'],
+    notes: 'Night owl bus/train service is sparse outside major hubs. Use ride-hailing for door-to-door safety.'
+  },
+  apps: {
+    rideHailing: ['Uber', 'Lyft'],
+    transit: ['Transit App', 'Citymapper', 'Google Maps'],
+    navigation: ['Google Maps', 'Apple Maps', 'Waze']
+  },
+  intercity: {
+    cheapest: 'bus', // FlixBus / Greyhound
+    fastest: 'flight',
+    recommended: 'flight'
   }
+}
 };

@@ -1,3 +1,4 @@
+// src/lib/data/countries/qatar/index.ts
 export default {
   id: 'QAT',
   name: 'Qatar',
@@ -49,28 +50,17 @@ export default {
     expatCommunityStrength: 8
   },
   travelReadiness: {
-    visa: {
-      type: 'Visa Waiver / Hayya Entry',
-      stayLength: '90 Days',
-      easeLevel: 'simple',
-      workPolicy: 'Remote work permitted on tourist status',
-      requirements: [
-        'Passport valid for 3+ months',
-        'Confirmed hotel/accommodation',
-        'Mandatory Health Insurance (QAR 50)',
-        'Return/Onward ticket'
-      ],
-      registrationAfterDays: 'None for tourists',
-      nomadVisaAvailable: false // 10-year Executive visas exist but aren't "nomad" specific
+visa: {
+    touristStayDays: 30, // 90 days for some nationalities via waiver
+    longStayTouristVisaMonths: null,
+    nomadVisa: {
+      available: false,
+      durationMonths: null,
     },
-    flights: {
-      friction: 'low',
-      commonStops: 0,
-      routingNotes: 'World-class connectivity via Qatar Airways; direct from 12+ US cities.',
-      bestTimeToBook: '2 months in advance',
-      lastMinuteVolatility: 'medium',
-      hubs: ['DOH', 'JFK', 'ORD', 'LHR']
-    },
+    workPolicy: "Tourist status; no local employment",
+    registrationAfterDays: null,
+    requirements: ["Visa waiver or Hayya platform", "Confirmed return ticket", "Discover Qatar hotel booking"],
+  },
     seasonality: {
       cheapest: [6, 7, 8], // Extreme heat = low prices
       sweetSpot: [4, 5, 10, 11], 
@@ -82,5 +72,29 @@ export default {
       neutral: 'high',
       peak: 'extreme' 
     }
+  },
+
+  transportation: {
+  daytime: {
+    defaultMode: 'metro',
+    cheapestMode: 'metro',
+    recommendedCard: 'Karwa Smart Card / Goldclub Card',
+    notes: 'The Doha Metro is world-class. Use the free "metrolink" feeder buses to get from stations to your final doorstep.'
+  },
+  nighttime: {
+    safestMode: 'rideHailing',
+    recommendedApps: ['Karwa Taxi', 'Uber', 'Careem'],
+    notes: 'Very safe at all hours. Street-hailing Karwa taxis (turquoise) is common and reliable.'
+  },
+  apps: {
+    rideHailing: ['Karwa Taxi', 'Uber', 'Careem'],
+    transit: ['Sila', 'Qatar Rail'],
+    navigation: ['Waze', 'Google Maps']
+  },
+  intercity: {
+    cheapest: 'bus',
+    fastest: 'bus', // Qatar is small; no domestic rail/flights
+    recommended: 'bus'
   }
+}
 };

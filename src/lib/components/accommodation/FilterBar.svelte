@@ -16,7 +16,7 @@
 </script>
 
 <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 mb-6">
-  <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+  <div class="grid grid-cols-[repeat(auto-fit,minmax(180px,1fr))] gap-4">
     <div>
       <label for="type-filter" class="block text-xs font-bold uppercase text-gray-500 mb-2">Stay Type</label>
       <select id="type-filter" bind:value={filters.type} on:change

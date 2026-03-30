@@ -1,8 +1,9 @@
 // src/lib/echoglaze/loaders/transportationLoader.ts
-export async function loadTransportationData() {
-  // This is temporary - you'll replace with actual data loading
-  return {
-    local: { publicTransport: 1.0, taxi: 1.0 },
-    intercity: { train: 1.0, bus: 0.8, flight: 2.0 }
-  };
+import { loadCountry } from './countryLoader';
+
+export async function loadTransportation(countryId: string) {
+  const country = await loadCountry(countryId);
+  if (!country) throw new Error(`Country not found: ${countryId}`);
+
+  return country.transportation;
 }

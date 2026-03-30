@@ -1,3 +1,4 @@
+// src/lib/data/countries/greece/index.ts
 export default {
   id: 'GRC',
   name: 'Greece',
@@ -48,28 +49,17 @@ export default {
     expatCommunityStrength: 8
   },
   travelReadiness: {
-    visa: {
-      type: 'Greece Digital Nomad Visa',
-      stayLength: '1–2 Years',
-      easeLevel: 'moderate',
-      workPolicy: 'Remote work for non-Greek entities only',
-      requirements: [
-        'Proof of €3,500 monthly income',
-        'Certified health insurance',
-        'Clean criminal record',
-        'Valid passport'
-      ],
-      registrationAfterDays: 'Required after 90 days',
-      nomadVisaAvailable: true
+visa: {
+    touristStayDays: 90, // Schengen Area limit
+    longStayTouristVisaMonths: 12,
+    nomadVisa: {
+      available: true,
+      durationMonths: 12, // Renewable for up to 3 years
     },
-    flights: {
-      friction: 'low',
-      commonStops: 0,
-      routingNotes: 'Major European hub; direct flights from most US East Coast cities in summer.',
-      bestTimeToBook: '3-4 months in advance',
-      lastMinuteVolatility: 'medium',
-      hubs: ['London (LHR)', 'Frankfurt (FRA)', 'Paris (CDG)']
-    },
+    workPolicy: "Tourist status; no local employment",
+    registrationAfterDays: null,
+    requirements: ["Schengen entry rules", "Proof of remote income (for Nomad Visa)", "Health insurance"],
+  },
     seasonality: {
       cheapest: [1, 2, 11, 12],
       sweetSpot: [5, 6, 9, 10], 
@@ -81,5 +71,29 @@ export default {
       neutral: 'medium',
       peak: 'extreme' // Island prices can triple in August
     }
+  },
+
+  transportation: {
+  daytime: {
+    defaultMode: 'metro',
+    cheapestMode: 'bus',
+    recommendedCard: 'ATH.ENA Card',
+    notes: 'In Athens, the metro is king. For islands, "KTEL" (local buses) are the standard but schedules vary wildly by season.'
+  },
+  nighttime: {
+    safestMode: 'taxi',
+    recommendedApps: ['FreeNow (FREENOW)', 'Uber (Taxi only)'],
+    notes: 'Public transit is limited at night. FreeNow is the standard for calling official licensed taxis.'
+  },
+  apps: {
+    rideHailing: ['FreeNow', 'Uber', 'Bolt'],
+    transit: ['OASA Telematics', 'Moovit'],
+    navigation: ['Google Maps']
+  },
+  intercity: {
+    cheapest: 'bus', // KTEL coaches
+    fastest: 'flight',
+    recommended: 'ferry' // Specifically for island hopping
   }
+}
 };

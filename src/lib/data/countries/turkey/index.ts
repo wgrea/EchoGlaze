@@ -49,33 +49,45 @@ export default {
     expatCommunityStrength: 8,
   },
 travelReadiness: {
-    visa: {
-      type: "Türkiye Digital Nomad Visa",
-      stayLength: "Long-term (Renewable)",
-      easeLevel: "simple",
-      workPolicy: "Remote work for non-Turkish companies only",
-      requirements: [
-        "Proof of stable income",
-        "University degree or equivalent experience",
-        "Valid health insurance",
-        "Passport valid for 6+ months",
-        "Clean background check"
-      ],
-      registrationAfterDays: 'Required for residency',
-      nomadVisaAvailable: true,
+visa: {
+    touristStayDays: 90,
+    longStayTouristVisaMonths: 6, // Short-term residence permit (Ikamet)
+    nomadVisa: {
+      available: true, 
+      durationMonths: 12,
     },
-    flights: {
-      friction: "low",
-      commonStops: 0,
-      routingNotes: "Istanbul (IST) is a global mega-hub with direct flights to almost everywhere.",
-      bestTimeToBook: "2-3 months in advance",
-      lastMinuteVolatility: "medium",
-      hubs: ["IST", "SAW"],
-    },
+    workPolicy: "Tourist status; no local employment",
+    registrationAfterDays: null,
+    requirements: ["E-visa or visa-free entry", "Proof of funds", "Address registration for long stays"],
+  },
     seasonality: {
       cheapest: [1, 2, 11, 12],
       sweetSpot: [4, 5, 9, 10],
       peak: [6, 7, 8],
-    },
+    }
   },
+
+  transportation: {
+  daytime: {
+    defaultMode: 'bus', // Fixed from "Bus"
+    cheapestMode: 'bus', // Fixed from "Bus"
+    recommendedCard: 'Istanbulkart (for Istanbul) / Kentkart',
+    notes: 'Public transit is extensive but can be crowded during peak hours.'
+  },
+  nighttime: {
+    safestMode: 'rideHailing', // Fixed from "Ride-Hailing"
+    recommendedApps: ['BiTaksi', 'Uber'],
+    notes: 'Yellow taxis are ubiquitous; use apps to track fare and route.'
+  },
+  apps: {
+    rideHailing: ['BiTaksi', 'Uber'],
+    transit: ['Mobiett', 'Moovit'],
+    navigation: ['Google Maps', 'Yandex Maps']
+  },
+  intercity: {
+    cheapest: 'bus', // Fixed from "Coach Bus"
+    fastest: 'flight', // Fixed from "Domestic Flight"
+    recommended: 'train' // Fixed from "High-Speed Rail"
+  }
+}
 };

@@ -60,7 +60,9 @@
       </div>
 
     {:else if destinationData}
-      <section class="space-y-6">
+      
+    
+    <section class="space-y-6">
         <header>
           <h1 class="text-2xl font-black text-slate-900 tracking-tight">
              {destinationData.name} Logistics
@@ -70,10 +72,28 @@
           </p>
         </header>
 
-        <TravelReadinessCard
-          readiness={destinationData.travelReadiness}
-          countryName={destinationData.name}
-        />
+<TravelReadinessCard
+  readiness={destinationData.travelReadiness}
+  countryName={destinationData.name}
+/>
+
+<!-- ⭐ Add button here -->
+<section class="space-y-4">
+<a
+  href="/transportation"
+  class="p-4 bg-white rounded-lg shadow hover:shadow-md transition flex items-center gap-3"
+>
+
+    <div class="text-2xl">🚗</div>
+    <div>
+      <h2 class="text-lg font-semibold text-slate-800">Transportation</h2>
+      <p class="text-slate-500 text-xs">
+        Daytime mobility, nightlife safety, and recommended apps.
+      </p>
+    </div>
+  </a>
+</section>
+
       </section>
     {/if}
   </main>

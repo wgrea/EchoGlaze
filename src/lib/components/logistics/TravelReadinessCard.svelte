@@ -7,11 +7,6 @@
 
   const monthLabels = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
-  const frictionLabel = {
-    low: 'Low friction',
-    medium: 'Moderate friction',
-    high: 'High friction'
-  } as const;
 </script>
 
 <div class="space-y-6">
@@ -47,39 +42,70 @@
     <header class="flex items-center justify-between gap-4">
       <div>
         <h2 class="text-sm font-black uppercase tracking-[0.18em] text-slate-400">Entry Rules & Stay</h2>
-        <p class="text-lg font-bold text-slate-900 mt-1">
-          {readiness.visa.type} for {countryName}
-        </p>
+<p class="text-lg font-bold text-slate-900 mt-1">
+  Stay Rules for {countryName}
+</p>
+
       </div>
       <div class="text-right space-y-1">
-        <span class="inline-flex items-center rounded-full border border-emerald-100 bg-emerald-50 px-3 py-1 text-[11px] font-black uppercase text-emerald-700">
-          {readiness.visa.easeLevel === 'simple' ? 'Easy' : readiness.visa.easeLevel === 'moderate' ? 'Moderate' : 'Complex'}
-        </span>
-        <p class="text-[11px] font-bold text-slate-400">STAY: {readiness.visa.stayLength.toUpperCase()}</p>
+
+        <p class="text-[11px] font-bold text-slate-400">
+  STAY: {readiness.visa.touristStayDays} days
+</p>
+
       </div>
     </header>
 
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 text-sm">
-      <div class="space-y-1">
-        <p class="text-[11px] font-black uppercase tracking-[0.16em] text-slate-400">Work Policy</p>
-        <p class="text-slate-700 leading-snug font-medium">
-          {readiness.visa.workPolicy}
-        </p>
-      </div>
-      <div class="space-y-1">
-        <p class="text-[11px] font-black uppercase tracking-[0.16em] text-slate-400">Nomad Visa</p>
-        <p class="text-xs font-bold inline-flex items-center rounded-md px-2 py-1 border
-          {readiness.visa.nomadVisaAvailable ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-slate-50 text-slate-500 border-slate-200'}">
-          {readiness.visa.nomadVisaAvailable ? 'Available' : 'Not available'}
-        </p>
-      </div>
-      <div class="space-y-1">
-        <p class="text-[11px] font-black uppercase tracking-[0.16em] text-slate-400">Registration</p>
-        <p class="text-slate-700 font-medium">
-          {readiness.visa.registrationAfterDays ? `Required after ${readiness.visa.registrationAfterDays} days` : 'None required.'}
-        </p>
-      </div>
-    </div>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-6 text-sm">
+
+  <!-- Work Policy -->
+  <div class="space-y-1">
+    <p class="text-[11px] font-black uppercase tracking-[0.16em] text-slate-400">Work Policy</p>
+    <p class="text-slate-700 leading-snug font-medium">
+      {readiness.visa.workPolicy}
+    </p>
+  </div>
+
+  <!-- Nomad Visa -->
+  <div class="space-y-1">
+    <p class="text-[11px] font-black uppercase tracking-[0.16em] text-slate-400">Nomad Visa</p>
+
+    {#if readiness.visa.nomadVisa.available}
+      <p class="text-xs font-bold inline-flex items-center rounded-md px-2 py-1 border bg-emerald-50 text-emerald-700 border-emerald-200">
+        {readiness.visa.nomadVisa.durationMonths}‑month Nomad Visa
+      </p>
+    {:else}
+      <p class="text-xs font-bold inline-flex items-center rounded-md px-2 py-1 border bg-slate-50 text-slate-500 border-slate-200">
+        No Nomad Visa
+      </p>
+    {/if}
+  </div>
+
+  <!-- Long-Stay Tourist Visa -->
+  <div class="space-y-1">
+    <p class="text-[11px] font-black uppercase tracking-[0.16em] text-slate-400">Long‑Stay Tourist Visa</p>
+
+    {#if readiness.visa.longStayTouristVisaMonths}
+      <p class="text-xs font-medium text-slate-600">
+        {readiness.visa.longStayTouristVisaMonths} months
+      </p>
+    {:else}
+      <p class="text-xs text-slate-500">None</p>
+    {/if}
+  </div>
+
+  <!-- Registration -->
+  <div class="space-y-1">
+    <p class="text-[11px] font-black uppercase tracking-[0.16em] text-slate-400">Registration</p>
+    <p class="text-slate-700 font-medium">
+      {readiness.visa.registrationAfterDays
+        ? `Registration required after ${readiness.visa.registrationAfterDays} days`
+        : 'No registration required'}
+    </p>
+  </div>
+
+</div>
+
 
     {#if readiness.visa.requirements?.length}
       <div class="pt-4 border-t border-slate-100">
