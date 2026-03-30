@@ -1,66 +1,39 @@
 // src/lib/loaders/countryLoader.ts
 import type { Country } from '$lib/schema/types';
-
-// Import your existing country data
-import azerbaijanData from '$lib/data/countries/azerbaijan/index.ts';
-import unitedStatesData from '$lib/data/countries/united-states/index.ts';
-import turkeyData from '$lib/data/countries/turkey/index.ts';
-
+import { COUNTRY_REGISTRY } from '$lib/data/manifest'; // Import the new registry
 
 // Helper to normalize data to match the Country interface
-function normalizeCountry(data: any): Country {
+function normalizeCountry(data: any, id: string): Country {
   return {
-    id: data.id,
-    name: data.name,
-    region: data.region,
+    ...data,
+    id: id, // Ensure we use the official ID from the registry (e.g., GRC)
     viewMode: data.viewMode || 'country-first',
     resonanceMode: data.resonanceMode || 'country-first',
-
-    personaFit: data.personaFit,
-    costTier: data.costTier,
-
-    decisionAttributes: {
-      visaEase: data.decisionAttributes.visaEase,
-      digitalNomadVisa: data.decisionAttributes.digitalNomadVisa,
-      nomadFriendliness: data.decisionAttributes.nomadFriendliness,
-      safety: data.decisionAttributes.safety,
-      englishLevel: data.decisionAttributes.englishLevel,
-      avoidIf: data.decisionAttributes.avoidIf,
-      majorHubs: data.decisionAttributes.majorHubs
-    },
-
-    likelihoodScores: data.likelihoodScores,
-    resonanceSignals: data.resonanceSignals,
-
-    /** ⭐ NEW unified block */
-    travelReadiness: data.travelReadiness
+    // Spread the rest to ensure travelReadiness, resonanceSignals, etc., come through
   };
 }
 
 export async function loadCountry(id: string): Promise<Country | null> {
   const normalizedId = id.toLowerCase();
 
-  // Mapping URL slugs or IDs to the data
-  if (normalizedId === 'turkey' || normalizedId === 'tur') {
-    return normalizeCountry(turkeyData);
-  }
-  
-  if (normalizedId === 'azerbaijan' || normalizedId === 'aze') {
-    return normalizeCountry(azerbaijanData);
+  // DYNAMIC SEARCH: Find by slug (greece) or ID (grc)
+  const entry = COUNTRY_REGISTRY.find(c => 
+    c.slug === normalizedId || c.id.toLowerCase() === normalizedId
+  );
+
+  if (!entry) {
+    console.warn(`Country Loader: Could not find country with ID/Slug "${id}"`);
+    return null;
   }
 
-  if (normalizedId === 'united-states' || normalizedId === 'usa') {
-    return normalizeCountry(unitedStatesData);
-  }
-  
-  return null;
+  return normalizeCountry(entry.data, entry.id);
 }
 
 export async function loadCountries(): Promise<Country[]> {
-  const countries = await Promise.all([
-    loadCountry('azerbaijan'),
-    loadCountry('united-states'),
-    loadCountry('turkey')
-  ]);
-  return countries.filter(c => c !== null) as Country[];
+  // DYNAMIC LOAD: Just map over whatever is in the registry
+  const countries = await Promise.all(
+    COUNTRY_REGISTRY.map(c => loadCountry(c.id))
+  );
+  
+  return countries.filter((c): c is Country => c !== null);
 }

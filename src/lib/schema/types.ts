@@ -168,6 +168,8 @@ export interface ResonanceSignals {
   expatCommunityStrength: number;
 }
 
+// ... (keep all your Base, Food, Country, and City interfaces as they are)
+
 export interface TravelReadiness {
   visa: {
     type: string;
@@ -180,19 +182,20 @@ export interface TravelReadiness {
     nomadVisaAvailable: boolean;
   };
 
+  /** ⭐ UPDATED: Lean Flight Schema */
   flights: {
     friction: 'low' | 'medium' | 'high';
-    commonStops: number;
     routingNotes: string;
-    bestTimeToBook: string;
-    lastMinuteVolatility: 'low' | 'medium' | 'high';
     hubs?: string[];
+    // Removed: commonStops, bestTimeToBook, lastMinuteVolatility (Utility UX)
   };
+
   seasonality: {
     cheapest: number[];
     sweetSpot: number[];
     peak: number[];
   };
+
   seasonalVolatility?: {
     cheapest: 'low' | 'medium';
     sweetSpot: 'medium';
@@ -200,4 +203,3 @@ export interface TravelReadiness {
     peak: 'high';
   };
 }
-
