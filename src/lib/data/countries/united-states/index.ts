@@ -49,14 +49,21 @@ export default {
     expatCommunityStrength: 9
   },
   /** ⭐ NEW: Unified travel readiness block */
-  travelReadiness: {
+/** ⭐ NEW: Unified travel readiness block */
+travelReadiness: {
     visa: {
       type: 'ESTA / B1/B2',
-      stayLength: '90 days',
+      stayLength: 'Standard seasonal stay',
       easeLevel: 'moderate',
-      workPolicy: 'Strictly no local work; remote work is a grey area',
-      requirements: ['Digital authorization (ESTA) or Interview (B1/B2)', 'Proof of funds'],
-      registrationAfterDays: 90,
+      workPolicy: 'Strictly limited to incidental remote work',
+      requirements: [
+        'Digital authorization or interview',
+        'Proof of stable income',
+        'Passport valid for 6+ months',
+        'Evidence of ties to home country',
+        'Clean background check'
+      ],
+      registrationAfterDays: 'Not applicable for standard stay',
       nomadVisaAvailable: false
     },
     flights: {

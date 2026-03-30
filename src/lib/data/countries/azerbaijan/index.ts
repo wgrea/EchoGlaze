@@ -47,15 +47,18 @@ export default {
     soloFriendly: 8,
     expatCommunityStrength: 4
   },
-  /** ⭐ NEW: Unified travel readiness block */
-  travelReadiness: {
+travelReadiness: {
     visa: {
       type: 'ASAN e-Visa',
-      stayLength: '30 days',
+      stayLength: 'Short-term',
       easeLevel: 'simple',
       workPolicy: 'Tourist status; no local employment',
-      requirements: ['Passport valid 6 months', 'Hotel confirmation'],
-      registrationAfterDays: 15,
+      requirements: [
+        'Passport valid for 6+ months',
+        'Confirmed accommodation details',
+        'Clean background check'
+      ],
+      registrationAfterDays: 'Required after short-term stay',
       nomadVisaAvailable: false
     },
     flights: {

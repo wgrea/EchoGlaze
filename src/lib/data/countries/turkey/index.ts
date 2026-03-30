@@ -48,20 +48,20 @@ export default {
     soloFriendly: 9,
     expatCommunityStrength: 8,
   },
-  travelReadiness: {
+travelReadiness: {
     visa: {
       type: "Türkiye Digital Nomad Visa",
-      stayLength: "1 Year (Renewable)",
+      stayLength: "Long-term (Renewable)",
       easeLevel: "simple",
       workPolicy: "Remote work for non-Turkish companies only",
-      incomeTier: "medium",
       requirements: [
-        "Proof of $3,000 monthly income ($36k annual)",
-        "University degree",
-        "Ages 21-55",
-        "Health insurance ($30k coverage)",
+        "Proof of stable income",
+        "University degree or equivalent experience",
+        "Valid health insurance",
+        "Passport valid for 6+ months",
+        "Clean background check"
       ],
-      registrationAfterDays: 90,
+      registrationAfterDays: 'Required for residency',
       nomadVisaAvailable: true,
     },
     flights: {
