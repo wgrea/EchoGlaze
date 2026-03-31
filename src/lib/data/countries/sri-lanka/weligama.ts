@@ -1,7 +1,9 @@
 // src/lib/data/countries/sri-lanka/cities/weligama.ts
+
 export default {
   id: 'WLG',
   name: 'Weligama',
+  countryId: 'LKA',
   type: 'coastal-hub',
   costMultiplier: 0.8,
   avoidIf: [
@@ -9,17 +11,21 @@ export default {
     'Highly sensitive to humidity/salt air affecting hardware'
   ],
   safetyPattern: {
-    day: 5, night: 4,
+    day: 5,
+    night: 4,
     notes: 'Very safe; mostly surf-communal. Be wary of "Tuk-Tuk price gouging" after 10 PM.'
   },
   foodStrategy: {
-    breakfast: { bestValue: "Nomad Cafe: Smoothie Bowl", cheapest: "Local: Kottu Rotty (Egg/Veg)" },
-    lunch: { bestValue: "Rice & Curry (Unlimited refills)", cheapest: "Street: Fish Bun / Short Eats" },
-    dinner: { bestValue: "Beach BBQ: Fresh Snapper", cheapest: "Grocery: Curd + Treacle" },
+    breakfast: { bestValue: "Nomad Cafe: Smoothie Bowl", cheapest: "Local: Kottu Rotty" },
+    lunch: { bestValue: "Rice & Curry (Unlimited refills)", cheapest: "Short Eats at local stalls" },
+    dinner: { bestValue: "Beach BBQ: Fresh Snapper", cheapest: "Curd + Treacle from a grocery store" },
+    dessert: { bestValue: "Buffalo Curd", cheapest: "Watalappan (Coconut custard)" },
     healthyCheap: "Local 'Rice & Curry' spots are the ultimate utility play—high-fiber, diverse nutrients, and under $2."
   },
-  wifiScore: 5, // Plan B and Outpost have 300Mbps+ fiber
+  wifiScore: 5,
   coworkingDensity: 9,
+  englishLevel: 9,
+  vibe: ['Coastal', 'Surfer-Chic', 'Social'],
   stayOptions: [
     {
       id: 'plan-b-weligama',
@@ -41,6 +47,19 @@ export default {
     }
   ],
   resonanceSignals: {
-    nightlifeOverall: 7, lateNightDining: 6, waterActivities: 10, natureAccess: 8, soloFriendly: 9
+    nightlifeOverall: 7,
+    lateNightDining: 6,
+    musicScene: 7,
+    danceScene: 6,
+    barDensity: 8,
+    safetyAtNight: 7,
+    socialMeetups: 9,
+    waterActivities: 10, // Surfing capital
+    snowActivities: 0,
+    natureAccess: 8,
+    festivalCulture: 7,
+    socialProximity: 9,
+    soloFriendly: 9,
+    expatCommunityStrength: 10
   }
 };

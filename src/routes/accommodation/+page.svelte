@@ -1,28 +1,25 @@
 <!-- src/routes/accommodation/+page.svelte -->
-
 <script lang="ts">
   import { onMount } from 'svelte';
   import { loadAllStayOptions } from '$lib/loaders/stayLoader';
   import { loadCountries } from '$lib/loaders/countryLoader';
   import { loadCities } from '$lib/loaders/cityLoader';
-  import type { Country } from '$lib/schema/types';
-  import type { City } from '$lib/schema/types';
+  import type { Country, City } from '$lib/schema/types';
   
   import FilterBar from '$lib/components/accommodation/FilterBar.svelte';
   import StayOptionCard from '$lib/components/accommodation/StayOptionCard.svelte';
   import FoodStrategyCard from '$lib/components/accommodation/FoodStrategyCard.svelte';
 
+  // 1. State Declarations
   let stayOptions: any[] = [];
   let filteredOptions: any[] = [];
   let countries: Country[] = [];
   let cities: City[] = [];
-  let selectedCity: City | null = null;
+  
   let selectedCountryId = 'all';
   let selectedCityId = 'all';
-
-  $: filteredCities = selectedCountryId === 'all'
-    ? cities
-    : cities.filter(c => c.countryId === selectedCountryId);
+  let selectedCity: City | null = null;
+  let mode: 'stay' | 'food' = 'stay';
 
   let filters = {
     type: 'all',
@@ -31,8 +28,61 @@
     socialTone: 'all'
   };
 
-  let mode: 'stay' | 'food' = 'stay';
+  // 2. Reactive Logic (The "Engine")
+  
+  // Filter the city dropdown based on country
+  $: filteredCities = selectedCountryId === 'all'
+    ? cities
+    : cities.filter(c => (c as any).countryId === selectedCountryId);
 
+  // Sync selectedCity object when ID changes
+  $: selectedCity = cities.find(c => c.id === selectedCityId) || null;
+
+  // Reset City when Country changes to show ALL hostels for that country
+  $: if (selectedCountryId) {
+    selectedCityId = 'all'; 
+  }
+
+  // Run the filter automatically whenever any selection or filter changes
+  $: {
+    // Reference dependencies
+    selectedCountryId; 
+    selectedCityId; 
+    filters; 
+    
+    if (stayOptions.length > 0) {
+      applyFilters();
+    }
+  }
+
+  // 3. Functions
+  function applyFilters() {
+    filteredOptions = stayOptions.filter(option => {
+      // Country check
+      if (selectedCountryId !== 'all' && option.city.countryId !== selectedCountryId)
+        return false;
+
+      // City check
+      if (selectedCityId !== 'all' && option.cityId !== selectedCityId)
+        return false;
+
+      // Type check
+      if (filters.type !== 'all' && option.type !== filters.type)
+        return false;
+
+      // WiFi check
+      if ((option.wifiScore || 0) < filters.wifiMin)
+        return false;
+
+      // Price Tier check
+      if (filters.maxPriceTier !== 'all') {
+        const maxTier = parseInt(filters.maxPriceTier);
+        if (option.priceTier > maxTier) return false;
+      }
+
+      return true;
+    });
+  }
 
   onMount(async () => {
     const [optionsData, citiesData, countriesData] = await Promise.all([
@@ -42,45 +92,11 @@
     ]);
 
     stayOptions = optionsData;
-    filteredOptions = optionsData;
     cities = citiesData;
     countries = countriesData;
-  });
-
-  $: if (selectedCityId) {
-    selectedCity = cities.find(c => c.id === selectedCityId) || null;
+    // Initial run
     applyFilters();
-  }
-
-function applyFilters() {
-  filteredOptions = stayOptions.filter(option => {
-    // Country filter
-if (selectedCountryId !== 'all' && option.city.countryId !== selectedCountryId)
-  return false;
-
-
-    // City filter
-    if (selectedCityId !== 'all' && option.cityId !== selectedCityId)
-      return false;
-
-    // Type filter
-    if (filters.type !== 'all' && option.type !== filters.type)
-      return false;
-
-    // WiFi filter
-    if ((option.wifiScore || 0) < filters.wifiMin)
-      return false;
-
-    // Price tier filter
-    if (filters.maxPriceTier !== 'all') {
-      const maxTier = parseInt(filters.maxPriceTier);
-      if (option.priceTier > maxTier) return false;
-    }
-
-    return true;
   });
-}
-
 </script>
 
 <div class="max-w-6xl mx-auto px-4 py-8 flex flex-col lg:flex-row gap-8">
@@ -113,26 +129,21 @@ if (selectedCountryId !== 'all' && option.city.countryId !== selectedCountryId)
   <FilterBar bind:filters on:change={applyFilters} />
 
   <!-- Location Selector BELOW filters -->
-  <div class="flex flex-wrap gap-4 mt-6 mb-6">
-    <div>
-      <label class="block text-sm font-medium mb-2">Select Country:</label>
-      <select bind:value={selectedCountryId} class="px-4 py-2 border rounded-lg bg-white">
-        <option value="all">All Countries</option>
-        {#each countries as country}
-          <option value={country.id}>{country.name}</option>
-        {/each}
-      </select>
-    </div>
-
-    <div>
-      <label class="block text-sm font-medium mb-2">Select City:</label>
-      <select bind:value={selectedCityId} class="px-4 py-2 border rounded-lg bg-white">
-        <option value="all">All Cities</option>
-        {#each filteredCities as city}
-          <option value={city.id}>{city.name}</option>
-        {/each}
-      </select>
-    </div>
+<div class="flex flex-wrap gap-4 mt-6 mb-6">
+  <div>
+    <label for="country-select-stay" class="block text-sm font-medium mb-2">Select Country:</label>
+    <select 
+      id="country-select-stay" 
+      bind:value={selectedCountryId} 
+      class="px-4 py-2 border rounded-lg bg-white"
+    >
+      <option value="all">All Countries</option>
+      {#each countries as country}
+        <option value={country.id}>{country.name}</option>
+      {/each}
+    </select>
+  </div>
+  
   </div>
 
   <div class="grid md:grid-cols-2 gap-6 mt-8">
@@ -144,11 +155,14 @@ if (selectedCountryId !== 'all' && option.city.countryId !== selectedCountryId)
 
 
 {#if mode === 'food'}
-  <!-- Location Selector ABOVE food strategy -->
   <div class="flex flex-wrap gap-4 mt-6 mb-6">
     <div>
-      <label class="block text-sm font-medium mb-2">Select Country:</label>
-      <select bind:value={selectedCountryId} class="px-4 py-2 border rounded-lg bg-white">
+      <label for="country-select-food" class="block text-sm font-medium mb-2">Select Country:</label>
+      <select 
+        id="country-select-food" 
+        bind:value={selectedCountryId} 
+        class="px-4 py-2 border rounded-lg bg-white"
+      >
         <option value="all">All Countries</option>
         {#each countries as country}
           <option value={country.id}>{country.name}</option>
@@ -157,8 +171,12 @@ if (selectedCountryId !== 'all' && option.city.countryId !== selectedCountryId)
     </div>
 
     <div>
-      <label class="block text-sm font-medium mb-2">Select City:</label>
-      <select bind:value={selectedCityId} class="px-4 py-2 border rounded-lg bg-white">
+      <label for="city-select-food" class="block text-sm font-medium mb-2">Select City:</label>
+      <select 
+        id="city-select-food" 
+        bind:value={selectedCityId} 
+        class="px-4 py-2 border rounded-lg bg-white"
+      >
         <option value="all">All Cities</option>
         {#each filteredCities as city}
           <option value={city.id}>{city.name}</option>

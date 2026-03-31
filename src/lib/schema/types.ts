@@ -1,38 +1,6 @@
 // src/lib/schema/types.ts
 
-// Most important file for drafting Svelte files accordingly
-
-export interface Country {
-  id: string;
-  name: string;
-  region: string;
-  travelReadiness: TravelReadiness;
-  transportation: Transportation; // <-- add this here
-}
-
-export interface City {
-  id: string;
-  name: string;
-  countryId: string;
-
-  stayOptions?: StayOption[];
-  costMultiplier?: number;
-
-  wifiScore?: number;
-  foodStrategy?: {
-    staples: string[];
-    cheapEats: string[];
-    groceryTips: string[];
-    notes?: string;
-  };
-
-  transportation?: Transportation; // <-- REQUIRED for loader return
-  transportationOverrides?: Partial<Transportation>;
-}
-
-
-
-// Base interfaces
+// --- Base Interfaces ---
 export interface BaseEntity {
   id: string;
   createdAt?: number;
@@ -44,10 +12,10 @@ export interface NamedEntity extends BaseEntity {
   slug?: string;
 }
 
+// --- Food Strategy ---
 export interface FoodMealStrategy {
-  bestValue: string;    // e.g., "Business Lunch Set"
-  cheapest: string;     // e.g., "Supermarket Grab-and-go"
-  note?: string;        // e.g., "Only available 12pm-3pm"
+  bestValue: string;
+  cheapest: string;
 }
 
 export interface FoodStrategy {
@@ -55,51 +23,49 @@ export interface FoodStrategy {
   lunch: FoodMealStrategy;
   dinner: FoodMealStrategy;
   dessert: FoodMealStrategy;
-  nomadProTip?: string;
+  healthyCheap: string;
 }
 
-// Stay Option interface
+// --- Stay Options ---
 export interface StayOption {
   id: string;
   name: string;
-  type: 'hostel' | 'coliving' | 'hotel' | 'apartment';
+  type: 'hostel' | 'coliving' | 'hotel' | 'apartment' | 'boutique-hostel' | 'coworking-hostel' | 'premium-hostel' | 'hybrid';
   verifiedWifi: boolean;
-  socialTone: 'quiet' | 'social' | 'party' | 'mixed';
+  socialTone: 'quiet' | 'social' | 'party' | 'mixed' | 'balanced' | 'productive' | 'ultra-quiet';
   amenities: string[];
-  priceTier: 1 | 2 | 3 | 4 | 5;
+  priceTier: 1 | 2 | 3 | 4 | 5; // 1: Ultra Budget, 2: Budget, 3: Moderate, 4: Premium, 5: Luxury
 }
 
-// Costs interface - includes countryId for JSON storage
-export interface Costs extends BaseEntity {
-  countryId: string;
-  baseMultiplier: number;
-  cityMultipliers: Record<string, number>;
-  eventMultipliers: Record<string, number>;
-  accommodation: {
-    budget: number;
-    midRange: number;
-    luxury: number;
+// --- Transport ---
+export type TransportMode = 'metro' | 'bus' | 'tram' | 'walk' | 'rideHailing' | 'taxi' | 'mixed';
+export type IntercityMode = 'bus' | 'train' | 'flight' | 'ferry';
+
+export interface Transportation {
+  daytime: {
+    defaultMode: TransportMode;
+    cheapestMode: TransportMode;
+    recommendedCard?: string;
+    notes?: string;
   };
-  food: {
-    budget: number;
-    midRange: number;
-    luxury: number;
+  nighttime: {
+    safestMode: TransportMode;
+    recommendedApps: string[];
+    notes?: string;
   };
-  transport: {
-    local: number;
-    intercity: number;
+  apps: {
+    rideHailing: string[];
+    transit: string[];
+    navigation?: string[];
+  };
+  intercity?: {
+    cheapest: IntercityMode;
+    fastest: IntercityMode;
+    recommended: IntercityMode;
   };
 }
 
-// Visa interface - includes countryId for JSON storage
-export interface Visa extends BaseEntity {
-  countryId: string;
-  method: 'evisa' | 'visaOnArrival' | 'embassy' | 'visaFree';
-  processingDays: number;
-  costUSD: number;
-  nationalGroupings: Record<string, string[]>;
-}
-
+// --- Resonance & Readiness ---
 export interface ResonanceSignals {
   nightlifeOverall: number;
   lateNightDining: number;
@@ -108,12 +74,10 @@ export interface ResonanceSignals {
   barDensity: number;
   safetyAtNight: number;
   socialMeetups: number;
-
   waterActivities: number;
   snowActivities: number;
   natureAccess: number;
   festivalCulture: number;
-
   socialProximity: number;
   soloFriendly: number;
   expatCommunityStrength: number;
@@ -121,31 +85,28 @@ export interface ResonanceSignals {
 
 export interface TravelReadiness {
   visa: {
-    touristStayDays: number; // e.g., 30, 60, 90, 180, 365
-    longStayTouristVisaMonths?: number | null; // e.g., 6 or 12
+    touristStayDays: number;
+    longStayTouristVisaMonths?: number | null;
     nomadVisa: {
       available: boolean;
+      name?: string;
       durationMonths?: number | null;
+      incomeRequirement?: number;
     };
-    workPolicy: string; // "Tourist status; no local employment"
-    registrationAfterDays?: number | null; // e.g., 15 for Azerbaijan
-    requirements: string[]; // evergreen, simple
+    workPolicy: string;
+    registrationAfterDays?: number | null;
+    requirements: string[];
   };
-
-  /** ⭐ UPDATED: Lean Flight Schema */
   flights: {
     friction: 'low' | 'medium' | 'high';
     routingNotes: string;
     hubs?: string[];
-    // Removed: commonStops, bestTimeToBook, lastMinuteVolatility (Utility UX)
   };
-
   seasonality: {
     cheapest: number[];
     sweetSpot: number[];
     peak: number[];
   };
-
   seasonalVolatility?: {
     cheapest: 'low' | 'medium';
     sweetSpot: 'medium';
@@ -154,45 +115,38 @@ export interface TravelReadiness {
   };
 }
 
-type TransportMode =
-  | 'metro'
-  | 'bus'
-  | 'tram'
-  | 'walk'
-  | 'rideHailing'
-  | 'taxi'
-  | 'mixed';
+// --- Main Entities ---
+export interface City extends NamedEntity {
+  type: 'capital' | 'metropolis' | 'hub' | 'tech-enclave' | 'remote';
+  costMultiplier: number;
+  avoidIf: string[];
+  safetyPattern: { day: number; night: number; notes: string };
+  foodStrategy: FoodStrategy;
+  wifiScore: number;
+  coworkingDensity: number;
+  englishLevel: number;
+  vibe: string[];
+  stayOptions: StayOption[];
+  resonanceSignals: Partial<ResonanceSignals>;
+  transportationOverrides?: Partial<Transportation>;
+}
 
-type IntercityMode = 'bus' | 'train' | 'flight' | 'ferry'; // optional
-
-export interface Transportation {
-  daytime: {
-    /**
-     * Most common everyday mode locals use during the day.
-     * Helps anchor the user's mental model of "how people actually move here."
-     */
-    defaultMode: TransportMode;
-
-    cheapestMode: TransportMode;
-    recommendedCard?: string;
-    notes?: string;
+export interface Country extends NamedEntity {
+  region: string;
+  costTier: string;
+  viewMode?: 'country-first' | 'city-first';
+  resonanceMode?: 'country-first' | 'city-first';
+  personaFit: string[];
+  decisionAttributes: {
+    visaEase: number;
+    digitalNomadVisa: boolean;
+    nomadFriendliness: { infra: number; vibe: number };
+    safety: number;
+    avoidIf: string[];
+    majorHubs: string[];
   };
-
-  nighttime: {
-    safestMode: TransportMode;
-    recommendedApps: string[]; // flexible: ride-hailing + local safety apps
-    notes?: string;
-  };
-
-  apps: {
-    rideHailing: string[];
-    transit: string[];
-    navigation?: string[];
-  };
-
-  intercity?: {
-    cheapest: IntercityMode;
-    fastest: IntercityMode;
-    recommended: IntercityMode;
-  };
+  travelReadiness: TravelReadiness;
+  transportation: Transportation;
+  likelihoodScores?: Record<string, number>;
+  resonanceSignals?: Partial<ResonanceSignals>;
 }

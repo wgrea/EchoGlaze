@@ -1,4 +1,5 @@
 // src/lib/data/countries/mexico/index.ts
+
 export default {
   id: 'MEX',
   name: 'Mexico',
@@ -17,27 +18,81 @@ export default {
     majorHubs: ['MEX', 'CUN', 'GDL']
   },
   likelihoodScores: { nightlife: 10, hiking: 8, coworking: 9, food: 10, history: 10, safety: 6 },
+  
+  /** ⭐ FULL RESONANCE SECTION: No missing keys for filtering */
   resonanceSignals: {
-    nightlifeOverall: 9, lateNightDining: 10, musicScene: 9, danceScene: 8, barDensity: 10,
-    safetyAtNight: 6, socialMeetups: 10, waterActivities: 8, snowActivities: 1, natureAccess: 8,
-    festivalCulture: 10, socialProximity: 9, soloFriendly: 10, expatCommunityStrength: 10
+    nightlifeOverall: 9,
+    lateNightDining: 10,
+    musicScene: 9,
+    danceScene: 8,
+    barDensity: 10,
+    safetyAtNight: 6,
+    socialMeetups: 10,
+    waterActivities: 8,  // Coastal hubs (Oaxaca/Yucatán) are 10, interior is 1
+    snowActivities: 1,   // Only specific peaks (Pico de Orizaba), not a nomad hub activity
+    natureAccess: 8,
+    festivalCulture: 10,
+    socialProximity: 9,
+    soloFriendly: 10,
+    expatCommunityStrength: 10
   },
+
   travelReadiness: {
     visa: {
       touristStayDays: 180,
-      longStayTouristVisaMonths: 12,
-      nomadVisa: { available: true, durationMonths: 12 },
+      longStayTouristVisaMonths: 12, // Temporary Resident (Nomad)
+      nomadVisa: { 
+        available: true, 
+        durationMonths: 12 
+      },
       workPolicy: "Strictly foreign income; local Mexican employment requires a separate NUT (Work Permit).",
-      registrationAfterDays: 30,
-      requirements: ["Proof of monthly income (~$2,600+)", "Bank statements (last 6 months)", "Passport valid 6+ months"]
+      registrationAfterDays: 30, // For residency holders
+      requirements: [
+        "2026 Update: FMM is now 100% digital at major airports; keep your QR code safe.",
+        "Temporary Residency: Proof of ~$2,600+ monthly income (average across 6 months).",
+        "Savings: ~$43,000+ liquid for 12 months can bypass income requirements.",
+        "Passport valid 6+ months from date of entry."
+      ]
     },
-    seasonality: { cheapest: [5, 6, 9], sweetSpot: [10, 11, 3, 4], peak: [12, 1, 2] },
-    seasonalVolatility: { cheapest: 'high', sweetSpot: 'low', neutral: 'medium', peak: 'high' }
+    /** ⭐ Lean Flight Schema */
+    flights: {
+      friction: 'low',
+      routingNotes: "MEX and CUN are massive hubs. Volaris and VivaAerobus are the reliable budget carriers.",
+      hubs: ['MEX', 'CUN', 'GDL', 'TIJ']
+    },
+    seasonality: { 
+      cheapest: [5, 6, 9], // Rainy season / Hurricane peak
+      sweetSpot: [10, 11, 3, 4], 
+      peak: [12, 1, 2] // High winter / Holy Week (Semana Santa)
+    },
+    seasonalVolatility: { 
+      cheapest: 'high', 
+      sweetSpot: 'low', 
+      neutral: 'medium', 
+      peak: 'high' 
+    }
   },
   transportation: {
-    daytime: { defaultMode: 'metro/bus', cheapestMode: 'metro', recommendedCard: 'Tarjeta de Movilidad Integrada', notes: 'Buses in MEX use a complex "Metrobus" lane system.' },
-    nighttime: { safestMode: 'rideHailing', recommendedApps: ['Uber', 'Didi'], notes: 'Never hail "street taxis" at night; use Sitio stands or apps.' },
-    apps: { rideHailing: ['Uber', 'Didi', 'Cabify'], transit: ['Citymapper', 'Google Maps'], navigation: ['Waze'] },
-    intercity: { cheapest: 'bus', fastest: 'plane', recommended: 'luxury-bus (ADO/ETN)' }
+    daytime: { 
+      defaultMode: 'metro/bus', 
+      cheapestMode: 'metro', 
+      recommendedCard: 'Tarjeta de Movilidad Integrada', 
+      notes: 'In CDMX, the Metrobus is often faster than Uber in peak traffic due to dedicated lanes.' 
+    },
+    nighttime: { 
+      safestMode: 'rideHailing', 
+      recommendedApps: ['Uber', 'Didi'], 
+      notes: '2026 Tip: Uber is now fully legal and integrated at MEX airport T1/T2, ending the old taxi-stand monopoly.' 
+    },
+    apps: { 
+      rideHailing: ['Uber', 'Didi', 'Cabify'], 
+      transit: ['Citymapper', 'Google Maps', 'Metro-MB'], 
+      navigation: ['Waze'] 
+    },
+    intercity: { 
+      cheapest: 'bus', 
+      fastest: 'plane', 
+      recommended: 'luxury-bus (ADO/ETN)' 
+    }
   }
 };

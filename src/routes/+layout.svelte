@@ -4,14 +4,14 @@
 
   let currentYear = new Date().getFullYear();
 
-  $: themeColor =
-    $page.url.pathname.includes('resonance') ? 'pink-purple' :
-    $page.url.pathname.includes('logistics') ? 'purple-pink' :
-    $page.url.pathname.includes('accommodation') ? 'amber-orange' :
-    'default';
+  $: themeColor = $page.url.pathname === '/' ? 'beach-glacier' :
+                  $page.url.pathname.includes('resonance') ? 'pink-purple' :
+                  $page.url.pathname.includes('logistics') ? 'purple-pink' :
+                  $page.url.pathname.includes('accommodation') ? 'amber-orange' :
+                  'default';
 </script>
 
-<svelte:window />
+<svelte:window />  <!-- FIXED: no binding needed -->
 
 <!-- SINGLE theme overlay -->
 <div

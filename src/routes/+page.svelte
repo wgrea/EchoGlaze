@@ -75,11 +75,15 @@ const menuItems = [
       </p>
     </div>
 
-    <!-- PriceNote -->
-    <PriceNote class="max-w-md mx-auto" />
+    <!-- Price philosophy note -->
+    <div class="max-w-md mx-auto mb-12">
+      <PriceNote />
+    </div>
 
-    <!-- 3-button grid -->
-    <MenuGrid {menuItems} />
+    <!-- Main menu grid -->
+    <div class="max-w-4xl mx-auto mb-8">
+      <MenuGrid {menuItems} />
+    </div>
   </div>
 </div>
 

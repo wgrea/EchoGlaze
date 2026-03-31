@@ -1,71 +1,115 @@
-// src/lib/data/countries/argentina/cities/buenos-aires.ts
+// src/lib/data/countries/argentina/index.ts
+
 export default {
-  id: 'BUE',
-  name: 'Buenos Aires',
-  type: 'metropolis',
-  costMultiplier: 1.0, // High inflation but favorable exchange rates for USD/EUR
-  avoidIf: [
-    'Aversion to late-night noise (dinner starts at 10 PM)',
-    'Low tolerance for economic instability/currency complexity',
-    'Looking for a tropical or beach environment'
+  id: 'ARG',
+  name: 'Argentina',
+  region: 'South America',
+  viewMode: 'country-first',
+  resonanceMode: 'country-first',
+  personaFit: [
+    'The European Soul',
+    'The Night-Owl Developer',
+    'The Value-Strategist'
   ],
-  safetyPattern: {
-    day: 4,
-    night: 3,
-    notes: 'Palermo and Recoleta are very safe. San Telmo is fine but watch your pockets in crowds.'
+  costTier: 'Low-Medium',
+  decisionAttributes: {
+    visaEase: 9,
+    digitalNomadVisa: true,
+    nomadFriendliness: { infra: 9, vibe: 10 },
+    safety: 7,
+    englishLevel: 7,
+    avoidIf: [
+      'Frustrated by complex currency exchange systems',
+      'Needs early-morning social life (the country runs late)',
+      'Low tolerance for high-decibel social environments'
+    ],
+    majorHubs: ['BUE', 'MDZ', 'BRC']
   },
-  foodAffordability: {
-    grocery: 9,
-    streetFood: 8,
-    diningOut: 8
+  likelihoodScores: {
+    nightlife: 10,
+    hiking: 10,
+    coworking: 9,
+    food: 9,
+    history: 9,
+    safety: 7
   },
-  foodStrategy: {
-    breakfast: { bestValue: "Medialunas + Café con Leche combo", cheapest: "Facturas from a bakery" },
-    lunch: { bestValue: "Empanada shops (order by the dozen)", cheapest: "Choripán from a park stall" },
-    dinner: { bestValue: "Parrilla (Steak) in Almagro", cheapest: "Pizza by the slice (Guerrín style)" },
-    healthyCheap: "Local 'Verdulerias' have incredibly cheap high-quality produce. Beef is cheaper than chicken."
-  },
-  wifiScore: 5, // Generally excellent fiber in the city
-  coworkingDensity: 10,
-  englishLevel: 8,
-  vibe: ['European-Chic', 'Intellectual', 'Gritty-Romantic'],
-  seasonalMultipliers: {
-    winter: 0.8,
-    summer: 1.2,
-    shoulder: 1.0
-  },
-  stayOptions: [
-    {
-      id: 'viajero-buenos-aires',
-      name: 'Viajero Buenos Aires',
-      type: 'hostel',
-      verifiedWifi: true,
-      socialTone: 'balanced',
-      amenities: ['Work desks in rooms', 'Dedicated meeting rooms', 'Rooftop + Indoor pool', 'San Telmo location'],
-      priceTier: 2
-    },
-    {
-      id: 'che-juan-ba',
-      name: 'Che Juan BA',
-      type: 'boutique-hostel',
-      verifiedWifi: true,
-      socialTone: 'ultra-quiet',
-      amenities: ['Modern build', 'Quiet pods', 'Communal laptop area', 'Central location'],
-      priceTier: 1
-    }
-  ],
   resonanceSignals: {
     nightlifeOverall: 10,
     lateNightDining: 10,
-    musicScene: 10,
-    danceScene: 10, // Tango + Techno
+    musicScene: 9,
+    danceScene: 10,
     barDensity: 10,
     safetyAtNight: 7,
-    socialMeetups: 10,
-    natureAccess: 4, // Mostly urban parks; need a ferry to Uruguay for beaches
+    socialMeetups: 9,
+    waterActivities: 5,
+    snowActivities: 9,
+    natureAccess: 10,
     festivalCulture: 9,
     socialProximity: 10,
     soloFriendly: 9,
     expatCommunityStrength: 9
+  },
+
+  travelReadiness: {
+    visa: {
+      touristStayDays: 90,
+      longStayTouristVisaMonths: 6,
+      nomadVisa: {
+        available: true,
+        durationMonths: 6 // Extendable for another 6
+      },
+      workPolicy: "Transit residence status; local employment strictly prohibited.",
+      registrationAfterDays: 0,
+      requirements: [
+        "US Citizens: Visa-free 90 days",
+        "Nomad Visa: Proof of $2,500+ monthly foreign income",
+        "Clean criminal record (Apostilled)",
+        "Health insurance with COVID/Emergency coverage",
+        "2026 Rule: US Visa/Green Card holders get simplified entry"
+      ]
+    },
+    /** ⭐ 2026 Flight Friction Update */
+    flights: {
+      friction: 'medium',
+      routingNotes: "Domestic flights via Aerolíneas Argentinas are reliable but pricey for non-residents. Use Flybondi for budget hops.",
+      hubs: ['EZE', 'AEP']
+    },
+    seasonality: {
+      cheapest: [6, 7, 8], // Winter (except ski hubs)
+      sweetSpot: [10, 11, 3, 4], // Spring/Autumn
+      peak: [12, 1, 2] // Summer / Holidays
+    },
+    seasonalVolatility: {
+      cheapest: 'low',
+      sweetSpot: 'medium',
+      neutral: 'medium',
+      peak: 'high'
+    }
+  },
+
+  transportation: {
+    daytime: {
+      defaultMode: 'subte',
+      cheapestMode: 'colectivo (bus)',
+      recommendedCard: 'SUBE',
+      notes: 
+        'SUBE is the ONLY way to pay for transit. 2026 Tip: It is currently easier to buy at "Centros de Atención" than Kioscos due to stock shortages.'
+    },
+    nighttime: {
+      safestMode: 'rideHailing',
+      recommendedApps: ['Cabify', 'Uber'],
+      notes: 
+        'Cabify is the gold standard for safety in BUE. Avoid unmarked street taxis after 2 AM.'
+    },
+    apps: {
+      rideHailing: ['Cabify', 'Uber', 'Didi'],
+      transit: ['Moovit', 'Google Maps', 'Cuando Subo'],
+      navigation: ['Google Maps', 'Waze']
+    },
+    intercity: {
+      cheapest: 'bus', // Cama-Suite is high utility
+      fastest: 'plane',
+      recommended: 'plane'
+    }
   }
 };

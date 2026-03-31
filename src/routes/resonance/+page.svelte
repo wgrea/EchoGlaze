@@ -1,3 +1,4 @@
+<!-- src/routes/resonance/+page.svelte -->
 <script lang="ts">
     import { page } from '$app/stores';
     import { signalsToArray } from '$lib/transformers/resonanceTransformer';
@@ -11,6 +12,7 @@
     let level: 'country' | 'city' = 'country';
     let selectedCountryId = '';
     let selectedCityId = '';
+    let selectedSignals: string[] = [];
 
     // Initialize selection
     $: if (countries.length > 0 && !selectedCountryId) {
@@ -43,8 +45,8 @@
 
     // TRANSFORM for UI
 $: displayData = rawActiveItem ? {
-    name: rawActiveItem.name,
-    signals: signalsToArray(rawActiveItem.resonanceSignals), // <-- FIXED
+name: rawActiveItem.name,
+    signals: signalsToArray(rawActiveItem.resonanceSignals),
     places: level === 'country' 
         ? (rawActiveItem.cities?.map((c: any) => ({ 
             name: c.name, 
@@ -60,7 +62,42 @@ $: displayData = rawActiveItem ? {
         })) || [])
 } : null;
 
+// Inside src/routes/resonance/+page.svelte script block
 
+// Inside src/routes/resonance/+page.svelte script block
+
+const reverseNameMap: Record<string, string> = {
+    // Top Section
+    "Snow Activities": "snowActivities",
+    "Water Activities": "waterActivities",
+    "Dance Scene": "danceScene",
+    "Music Scene": "musicScene",
+    "Nightlife": "nightlifeOverall",
+    
+    // "Other" Signals Section (Crucial for your current screenshots)
+    "Expat Community": "expatCommunityStrength", 
+    "Solo Friendly": "soloFriendly",
+    "Nature Access": "natureAccess",
+    "Bar Density": "barDensity",
+    "Social Meetups": "socialMeetups",
+    "Festival Culture": "festivalCulture",
+    "Late Night Dining": "lateNightDining",
+    "Night Safety": "safetyAtNight",
+    "Social Ease": "socialEase" 
+};
+
+$: scoutedCountries = (() => {
+    // This line tells Svelte: "Re-run whenever this variable changes"
+    if (!selectedSignals || selectedSignals.length === 0) return [];
+    
+    const uiLabel = selectedSignals[0];
+    const dataKey = reverseNameMap[uiLabel] || uiLabel;
+    
+    return countries.filter(country => {
+        const val = country.resonanceSignals?.[dataKey];
+        return val >= 7;
+    });
+})();
 </script>
 
 <div class="container mx-auto p-6">
@@ -105,20 +142,52 @@ $: displayData = rawActiveItem ? {
         {/if}
     </div>
 
-    <hr class="border-gray-200 dark:border-gray-700 my-8" />
+<hr class="border-gray-200 dark:border-gray-700 my-8" />
 
-{#if !displayData || !displayData.signals || displayData.signals.length === 0}
-    <div class="py-12 text-center">
-        <h2 class="text-2xl font-semibold mb-2">{displayData?.name || 'Loading...'}</h2>
-        <p class="text-gray-500">No signals available for this location yet.</p>
-    </div>
-{:else}
+    {#if !displayData || !displayData.signals || displayData.signals.length === 0}
+        <div class="py-12 text-center">
+            <h2 class="text-2xl font-semibold mb-2">{displayData?.name || 'Loading...'}</h2>
+            <p class="text-gray-500">No signals available for this location yet.</p>
+        </div>
+    {:else}
+        <ExploreBySignal
+            signals={displayData.signals}
+            places={displayData.places}
+            bind:selectedSignals={selectedSignals} 
+        />
 
-<ExploreBySignal
-    signals={displayData.signals}
-    places={displayData.places}
-/>
-
-{/if}
-
-</div>
+        {#if selectedSignals.length > 0}
+            <div class="mt-12 p-8 bg-blue-50/40 dark:bg-blue-900/10 rounded-3xl border-2 border-dashed border-blue-200 dark:border-blue-800">
+<h3 class="text-xl font-bold mb-6 flex items-center gap-2">
+    <span>🌍</span> 
+    Global Matches for 
+    <span class="text-blue-600 dark:text-blue-400 italic">
+        {selectedSignals[0]}
+    </span>
+</h3>
+                
+                {#if scoutedCountries.length > 0}
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {#each scoutedCountries as match}
+                            <div class="group p-5 bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-blue-100 dark:border-blue-900 hover:shadow-md hover:border-blue-300 transition-all">
+                                <div class="flex justify-between items-start">
+                                    <span class="text-lg font-bold text-gray-800 dark:text-white group-hover:text-blue-600 transition-colors">
+                                        {match.name}
+                                    </span>
+                                    <span class="px-2 py-1 bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-200 text-[10px] font-bold uppercase rounded">
+                                        Match
+                                    </span>
+                                </div>
+                                <p class="text-xs text-gray-500 mt-2 leading-relaxed">
+                                    This destination hits the 7+ threshold for your current filters.
+                                </p>
+                            </div>
+                        {/each}
+                    </div>
+                {:else}
+                    <div class="py-10 text-center">
+                        <p class="text-gray-500 italic">No other countries match this specific lifestyle at a 7+ intensity.</p>
+                    </div>
+                {/if}
+            </div>
+        {/if} {/if} </div> 
