@@ -95,6 +95,16 @@ visa: {
     cheapest: 'bus', // FlixBus / Greyhound
     fastest: 'flight',
     recommended: 'flight'
+  },
+  packing: {
+    clothingStyle: "Utility-casual. Athleisure is the standard; prioritize comfort and durability over formal style.",
+    airportUniform: "TSA-ready setup: slip-ons, no belt, laptop in a dedicated quick-access sleeve.",
+    essentialGear: [
+      "High-wattage GAN charger (for rapid outlet-snagging)",
+      "Noise-canceling headphones for domestic hubs",
+      "Backup battery for long Amtrak/Bus routes"
+    ],
+    localNuance: "Distances are vast; ensure you have offline gaming/media saved for dead-zones."
   }
 }
 };

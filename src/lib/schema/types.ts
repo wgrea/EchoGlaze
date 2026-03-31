@@ -131,6 +131,13 @@ export interface City extends NamedEntity {
   transportationOverrides?: Partial<Transportation>;
 }
 
+export interface PackingStrategy {
+  clothingStyle: string;
+  airportUniform: string; // Changed from 'transitUniform' to match your data
+  essentialGear: string[]; // Added this to the interface
+  localNuance?: string;    // Kept as optional
+}
+
 export interface Country extends NamedEntity {
   region: string;
   costTier: string;
@@ -149,4 +156,5 @@ export interface Country extends NamedEntity {
   transportation: Transportation;
   likelihoodScores?: Record<string, number>;
   resonanceSignals?: Partial<ResonanceSignals>;
+  packing?: PackingStrategy;
 }

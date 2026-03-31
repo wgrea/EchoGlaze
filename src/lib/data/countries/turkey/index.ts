@@ -88,6 +88,16 @@ visa: {
     cheapest: 'bus', // Fixed from "Coach Bus"
     fastest: 'flight', // Fixed from "Domestic Flight"
     recommended: 'train' // Fixed from "High-Speed Rail"
+  },
+  packing: {
+    clothingStyle: "Smart-casual and modest. Focus on breathable linens; ensure shoulders and knees are covered for mosque visits.",
+    airportUniform: "Lightweight windbreaker for Istanbul's breeze; slip-on shoes for easy security checks.",
+    essentialGear: [
+      "Anti-theft daypack for crowded bazaars",
+      "High-capacity power bank for long ferry commutes",
+      "Type F (European) power adapter"
+    ],
+    localNuance: "Istanbul is hilly and cobblestoned; high-grip footwear is a functional requirement."
   }
 }
 };

@@ -102,5 +102,14 @@ export default {
       fastest: 'plane',
       recommended: 'plane (Avianca/LATAM)'
     }
+  },
+  packing: {
+    clothingStyle: "City-sleek. Medellín and Bogotá are fashion-forward; dark jeans and leather/canvas sneakers.",
+    airportUniform: "Lightweight rain-shell (afternoon showers are common); secure internal pockets.",
+    essentialGear: [
+      "Anti-theft backpack locks",
+      "Type A/B power adapter",
+      "Protective case for handheld screens"
+    ]
   }
 };

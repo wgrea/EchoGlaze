@@ -94,5 +94,14 @@ export default {
       fastest: 'plane', 
       recommended: 'luxury-bus (ADO/ETN)' 
     }
+  },
+  packing: {
+    clothingStyle: "Colorful-urban. CDMX favors 'smart' looks (jeans/button-downs); coastal areas are beach-ready.",
+    airportUniform: "Medium hoodie for high-altitude CDMX arrival; easy-access passport pouch.",
+    essentialGear: [
+      "Shock-proof case for all tech",
+      "Type A/B power adapter (same as USA)",
+      "Sun-protection for screen visibility"
+    ]
   }
 };

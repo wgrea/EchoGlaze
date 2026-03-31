@@ -63,6 +63,14 @@ import oaxacaData from './countries/mexico/oaxaca.ts';
 import argData from './countries/argentina/index.ts';
 import bueData from './countries/argentina/buenos-aires.ts';
 
+// --- PORTUGAL ---
+import prtData from './countries/portugal/index.ts';
+import lisData from './countries/portugal/lisbon.ts';
+
+// --- THAILAND ---
+import thaData from './countries/thailand/index.ts';
+import bkkData from './countries/thailand/bangkok.ts';
+
 export const COUNTRY_REGISTRY = [
   { id: 'USA', slug: 'united-states', data: usaData, icon: '🇺🇸' },
   { id: 'TUR', slug: 'turkey', data: turkeyData, icon: '🇹🇷' },
@@ -76,7 +84,9 @@ export const COUNTRY_REGISTRY = [
   { id: 'IDN', slug: 'indonesia', data: indonesiaData, icon: '🇮🇩' },
   { id: 'MEX', slug: 'mexico', data: mexData, icon: '🇲🇽' },
   { id: 'COL', slug: 'colombia', data: colData, icon: '🇨🇴' },
-  { id: 'ARG', slug: 'argentina', data: argData, icon: '🇦🇷' }
+  { id: 'ARG', slug: 'argentina', data: argData, icon: '🇦🇷' },
+  { id: 'PRT', slug: 'portugal', data: prtData, icon: '🇵🇹' },
+  { id: 'THA', slug: 'thailand', data: thaData, icon: '🇹🇭' },
 ];
 
 export const CITY_REGISTRY = [
@@ -112,5 +122,22 @@ export const CITY_REGISTRY = [
 { id: 'MEX', slug: 'mexico-city', countryId: 'MEX', data: cdmxData },
   { id: 'MDE', slug: 'medellin', countryId: 'COL', data: medellinData },
   { id: 'OAX', slug: 'oaxaca', countryId: 'MEX', data: oaxacaData },
-  { id: 'BUE', slug: 'buenos-aires', countryId: 'ARG', data: bueData }
+  { id: 'BUE', slug: 'buenos-aires', countryId: 'ARG', data: bueData },
+  {id: 'LIS', slug: 'lisbon', countryId: 'PRT', data: lisData },
+  { id: 'BKK', slug: 'bangkok', countryId: 'THA', data: bkkData },
 ];
+
+/**
+ * 
+ * // --- PORTUGAL ---
+import prtData from './countries/portugal/index.ts';
+import lisData from './countries/portugal/lisbon.ts';
+
+ * 
+ *   { id: 'LKA', slug: 'sri-lanka', data: sriLankaData, icon: '🇱🇰' },
+  { id: 'NPL', slug: 'nepal', data: nepalData, icon: '🇳🇵' },
+ * 
+ *   { id: 'BUE', slug: 'buenos-aires', countryId: 'ARG', data: bueData },
+  {id: 'LIS', slug: 'lisbon', countryId: 'PRT', data: lisData },
+ * 
+ */

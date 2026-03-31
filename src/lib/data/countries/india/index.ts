@@ -95,5 +95,15 @@ export default {
       fastest: 'Domestic Flight',
       recommended: 'Vande Bharat Express (Premium Rail)'
     }
+  },
+  packing: {
+    clothingStyle: "Cultural-respectful and breathable. Loose-fitting cottons; avoid overly tight clothing in traditional areas.",
+    airportUniform: "Compression socks for long-haul flights; cotton hoodie for cabin chill.",
+    essentialGear: [
+      "Dust-proof sleeves for all gaming handhelds",
+      "Voltage stabilizer/surge protector",
+      "Hand sanitizer and tech-wipes"
+    ],
+    localNuance: "Monsoon season requires a dedicated waterproof tech-cover for your backpack."
   }
 };

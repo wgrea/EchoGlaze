@@ -104,5 +104,14 @@ export default {
       recommended: 'train',
       notes: 'The Kandy-Ella-Weligama rail line is a functional masterpiece, but book 1st/2nd class 30 days ahead.'
     }
+  },
+  packing: {
+    clothingStyle: "Tropical-functional. Lightweight trekking gear for the hills; modest attire for temple visits.",
+    airportUniform: "Cargo pants with zip pockets; light hoodie.",
+    essentialGear: [
+      "Power bank (grid stability can vary)",
+      "Type G power adapter",
+      "Microfiber tech-cleaning cloth"
+    ]
   }
 };

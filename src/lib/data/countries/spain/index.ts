@@ -98,5 +98,14 @@ export default {
       fastest: 'train (AVE)',
       recommended: 'train (Ouigo/Iryo for price-performance)'
     }
+  },
+  packing: {
+    clothingStyle: "Urban-chic. Spanish cities favor style; dark denim, clean white sneakers, and well-fitted tees.",
+    airportUniform: "Light blazer or utility jacket; cross-body bag for immediate access to the T-Usual card.",
+    essentialGear: [
+      "Compact crossbody 'tech-sling' for handhelds",
+      "Type F power adapter",
+      "Reusable water bottle for public fountains"
+    ]
   }
 };

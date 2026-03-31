@@ -102,5 +102,14 @@ export default {
       fastest: 'flight',
       recommended: 'flight' // Domestic air travel is high utility in an archipelago
     }
+  },
+  packing: {
+    clothingStyle: "Island-casual. Breathable synthetics; sarong-ready for temples. Avoid heavy denim in the humidity.",
+    airportUniform: "Loose joggers and a light tee; flip-flops in the bag for immediate swap upon arrival.",
+    essentialGear: [
+      "Dry-bag for tech (essential for scooter travel)",
+      "International SIM-card tool",
+      "Type C/F power adapter"
+    ]
   }
 };

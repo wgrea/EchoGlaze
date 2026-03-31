@@ -1,11 +1,7 @@
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import { loadCountries } from '$lib/loaders/countryLoader';
- 
   // Home components
   import MenuGrid from '$lib/components/home/MenuGrid.svelte';
-  import DigitalNomadLinks from '$lib/components/home/DigitalNomadLinks.svelte';
   import PriceNote from '$lib/components/home/PriceNote.svelte';
 
   let loading = false;
@@ -21,7 +17,7 @@ const menuItems = [
   },
   {
     title: 'Logistics', 
-    description: 'Visa needs and flight intelligence',
+    description: 'Visa needs and seasonal flight data',
     icon: '✈️',
     path: '/logistics',
     color: 'from-indigo-50 via-blue-50 to-cyan-50',  // Frutiger Aero glassy blue
@@ -34,33 +30,43 @@ const menuItems = [
     path: '/accommodation',
     color: 'from-amber-50 via-emerald-50 to-stone-100',  // Cozy wood cabin warmth
     accent: 'text-amber-600 drop-shadow-md'
+  },
+  {
+    title: 'Packing Strategy',
+    description: 'Regional style and tech loadouts',
+    icon: '🎒',
+    path: '/packing',
+    color: 'from-blue-50 via-indigo-50 to-slate-100', // Glacial/Tech blue
+    accent: 'text-indigo-600 drop-shadow-sm'
   }
 ];
 
-  const digitalNomadLinks = [
-    {
-      title: 'Supports & Communities',
-      description: 'Expat networks and mental health resources',
-      icon: '👥',
-      path: '/digital-nomad/support',
-      color: 'from-indigo-50 to-blue-50',
-      accent: 'text-indigo-600'
-    },
-    {
-      title: 'Work From Anywhere',
-      description: 'Remote jobs and location‑independent careers',
-      icon: '💼',
-      path: '/digital-nomad/how-to-work-from-anywhere',
-      color: 'from-teal-50 to-cyan-50',
-      accent: 'text-teal-600'
-    }
-  ];
+// Add these to your menuItems or as a secondary section on your home page
+const digitalNomadLinks = [
+  {
+    title: 'Supports',
+    description: 'Mental health & expat networks',
+    icon: '👥',
+    path: '/nomad/support',
+    color: 'from-indigo-50 to-blue-50', // Cold glacier blue
+    accent: 'text-indigo-600'
+  },
+  {
+    title: 'WFA Guide',
+    description: 'Remote career blueprints',
+    icon: '💼',
+    path: '/nomad/how-to-wfa',
+    color: 'from-teal-50 to-cyan-50', // Tropical seafoam
+    accent: 'text-teal-600'
+  }
+];
 </script>
 
-<div class="home-page-container min-h-screen">
-  <!-- Beach + Glacier hero bg -->
-  <div class="absolute inset-0">
-    <div class="beach-glacier-bg absolute inset-0"></div>
+<div class="home-page-container relative max-w-[1440px] mx-auto">
+  <div class="absolute inset-0 -z-10"> 
+    <div class="beach-glacier-bg absolute inset-0">
+
+    </div>
   </div>
   
   <!-- Your existing content -->
@@ -81,9 +87,33 @@ const menuItems = [
     </div>
 
     <!-- Main menu grid -->
-    <div class="max-w-4xl mx-auto mb-8">
-      <MenuGrid {menuItems} />
-    </div>
+<div class="max-w-4xl mx-auto mb-16">
+  <MenuGrid {menuItems} />
+</div>
+
+<div class="max-w-2xl mx-auto pb-20 px-4">
+  <div class="flex items-center gap-4 mb-6">
+    <h2 class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 whitespace-nowrap">Nomad Support</h2>
+    <div class="h-px w-full bg-gradient-to-r from-slate-200 to-transparent"></div>
+  </div>
+  
+  <div class="grid grid-cols-2 gap-4">
+    {#each digitalNomadLinks as link}
+      <a href={link.path} class="group relative p-5 bg-white/40 backdrop-blur-md border border-white/60 rounded-3xl hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden">
+        <div class="flex items-center gap-3">
+          <span class="text-2xl drop-shadow-sm">{link.icon}</span>
+          <div>
+            <h3 class="font-bold text-sm text-slate-800 leading-none">{link.title}</h3>
+            <p class="text-[10px] text-slate-500 mt-1 leading-tight opacity-0 group-hover:opacity-100 transition-opacity">
+              Access resources
+            </p>
+          </div>
+        </div>
+        <div class="absolute -right-4 -bottom-4 w-12 h-12 bg-gradient-to-br {link.color} blur-2xl opacity-50"></div>
+      </a>
+    {/each}
+  </div>
+</div>
   </div>
 </div>
 

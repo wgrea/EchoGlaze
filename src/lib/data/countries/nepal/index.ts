@@ -103,5 +103,14 @@ export default {
       fastest: 'plane',
       recommended: 'tourist-bus' // Greenline or Jagadamba for safety/comfort
     }
+  },
+  packing: {
+    clothingStyle: "Rugged-utilitarian. Layered technical gear; focus on durability and warmth for Kathmandu evenings.",
+    airportUniform: "Down-vest or puffer jacket; sturdy boots for immediate transit to dusty terrain.",
+    essentialGear: [
+      "Ruggedized hard-case for Analogue Pocket/Switch",
+      "Portable solar charger for remote work days",
+      "Multi-port GAN charger"
+    ]
   }
 };

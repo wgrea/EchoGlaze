@@ -39,5 +39,15 @@ export default {
     nighttime: { safestMode: 'rideHailing', recommendedApps: ['Cabify', 'Uber'], notes: 'Cabify is often preferred by locals for safety and fixed pricing.' },
     apps: { rideHailing: ['Cabify', 'Uber', 'Didi'], transit: ['Moovit', 'Google Maps'], navigation: ['Google Maps'] },
     intercity: { cheapest: 'bus', fastest: 'plane', recommended: 'plane (Aerolineas Argentinas)' }
+  },
+  packing: {
+    clothingStyle: "Smart-casual with dark tones. Argentines dress well; avoid looking like a 'backpacker' in the city.",
+    airportUniform: "Light jacket for the long-haul flight AC; easy-access pocket for the SUBE card.",
+    essentialGear: [
+      "Large tech-dedicated backpack (30L+)", 
+      "Hard-shell case for handheld console", 
+      "Universal power adapter (Type I/C)"
+    ]
+    // localNuance: "Optional note here"
   }
 };

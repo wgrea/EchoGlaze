@@ -102,5 +102,14 @@ export default {
       fastest: 'train',
       recommended: 'train'
     }
+  },
+  packing: {
+    clothingStyle: "Modern-polished. Baku is a 'mini-Dubai'; lean into structured jackets and clean sneakers over athletic wear.",
+    airportUniform: "Structured hoodie or tech-fleece; easy-access pocket for the ASAN Visa printout.",
+    essentialGear: [
+      "Hard-shell case for PS5 Portable (long regional flights)",
+      "Universal adapter with surge protection",
+      "Compact umbrella for Caspian winds"
+    ]
   }
 };
