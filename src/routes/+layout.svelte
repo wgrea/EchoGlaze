@@ -29,29 +29,13 @@
     <div class="nostalgic-container">
       <div class="flex justify-between items-center h-16">
         <!-- Logo -->
-<a href="/" class="flex items-center gap-2 group">
-  <span class="text-2xl">✈️</span>
-  <span class="font-bold text-lg bg-gradient-to-r from-blue-500 to-cyan-400 bg-clip-text text-transparent">
-    EchoGlaze
-  </span>
-  <span class="text-sm text-slate-500 ml-0.5">– Work Abroad Planner</span>
-</a>
-
-        <!-- Desktop nav -->
-        <nav class="hidden md:flex gap-4">
-          <a
-            href="/saved"
-            class="pill-nav text-sm font-medium px-3 py-1.5 rounded-full
-            hover:bg-white/30 hover:text-white transition backdrop-blur-sm">
-            Saved Plans
-          </a>
-        </nav>
-
-        <!-- Action buttons -->
-        <div class="flex items-center gap-2">
-          <button class="icon-button text-white/80 hover:text-white transition" title="Search">🔍</button>
-          <button class="icon-button text-white/80 hover:text-white transition" title="Profile">👤</button>
-        </div>
+        <a href="/" class="flex items-center gap-2 group">
+          <span class="text-2xl">✈️</span>
+          <span class="font-bold text-lg bg-gradient-to-r from-blue-500 to-cyan-400 bg-clip-text text-transparent">
+            EchoGlaze
+          </span>
+          <span class="text-sm text-slate-500 ml-0.5">– Work Abroad Planner</span>
+        </a>
       </div>
     </div>
   </header>
