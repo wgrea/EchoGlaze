@@ -114,4 +114,4 @@ export default {
       "Microfiber tech-cleaning cloth"
     ]
   }
-};
+}; // This closes the entire export default object

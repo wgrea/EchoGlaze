@@ -71,6 +71,41 @@ import lisData from './countries/portugal/lisbon.ts';
 import thaData from './countries/thailand/index.ts';
 import bkkData from './countries/thailand/bangkok.ts';
 
+// --- GEORGIA ---
+
+import geoData from './countries/georgia/index.ts';
+import tbsData from './countries/georgia/tbilisi.ts';
+
+import armData from './countries/armenia/index.ts';
+import yerData from './countries/armenia/yerevan.ts';
+// --- BANGLADESH ---
+import bgdData from './countries/bangladesh/index.ts';
+import dhaData from './countries/bangladesh/dhaka.ts';
+
+// --- BRAZIL ---
+import braData from './countries/brazil/index.ts';
+import saoData from './countries/brazil/sao-paulo.ts';
+
+// --- LAOS ---
+import laoData from './countries/laos/index.ts';
+import lpbData from './countries/laos/luang-prabang.ts';
+
+// --- MOROCCO ---
+import marData from './countries/morocco/index.ts';
+import rktData from './countries/morocco/marrakech.ts';
+
+// --- PANAMA ---
+import panData from './countries/panama/index.ts';
+import pcyData from './countries/panama/panama-city.ts';
+
+// --- BOLIVIA ---
+import bolData from './countries/bolivia/index.ts';
+import lpzData from './countries/bolivia/la-paz.ts';
+
+// --- PAKISTAN ---
+import pakData from './countries/pakistan/index.ts';
+import lheData from './countries/pakistan/lahore.ts';
+
 export const COUNTRY_REGISTRY = [
   { id: 'USA', slug: 'united-states', data: usaData, icon: '🇺🇸' },
   { id: 'TUR', slug: 'turkey', data: turkeyData, icon: '🇹🇷' },
@@ -87,6 +122,15 @@ export const COUNTRY_REGISTRY = [
   { id: 'ARG', slug: 'argentina', data: argData, icon: '🇦🇷' },
   { id: 'PRT', slug: 'portugal', data: prtData, icon: '🇵🇹' },
   { id: 'THA', slug: 'thailand', data: thaData, icon: '🇹🇭' },
+  { id: 'GEO', slug: 'georgia', data: geoData, icon: '🇬🇪' },
+  { id: 'ARM', slug: 'armenia', data: armData, icon: '🇦🇲' },
+  { id: 'BGD', slug: 'bangladesh', data: bgdData, icon: '🇧🇩' },
+  { id: 'BRA', slug: 'brazil', data: braData, icon: '🇧🇷' },
+{ id: 'LAO', slug: 'laos', data: laoData, icon: '🇱🇦' },
+{ id: 'MAR', slug: 'morocco', data: marData, icon: '🇲🇦' },
+{ id: 'PAN', slug: 'panama', data: panData, icon: '🇵🇦' },
+{ id: 'BOL', slug: 'bolivia', data: bolData, icon: '🇧🇴' },
+{ id: 'PAK', slug: 'pakistan', data: pakData, icon: '🇵🇰' },
 ];
 
 export const CITY_REGISTRY = [
@@ -125,9 +169,19 @@ export const CITY_REGISTRY = [
   { id: 'BUE', slug: 'buenos-aires', countryId: 'ARG', data: bueData },
   {id: 'LIS', slug: 'lisbon', countryId: 'PRT', data: lisData },
   { id: 'BKK', slug: 'bangkok', countryId: 'THA', data: bkkData },
+  { id: 'TBS', slug: 'tbilisi', countryId: 'GEO', data: tbsData },
+  { id: 'YER', slug: 'yerevan', countryId: 'ARM', data: yerData },
+    { id: 'DHA', slug: 'dhaka', countryId: 'BGD', data: dhaData },
+    { id: 'SAO', slug: 'sao-paulo', countryId: 'BRA', data: saoData },
+{ id: 'LPB', slug: 'luang-prabang', countryId: 'LAO', data: lpbData },
+{ id: 'RAK', slug: 'marrakech', countryId: 'MAR', data: rktData },
+{ id: 'PTY', slug: 'panama-city', countryId: 'PAN', data: pcyData },
+{ id: 'LPZ', slug: 'la-paz', countryId: 'BOL', data: lpzData },
+{ id: 'LHE', slug: 'lahore', countryId: 'PAK', data: lheData },
 ];
 
 /**
+ * Example of a country and a city being added to this file
  * 
  * // --- PORTUGAL ---
 import prtData from './countries/portugal/index.ts';

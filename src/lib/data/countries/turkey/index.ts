@@ -66,29 +66,30 @@ visa: {
       peak: [6, 7, 8],
     }
   },
-
-  transportation: {
-  daytime: {
-    defaultMode: 'bus', // Fixed from "Bus"
-    cheapestMode: 'bus', // Fixed from "Bus"
-    recommendedCard: 'Istanbulkart (for Istanbul) / Kentkart',
-    notes: 'Public transit is extensive but can be crowded during peak hours.'
-  },
-  nighttime: {
-    safestMode: 'rideHailing', // Fixed from "Ride-Hailing"
-    recommendedApps: ['BiTaksi', 'Uber'],
-    notes: 'Yellow taxis are ubiquitous; use apps to track fare and route.'
-  },
-  apps: {
-    rideHailing: ['BiTaksi', 'Uber'],
-    transit: ['Mobiett', 'Moovit'],
-    navigation: ['Google Maps', 'Yandex Maps']
-  },
+transportation: {
+    daytime: {
+      defaultMode: 'bus',
+      cheapestMode: 'bus',
+      recommendedCard: 'Istanbulkart (for Istanbul) / Kentkart',
+      notes: 'Public transit is extensive but can be crowded during peak hours.'
+    },
+    nighttime: {
+      safestMode: 'rideHailing',
+      recommendedApps: ['BiTaksi', 'Uber'],
+      notes: 'Yellow taxis are ubiquitous; use apps to track fare and route.'
+    },
+    apps: {
+      rideHailing: ['BiTaksi', 'Uber'],
+      transit: ['Mobiett', 'Moovit'],
+      navigation: ['Google Maps', 'Yandex Maps']
+    },
   intercity: {
-    cheapest: 'bus', // Fixed from "Coach Bus"
-    fastest: 'flight', // Fixed from "Domestic Flight"
-    recommended: 'train' // Fixed from "High-Speed Rail"
-  },
+      cheapest: 'bus',
+      fastest: 'flight',
+      recommended: 'train'
+    } 
+  }, // <--- THIS BRACE closes 'transportation' so 'packing' can be its own section
+
   packing: {
     clothingStyle: "Smart-casual and modest. Focus on breathable linens; ensure shoulders and knees are covered for mosque visits.",
     airportUniform: "Lightweight windbreaker for Istanbul's breeze; slip-on shoes for easy security checks.",
@@ -99,5 +100,4 @@ visa: {
     ],
     localNuance: "Istanbul is hilly and cobblestoned; high-grip footwear is a functional requirement."
   }
-}
-};
+}; // This closes the entire export default object

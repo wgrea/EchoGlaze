@@ -95,6 +95,8 @@ visa: {
     cheapest: 'bus',
     fastest: 'bus', // Qatar is small; no domestic rail/flights
     recommended: 'bus'
+  }
+
   },
   packing: {
     clothingStyle: "Business-casual and high-modesty. High-end fabrics; avoid shorts or tank tops in public spaces.",
@@ -105,6 +107,5 @@ visa: {
       "Type G (UK-style) power adapter"
     ],
     localNuance: "The heat is external, but the AC is arctic. Always carry a light layer for indoor work."
-  }
 }
-};
+}; // This closes the whole Country object

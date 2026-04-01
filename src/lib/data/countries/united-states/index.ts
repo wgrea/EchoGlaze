@@ -95,7 +95,9 @@ visa: {
     cheapest: 'bus', // FlixBus / Greyhound
     fastest: 'flight',
     recommended: 'flight'
-  },
+    } 
+  }, // <--- THIS BRACE closes 'transportation' so 'packing' can be its own section
+
   packing: {
     clothingStyle: "Utility-casual. Athleisure is the standard; prioritize comfort and durability over formal style.",
     airportUniform: "TSA-ready setup: slip-ons, no belt, laptop in a dedicated quick-access sleeve.",
@@ -106,5 +108,4 @@ visa: {
     ],
     localNuance: "Distances are vast; ensure you have offline gaming/media saved for dead-zones."
   }
-}
 };

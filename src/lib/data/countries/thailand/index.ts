@@ -95,7 +95,7 @@ resonanceSignals: {
     socialProximity: 9,
     soloFriendly: 10,
     expatCommunityStrength: 10
-  },
+    },
   packing: {
     clothingStyle: "Light-tropical. Quick-dry fabrics; linen trousers for temples. Avoid cotton (it won't dry in the humidity).",
     airportUniform: "Ultra-light hoodie; compression socks; slip-on shoes for temple-hopping later.",
@@ -103,6 +103,7 @@ resonanceSignals: {
       "Waterproof tech-pouch",
       "Type A/C power adapter",
       "Extra Joy-Cons for social gaming in hostels"
-    ]
+]
+    // localNuance is optional in your interface, so it's fine to omit it.
   }
-};
+}; // This closes the whole Country object

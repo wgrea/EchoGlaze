@@ -94,6 +94,7 @@ visa: {
     cheapest: 'bus', // KTEL coaches
     fastest: 'flight',
     recommended: 'ferry' // Specifically for island hopping
+  }
   },
   packing: {
     clothingStyle: "Mediterranean-utility. Lightweight cottons in neutral or blue tones; focus on 'Island-pro' aesthetics.",
@@ -105,5 +106,4 @@ visa: {
     ],
     localNuance: "Island ferries can be rough; ensure your handheld console is in a shock-absorbent case."
   }
-}
 };
