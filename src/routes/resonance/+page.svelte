@@ -73,6 +73,7 @@ const reverseNameMap: Record<string, string> = {
     "Dance Scene": "danceScene",
     "Music Scene": "musicScene",
     "Nightlife": "nightlifeOverall",
+    "Drinking Culture": "drinkingCulture", // <--- ADD THIS LINE
     
     // "Other" Signals Section (Crucial for your current screenshots)
     "Expat Community": "expatCommunityStrength", 
@@ -166,25 +167,17 @@ $: scoutedCountries = (() => {
     </span>
 </h3>
                 
-                {#if scoutedCountries.length > 0}
-                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {#each scoutedCountries as match}
-                            <div class="group p-5 bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-blue-100 dark:border-blue-900 hover:shadow-md hover:border-blue-300 transition-all">
-                                <div class="flex justify-between items-start">
-                                    <span class="text-lg font-bold text-gray-800 dark:text-white group-hover:text-blue-600 transition-colors">
-                                        {match.name}
-                                    </span>
-                                    <span class="px-2 py-1 bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-200 text-[10px] font-bold uppercase rounded">
-                                        Match
-                                    </span>
-                                </div>
-                                <p class="text-xs text-gray-500 mt-2 leading-relaxed">
-                                    This destination hits the 7+ threshold for your current filters.
-                                </p>
-                            </div>
-                        {/each}
-                    </div>
-                {:else}
+{#if scoutedCountries.length > 0}
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3"> {#each scoutedCountries as match}
+            <div class="group p-3 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-blue-100 dark:border-blue-900 hover:shadow-md hover:border-blue-300 transition-all">
+                <div class="flex items-center"> <span class="text-sm font-bold text-gray-800 dark:text-white group-hover:text-blue-600 transition-colors">
+                        {match.name}
+                    </span>
+                </div>
+            </div>
+        {/each}
+    </div>
+{:else}
                     <div class="py-10 text-center">
                         <p class="text-gray-500 italic">No other countries match this specific lifestyle at a 7+ intensity.</p>
                     </div>
