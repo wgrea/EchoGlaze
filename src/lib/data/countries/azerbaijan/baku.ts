@@ -51,6 +51,7 @@ foodStrategy: {
     musicScene: 6,
     danceScene: 8,
     barDensity: 9,
+    drinkingCulture: 4.0, // Baku has a vibrant drinking culture with a focus on socializing, from beach bars to rooftop lounges.
     safetyAtNight: 9,
     socialMeetups: 6,
     waterActivities: 8,

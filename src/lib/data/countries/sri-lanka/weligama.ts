@@ -52,6 +52,7 @@ export default {
     musicScene: 7,
     danceScene: 6,
     barDensity: 8,
+    drinkingCulture: 6.5, // Weligama has a vibrant drinking culture with a focus on socializing, from beach bars to rooftop lounges.
     safetyAtNight: 7,
     socialMeetups: 9,
     waterActivities: 10, // Surfing capital

@@ -61,6 +61,7 @@ export default {
     musicScene: 8,
     danceScene: 9,
     barDensity: 10,
+    drinkingCulture: 9.5, // Madrid has a vibrant drinking culture with a focus on socializing, from beach bars to rooftop lounges.
     safetyAtNight: 8,
     socialMeetups: 9,
     waterActivities: 2,

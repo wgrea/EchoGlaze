@@ -39,6 +39,7 @@ export default {
     musicScene: 5,
     danceScene: 3,
     barDensity: 4,
+    drinkingCulture: 1.5, // Qatar has a growing but still limited drinking culture, focused on high-end bars and socializing within licensed venues.
     safetyAtNight: 10,
     socialMeetups: 5,
     waterActivities: 8,

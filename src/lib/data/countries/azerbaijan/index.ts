@@ -38,6 +38,7 @@ export default {
     musicScene: 6,
     danceScene: 5,
     barDensity: 6,
+    drinkingCulture: 3.5, // Azerbaijan has a vibrant drinking culture with a focus on socializing, from beach bars to rooftop lounges.
     safetyAtNight: 9,
     socialMeetups: 4,
     waterActivities: 6,

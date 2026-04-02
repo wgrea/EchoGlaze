@@ -39,6 +39,7 @@ export default {
     musicScene: 10,
     danceScene: 10, // Salsa/Reggaeton capital
     barDensity: 10,
+    drinkingCulture: 8.0, // Colombia has a vibrant drinking culture with a focus on socializing, from beach bars to rooftop lounges.
     safetyAtNight: 4,
     socialMeetups: 10,
     waterActivities: 7,

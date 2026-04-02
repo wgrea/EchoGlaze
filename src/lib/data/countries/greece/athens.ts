@@ -59,6 +59,7 @@ export default {
     musicScene: 8,
     danceScene: 7,
     barDensity: 10,
+    drinkingCulture: 7.0, // Athens has a vibrant drinking culture with a focus on socializing, from beach bars to rooftop lounges.
     safetyAtNight: 8,
     socialMeetups: 9,
     waterActivities: 7,

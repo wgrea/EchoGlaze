@@ -53,6 +53,7 @@ export default {
     musicScene: 3,
     danceScene: 2,
     barDensity: 5,
+    drinkingCulture: 5.5, // Lonavala has a small but vibrant drinking culture centered around socializing, with a few local bars and cafes that serve alcohol.
     safetyAtNight: 7,
     socialMeetups: 5,
     waterActivities: 6, // Lake focus

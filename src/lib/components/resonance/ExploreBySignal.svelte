@@ -10,15 +10,15 @@
 
     // 1. MATCHING KEYS (Must match your transformer exactly: "Snow Activities")
     const sections = [
-        { 
+            { 
+            title: "💃 Energy & Scene", 
+            keys: ['Drinking Culture', 'Dance Scene', 'Music Scene', 'Nightlife', 'Bar Density'],
+            color: "border-purple-200 bg-purple-50/30 dark:bg-purple-900/10" 
+        },    
+    { 
             title: "🌍 Geographic Base", 
             keys: ['Snow Activities', 'Water Activities'], 
             color: "border-blue-200 bg-blue-50/30 dark:bg-blue-900/10"
-        },
-        { 
-            title: "💃 Energy & Scene", 
-            keys: ['Dance Scene', 'Music Scene', 'Nightlife'],
-            color: "border-purple-200 bg-purple-50/30 dark:bg-purple-900/10" 
         }
     ];
 
@@ -28,7 +28,9 @@
         "Water Activities": "Water / Coastal",
         "Dance Scene": "Dance Scene",
         "Music Scene": "Live Music",
-        "Nightlife": "Nightlife Overall"
+        "Nightlife": "Nightlife Overall",
+        "Bar Density": "Bar Density",
+        "Drinking Culture": "Drinking Culture"
     };
 
     export let selectedSignals: string[] = [];

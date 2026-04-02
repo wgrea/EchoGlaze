@@ -40,6 +40,7 @@ export default {
     musicScene: 6,
     danceScene: 4,
     barDensity: 7,
+    drinkingCulture: 3.0, // Sri Lanka has a vibrant drinking culture with a focus on socializing, from beach bars to rooftop lounges.
     safetyAtNight: 6,
     socialMeetups: 8,
     waterActivities: 10, // World-class surfing/diving

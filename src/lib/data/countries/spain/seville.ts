@@ -61,6 +61,7 @@ export default {
     musicScene: 7, // High Flamenco focus
     danceScene: 7,
     barDensity: 10,
+    drinkingCulture: 9.0, // Seville has a vibrant drinking culture with a focus on socializing, from beach bars to rooftop lounges.
     safetyAtNight: 9,
     socialMeetups: 7,
     waterActivities: 4, // River only

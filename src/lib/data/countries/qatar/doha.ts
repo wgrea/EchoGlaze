@@ -61,6 +61,7 @@ export default {
     musicScene: 4,
     danceScene: 2,
     barDensity: 4,
+    drinkingCulture: 1.5, // Doha has a vibrant drinking culture with a focus on socializing, from beach bars to rooftop lounges.
     safetyAtNight: 10,
     socialMeetups: 6,
     waterActivities: 9,

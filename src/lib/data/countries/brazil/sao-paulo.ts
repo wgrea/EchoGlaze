@@ -68,6 +68,7 @@ export default {
     musicScene: 10, // Home of Brazilian Techno and MPB (Música Popular Brasileira)
     danceScene: 9,
     barDensity: 10,
+    drinkingCulture: 9.0, // São Paulo has a vibrant drinking culture with a focus on socializing, from traditional botecos to trendy cocktail bars.
     safetyAtNight: 5,
     socialMeetups: 9,
     waterActivities: 0,

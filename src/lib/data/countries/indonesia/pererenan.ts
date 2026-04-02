@@ -52,6 +52,7 @@ export default {
     musicScene: 6,
     danceScene: 5,
     barDensity: 8,
+    drinkingCulture: 7.5, // Pererenan has a vibrant drinking culture with a focus on socializing, from beach bars to rooftop lounges.
     safetyAtNight: 8,
     socialMeetups: 10,
     waterActivities: 10, // Top-tier surfing

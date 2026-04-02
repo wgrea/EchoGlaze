@@ -69,6 +69,7 @@ export default {
     musicScene: 10,
     danceScene: 4,
     barDensity: 1,
+    drinkingCulture: 0.5, // Pakistan has a vibrant drinking culture with a focus on socializing, from beach bars to rooftop lounges.
     safetyAtNight: 6,
     socialMeetups: 7,
     waterActivities: 2,

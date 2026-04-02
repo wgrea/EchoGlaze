@@ -11,6 +11,7 @@ const SIGNAL_LABELS: Record<string, string> = {
     musicScene: "Music Scene",
     danceScene: "Dance Scene",
     barDensity: "Bar Density",
+    drinkingCulture: "Drinking Culture", // <--- Add this
     safetyAtNight: "Night Safety",
     socialMeetups: "Social Meetups",
     waterActivities: "Water Activities",

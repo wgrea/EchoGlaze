@@ -71,6 +71,7 @@ export default {
     musicScene: 9,
     danceScene: 6,
     barDensity: 8,
+    drinkingCulture: 6.0, // Armenia has a vibrant drinking culture with a focus on socializing, from beach bars to rooftop lounges.
     safetyAtNight: 10,
     socialMeetups: 8,
     waterActivities: 5, // Lake Sevan is the 'Armenian Sea'

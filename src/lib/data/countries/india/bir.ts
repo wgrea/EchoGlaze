@@ -61,6 +61,7 @@ export default {
     musicScene: 4,
     danceScene: 2,
     barDensity: 3,
+    drinkingCulture: 3.0, // Bir has a small but vibrant drinking culture centered around socializing, with a few local bars and cafes that serve alcohol.
     safetyAtNight: 9,
     socialMeetups: 8,
     waterActivities: 2,

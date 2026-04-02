@@ -43,6 +43,7 @@ export default {
     musicScene: 6,
     danceScene: 2,
     barDensity: 7,
+    drinkingCulture: 6.0, // Pokhara has a vibrant drinking culture with a focus on socializing, from beach bars to rooftop lounges.
     safetyAtNight: 9,
     socialMeetups: 8,
     waterActivities: 9, // Boating / Paddleboarding / Canyoning

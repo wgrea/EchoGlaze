@@ -68,6 +68,7 @@ export default {
     musicScene: 8,
     danceScene: 4,
     barDensity: 1,
+    drinkingCulture: 0.5, // Bangladesh has a vibrant drinking culture with a focus on socializing, from beach bars to rooftop lounges.
     safetyAtNight: 5,
     socialMeetups: 6,
     waterActivities: 8, // Cox's Bazar is the world's longest natural sea beach

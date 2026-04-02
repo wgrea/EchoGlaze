@@ -60,6 +60,7 @@ export default {
     musicScene: 10,
     danceScene: 10,
     barDensity: 10,
+    drinkingCulture: 9.0, // Medellín has a vibrant drinking culture with a focus on socializing, from craft cocktail bars to lively salsa clubs.
     safetyAtNight: 4,
     socialMeetups: 10,
     waterActivities: 2,

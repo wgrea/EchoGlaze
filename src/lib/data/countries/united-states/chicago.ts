@@ -51,6 +51,7 @@ resonanceSignals: {
     musicScene: 9,
     danceScene: 9,
     barDensity: 10,
+    drinkingCulture: 8.5, // Chicago has a vibrant drinking culture with a focus on socializing, from beach bars to rooftop lounges.
     safetyAtNight: 6,
     socialMeetups: 8,
     waterActivities: 9,

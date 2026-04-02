@@ -38,6 +38,7 @@ export default {
     musicScene: 9.5,
     danceScene: 8,
     barDensity: 9,
+    drinkingCulture: 7.5, 
     safetyAtNight: 5,
     socialMeetups: 9,
     waterActivities: 9,

@@ -68,6 +68,7 @@ export default {
     musicScene: 8,            // Strong underground scene and traditional polyphonic singing
     danceScene: 9,            // From world-class clubbing to traditional folk dance
     barDensity: 9,            // Sololaki and Vera are packed with wine bars and hidden pubs
+    drinkingCulture: 9.5,     // Strong coffee culture and traditional wine-making
     safetyAtNight: 8,         // Very high, especially in tourist and residential nomad hubs
     socialMeetups: 10,        // Massive Telegram/WhatsApp communities for nomads
     waterActivities: 7,       // Black Sea (Batumi) is great in summer, though not "tropical"

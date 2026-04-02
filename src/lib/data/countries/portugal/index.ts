@@ -87,6 +87,7 @@ resonanceSignals: {
     musicScene: 8, // Strong Fado tradition + growing electronic scene
     danceScene: 8.5,
     barDensity: 9,
+    drinkingCulture: 9.5, // Vibrant café culture and strong wine scene, but less focused on heavy drinking compared to Spain
     safetyAtNight: 9,
     socialMeetups: 9,
     waterActivities: 10, // World-class surfing and sailing

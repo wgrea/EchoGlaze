@@ -40,6 +40,7 @@ export default {
     musicScene: 6,
     danceScene: 3,
     barDensity: 5,
+    drinkingCulture: 4.5, // Nepal has a vibrant drinking culture with a focus on socializing, from beach bars to rooftop lounges.
     safetyAtNight: 9,
     socialMeetups: 8,
     waterActivities: 7, // High-tier Rafting/Kayaking

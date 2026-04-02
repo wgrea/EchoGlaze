@@ -60,6 +60,7 @@ export default {
     musicScene: 10,
     danceScene: 10, // Tango + Techno
     barDensity: 10,
+    drinkingCulture: 8.5, // Buenos Aires has a vibrant drinking culture with a focus on socializing, from traditional parrillas to trendy cocktail bars.
     safetyAtNight: 7,
     socialMeetups: 10,
     natureAccess: 4, // Mostly urban parks; need a ferry to Uruguay for beaches

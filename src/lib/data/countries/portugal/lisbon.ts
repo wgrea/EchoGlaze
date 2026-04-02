@@ -71,6 +71,7 @@ resonanceSignals: {
     musicScene: 8,
     danceScene: 9, // Strongest for Techno (Lux Frágil) and Afro-House (Dock's)
     barDensity: 10, // Highest concentration in Bairro Alto
+    drinkingCulture: 9.5, // Lisbon has a vibrant drinking culture with a focus on socializing, from traditional tascas to trendy rooftop bars.
     safetyAtNight: 8,
     socialMeetups: 10, // Massive nomad groups (Lisbonomads)
     waterActivities: 7, // 30-min train to surfing in Carcavelos/Cascais

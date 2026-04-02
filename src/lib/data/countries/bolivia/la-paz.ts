@@ -68,6 +68,7 @@ export default {
     musicScene: 7, // Folk-fusion and underground rock
     danceScene: 6,
     barDensity: 8,
+    drinkingCulture: 5.5, // La Paz has a vibrant drinking culture with a focus on socializing, from traditional chicherias to trendy rooftop bars.
     safetyAtNight: 6,
     socialMeetups: 7,
     waterActivities: 2, // Lake Titicaca is nearby, but it is ice cold

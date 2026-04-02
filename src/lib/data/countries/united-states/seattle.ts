@@ -61,6 +61,7 @@ resonanceSignals: {
     musicScene: 9,
     danceScene: 5,
     barDensity: 7,
+    drinkingCulture: 7.0, // Seattle has a vibrant drinking culture with a focus on socializing, from beach bars to rooftop lounges.
     safetyAtNight: 6,
     socialMeetups: 7,
     waterActivities: 8,

@@ -62,6 +62,7 @@ resonanceSignals: {
     musicScene: 8,
     danceScene: 10, // Global hub for EDM (Onyx) and Underground (VOID/Mustache)
     barDensity: 10,
+    drinkingCulture: 8.5, // Bangkok has a vibrant drinking culture with a focus on socializing, from rooftop bars to lively night markets.
     safetyAtNight: 9, // Statistically very safe for a megacity
     socialMeetups: 10, // Ranked #1 Nomad City in 2026 reports
     waterActivities: 5, // River-based; requires travel for beaches

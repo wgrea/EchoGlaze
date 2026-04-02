@@ -70,6 +70,7 @@ export default {
     musicScene: 5,
     danceScene: 3,
     barDensity: 5,
+    drinkingCulture: 8.5, // Laos has a vibrant drinking culture with a focus on socializing, from beach bars to rooftop lounges.
     safetyAtNight: 9,
     socialMeetups: 7,
     waterActivities: 9,

@@ -68,6 +68,7 @@ export default {
     musicScene: 9, // Home of Qawwali and a massive underground indie/electronic scene
     danceScene: 3,
     barDensity: 1,
+    drinkingCulture: 0.5, // Drinking is not a major part of social culture due to religious and legal restrictions.
     safetyAtNight: 5,
     socialMeetups: 7,
     waterActivities: 0,

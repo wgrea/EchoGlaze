@@ -68,6 +68,7 @@ export default {
     musicScene: 4,
     danceScene: 2,
     barDensity: 5,
+    drinkingCulture: 8.0, // Luang Prabang has a modest drinking culture with a focus on socializing, from traditional beerlao to riverside bars.
     safetyAtNight: 10,
     socialMeetups: 7,
     waterActivities: 8, // Kuang Si Falls and Mekong river cruises

@@ -70,6 +70,7 @@ export default {
     musicScene: 8,
     danceScene: 4,
     barDensity: 9,
+    drinkingCulture: 6.0, // Kathmandu has a vibrant drinking culture with a focus on socializing, from beach bars to rooftop lounges.
     safetyAtNight: 7,
     socialMeetups: 9,
     waterActivities: 1,

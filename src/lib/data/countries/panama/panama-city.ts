@@ -68,6 +68,7 @@ export default {
     musicScene: 7, // Strong Reggaeton and Jazz influences
     danceScene: 8,
     barDensity: 9,
+    drinkingCulture: 7.5, // Panama City has a vibrant drinking culture with a focus on socializing, from traditional cantinas to trendy rooftop bars.
     safetyAtNight: 7,
     socialMeetups: 9,
     waterActivities: 7, // Panama Canal tours + nearby Taboga Island

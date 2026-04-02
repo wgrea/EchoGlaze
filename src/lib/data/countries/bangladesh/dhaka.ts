@@ -59,6 +59,7 @@ export default {
     musicScene: 7, // Incredible folk and classical music if you know where to look
     danceScene: 4,
     barDensity: 1, // Alcohol is restricted; mostly found in 5-star hotels
+    drinkingCulture: .5, // Drinking is not a major part of social culture due to religious and legal restrictions.
     safetyAtNight: 4,
     socialMeetups: 6,
     waterActivities: 2, // Buriganga river is for boat watching, not swimming

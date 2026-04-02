@@ -68,6 +68,7 @@ export default {
     musicScene: 9,
     danceScene: 10,
     barDensity: 9,
+    drinkingCulture: 9.8, // Tbilisi has a vibrant drinking culture with a focus on socializing, from traditional wine bars to trendy cocktail lounges.
     safetyAtNight: 8,
     socialMeetups: 9,
     natureAccess: 8, // Hiking in Mtatsminda or nearby Kazbegi

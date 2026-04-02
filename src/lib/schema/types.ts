@@ -72,6 +72,7 @@ export interface ResonanceSignals {
   musicScene: number;
   danceScene: number;
   barDensity: number;
+  drinkingCulture: number; // <--- Add this
   safetyAtNight: number;
   socialMeetups: number;
   waterActivities: number;

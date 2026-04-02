@@ -86,6 +86,7 @@ resonanceSignals: {
     musicScene: 7,
     danceScene: 7.5,
     barDensity: 9,
+    drinkingCulture: 6.5, // Vibrant drinking culture with a focus on socializing, from beach bars to rooftop lounges.
     safetyAtNight: 8,
     socialMeetups: 10,
     waterActivities: 10, // Islands (Phuket/Samui) are world-leading

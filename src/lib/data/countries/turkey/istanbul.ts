@@ -53,6 +53,7 @@ export default {
     musicScene: 9,
     danceScene: 8,
     barDensity: 10,
+    drinkingCulture: 5.0, // Istanbul has a vibrant drinking culture with a focus on socializing, from beach bars to rooftop lounges.
     safetyAtNight: 7,
     socialMeetups: 9,
     waterActivities: 4, // Bosphorus is for views, not swimming

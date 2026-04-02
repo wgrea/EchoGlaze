@@ -52,6 +52,7 @@ resonanceSignals: {
     musicScene: 7,
     danceScene: 10,
     barDensity: 9,
+    drinkingCulture: 9.0, // Miami has a vibrant drinking culture with a focus on socializing, from beach bars to rooftop lounges.
     safetyAtNight: 6,
     socialMeetups: 7,
     waterActivities: 10,

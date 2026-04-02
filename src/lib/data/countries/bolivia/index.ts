@@ -69,6 +69,7 @@ export default {
     musicScene: 8,
     danceScene: 9,
     barDensity: 7,
+    drinkingCulture: 4.0, // Bolivia has a vibrant drinking culture with a focus on socializing, from beach bars to rooftop lounges.
     safetyAtNight: 6,
     socialMeetups: 7,
     waterActivities: 4,

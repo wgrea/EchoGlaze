@@ -68,6 +68,7 @@ export default {
     musicScene: 8, // Famous for Live Jazz and Classical
     danceScene: 6,
     barDensity: 8, // Saryan Street is the 'Wine Street' hub
+      drinkingCulture: 7.0, // Yerevan has a vibrant drinking culture with a focus on socializing, from traditional wine bars to trendy cocktail lounges.
     safetyAtNight: 10,
     socialMeetups: 7,
     waterActivities: 1, // Landlocked (Swan Lake is a pond); Hrazdan river isn't for swimming

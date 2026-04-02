@@ -51,6 +51,7 @@ resonanceSignals: {
     musicScene: 8,
     danceScene: 5,
     barDensity: 7,
+    drinkingCulture: 7.5, // Denver has a vibrant drinking culture with a focus on socializing, from beach bars to rooftop lounges.
     safetyAtNight: 7,
     socialMeetups: 8,
     waterActivities: 3,

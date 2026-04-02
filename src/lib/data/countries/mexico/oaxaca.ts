@@ -59,6 +59,7 @@ export default {
     lateNightDining: 8,
     musicScene: 8,
     barDensity: 9,
+    drinkingCulture: 8.0, // Oaxaca has a vibrant drinking culture with a focus on socializing, from mezcalerías to traditional pulquerías.
     safetyAtNight: 8,
     socialMeetups: 8,
     natureAccess: 9, // Sierra Norte is world-class for hiking

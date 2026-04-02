@@ -38,6 +38,7 @@ export default {
     musicScene: 8,
     danceScene: 7,
     barDensity: 9,
+    drinkingCulture: 2.5, // Turkey has a vibrant drinking culture with a focus on socializing, from traditional tea gardens to lively bars and clubs.
     safetyAtNight: 7,
     socialMeetups: 8,
     waterActivities: 9,

@@ -18,7 +18,7 @@ export default {
   },
   likelihoodScores: { nightlife: 10, hiking: 10, coworking: 9, food: 9, history: 9, safety: 7 },
   resonanceSignals: {
-    nightlifeOverall: 10, lateNightDining: 10, musicScene: 9, danceScene: 10, barDensity: 10,
+    nightlifeOverall: 10, lateNightDining: 10, musicScene: 9, danceScene: 10, barDensity: 10, drinkingCulture: 7.5, // Argentina has a vibrant drinking culture with a focus on socializing, from beach bars to rooftop lounges.
     safetyAtNight: 7, socialMeetups: 9, waterActivities: 5, snowActivities: 9, natureAccess: 10,
     festivalCulture: 9, socialProximity: 10, soloFriendly: 9, expatCommunityStrength: 9
   },

@@ -75,6 +75,7 @@ export default {
     musicScene: 9,
     danceScene: 6,
     barDensity: 6,
+    drinkingCulture: 2.5, // Morocco has a vibrant drinking culture with a focus on socializing, from beach bars to rooftop lounges.
     safetyAtNight: 7,
     socialMeetups: 8,
     waterActivities: 9, // Taghazout and Essaouira are surf capitals

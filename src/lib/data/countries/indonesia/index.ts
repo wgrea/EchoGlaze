@@ -39,6 +39,7 @@ export default {
     musicScene: 8,
     danceScene: 9,
     barDensity: 10,
+    drinkingCulture: 1.0, // Indonesia has a vibrant drinking culture with a focus on socializing, from beach bars to rooftop lounges.
     safetyAtNight: 7,
     socialMeetups: 10,
     waterActivities: 10,

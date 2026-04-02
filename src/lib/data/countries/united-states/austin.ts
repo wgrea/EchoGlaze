@@ -51,6 +51,7 @@ export default {
     musicScene: 10,
     danceScene: 6,
     barDensity: 10,
+    drinkingCulture: 8.0, // Austin has a vibrant drinking culture with a focus on socializing, from beach bars to rooftop lounges.
     safetyAtNight: 7,
     socialMeetups: 9,
     waterActivities: 9,

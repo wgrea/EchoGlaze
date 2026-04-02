@@ -59,6 +59,7 @@ export default {
     lateNightDining: 10,
     musicScene: 9,
     barDensity: 10,
+    drinkingCulture: 8.5, // Mexico City has a vibrant drinking culture with a focus on socializing, from mezcalerías to rooftop bars.
     safetyAtNight: 6,
     socialMeetups: 10,
     natureAccess: 5, // Chapultepec is great, but mountains are a drive

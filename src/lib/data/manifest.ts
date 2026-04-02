@@ -1,6 +1,4 @@
 // src/lib/data/manifest.ts
-// src/lib/data/manifest.ts
-
 // --- USA ---
 import usaData from './countries/united-states/index.ts';
 import chicagoData from './countries/united-states/chicago.ts';

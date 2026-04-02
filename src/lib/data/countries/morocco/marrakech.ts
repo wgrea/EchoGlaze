@@ -68,6 +68,7 @@ export default {
     musicScene: 8, // Traditional Gnawa music is world-class
     danceScene: 5,
     barDensity: 6,
+    drinkingCulture: 2.5, // Marrakech has a vibrant drinking culture with a focus on socializing, from traditional tea houses to trendy rooftop bars.
     safetyAtNight: 7,
     socialMeetups: 8,
     waterActivities: 2, // Pools only; no ocean here

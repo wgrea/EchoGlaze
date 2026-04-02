@@ -26,6 +26,7 @@ export default {
     musicScene: 9,
     danceScene: 8,
     barDensity: 10,
+    drinkingCulture: 7.0, // Mexico has a vibrant drinking culture with a focus on socializing, from mezcal bars to beach clubs.
     safetyAtNight: 6,
     socialMeetups: 10,
     waterActivities: 8,  // Coastal hubs (Oaxaca/Yucatán) are 10, interior is 1

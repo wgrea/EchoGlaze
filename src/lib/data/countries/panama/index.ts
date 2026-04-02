@@ -75,6 +75,7 @@ export default {
     musicScene: 7,
     danceScene: 8,
     barDensity: 9,
+    drinkingCulture: 7.5, // Panama has a vibrant drinking culture with a focus on socializing, from beach bars to rooftop lounges.
     safetyAtNight: 7,
     socialMeetups: 9,
     waterActivities: 10, // San Blas and Bocas del Toro are world-class

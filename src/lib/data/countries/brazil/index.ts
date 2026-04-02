@@ -70,6 +70,7 @@ export default {
     musicScene: 10,
     danceScene: 10,
     barDensity: 10,
+    drinkingCulture: 8.5, // Brazil has a vibrant drinking culture with a focus on socializing, from beach bars to samba clubs.
     safetyAtNight: 6,
     socialMeetups: 9,
     waterActivities: 10, // Incredible coastline in Rio and Florianópolis
