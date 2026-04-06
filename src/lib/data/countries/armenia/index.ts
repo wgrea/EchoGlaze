@@ -23,8 +23,7 @@ export default {
       nomadVisa: { available: false },
       workPolicy: 'Remote work for foreign entities is permitted under the 180-day visa-free stay.',
       registrationAfterDays: 30,
-      requirements: ['Valid passport']
-    },
+ },
     flights: {
       friction: 'medium',
       routingNotes: 'Zvartnots (EVN) is beautiful but flights can be pricier than Kutaisi in Georgia.',

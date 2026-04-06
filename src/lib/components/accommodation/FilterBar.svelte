@@ -17,36 +17,29 @@
 
 <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-5 mb-6">
   <div class="grid grid-cols-[repeat(auto-fit,minmax(180px,1fr))] gap-4">
-    <div>
-      <label for="type-filter" class="block text-xs font-bold uppercase text-gray-500 mb-2">Stay Type</label>
-      <select id="type-filter" bind:value={filters.type} on:change
-        class="w-full border-gray-200 rounded-lg text-sm focus:ring-orange-500">
-        <option value="all">All Types</option>
-        <option value="hostel">Hostels</option>
-        <option value="coliving">Coliving</option>
-      </select>
-    </div>
     
-    <div>
-      <label for="wifi-filter" class="block text-xs font-bold uppercase text-gray-500 mb-2">WiFi Needs</label>
-      <select id="wifi-filter" bind:value={filters.wifiMin} on:change
-        class="w-full border-gray-200 rounded-lg text-sm">
-        {#each wifiLevels as level}
-          <option value={level.val}>{level.label}</option>
-        {/each}
-      </select>
-    </div>
+<div>
+  <label for="wifi-filter" class="block text-xs font-bold uppercase text-gray-500 mb-1">WiFi Needs</label>
+  <p class="text-xs text-gray-500 mb-2">Minimum Wi‑Fi quality for smooth nomad work</p>
+  <select id="wifi-filter" bind:value={filters.wifiMin} on:change
+    class="w-full border-gray-200 rounded-lg text-sm">
+    {#each wifiLevels as level}
+      <option value={level.val}>{level.label}</option>
+    {/each}
+  </select>
+</div>
     
-    <div>
-      <label for="price-filter" class="block text-xs font-bold uppercase text-gray-500 mb-2">Budget Limit</label>
-      <select id="price-filter" bind:value={filters.maxPriceTier} on:change
-        class="w-full border-gray-200 rounded-lg text-sm">
-        <option value="all">Any Budget</option>
-        <option value="1">Entry Level (Tier 1)</option>
-        <option value="2">Budget (Tier 2)</option>
-        <option value="3">Mid-Range (Tier 3)</option>
-        <option value="4">Premium (Tier 4)</option>
-      </select>
-    </div>
+<div>
+  <label for="price-filter" class="block text-xs font-bold uppercase text-gray-500 mb-1">Budget Limit</label>
+  <p class="text-xs text-gray-500 mb-2">Includes this tier and all cheaper options</p>
+  <select id="price-filter" bind:value={filters.maxPriceTier} on:change
+    class="w-full border-gray-200 rounded-lg text-sm">
+    <option value="all">Any Budget</option>
+    <option value="1">Entry Level (Tier 1)</option>
+    <option value="2">Budget (Tier 2)</option>
+    <option value="3">Mid-Range (Tier 3)</option>
+    <option value="4">Premium (Tier 4)</option>
+  </select>
+</div>
   </div>
 </div>

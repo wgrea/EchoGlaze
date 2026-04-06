@@ -27,8 +27,7 @@ export default {
       },
       workPolicy: 'Remote work for foreign entities is fully legal under the Nomad Visa; local work requires sponsorship.',
       registrationAfterDays: 90,
-      requirements: ['Proof of $1,500/mo income or $18,000 savings', 'Health insurance', 'Criminal record check']
-    },
+},
     flights: {
       friction: 'medium',
       routingNotes: 'São Paulo (GRU) is the primary gateway for South America.',

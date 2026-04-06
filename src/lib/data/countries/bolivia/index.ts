@@ -21,8 +21,7 @@ export default {
       nomadVisa: { available: false },
       workPolicy: 'Tourist visa allows remote work but local employment is strictly off-limits.',
       registrationAfterDays: null,
-      requirements: ['Valid passport', 'Yellow Fever certificate (for Amazon regions)', 'Proof of funds (for certain nationalities)']
-    },
+ },
     flights: {
       friction: 'high',
       routingNotes: 'La Paz (LPB) and Santa Cruz (VVI) are the main entries. High altitude landings can be intense.',

@@ -1,6 +1,6 @@
 <!-- src/lib/components/logistics/TravelReadinessCard.svelte -->
 <script lang="ts">
-  import type { TravelReadiness } from '$lib/schema/types';
+  import type { TravelReadiness } from '$lib/types';
 
   export let readiness: TravelReadiness;
   export let countryName: string;
@@ -105,21 +105,6 @@
   </div>
 
 </div>
-
-
-    {#if readiness.visa.requirements?.length}
-      <div class="pt-4 border-t border-slate-100">
-        <p class="text-[11px] font-black uppercase tracking-[0.16em] text-slate-400 mb-2">Core Requirements</p>
-        <ul class="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-1 text-sm text-slate-600 font-medium">
-          {#each readiness.visa.requirements as req}
-            <li class="flex items-start gap-2">
-              <span class="mt-[2px] text-emerald-500 font-bold">✓</span>
-              <span>{req}</span>
-            </li>
-          {/each}
-        </ul>
-      </div>
-    {/if}
   </section>
 </div>
 

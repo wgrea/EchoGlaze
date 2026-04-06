@@ -29,8 +29,7 @@ export default {
       nomadVisa: { available: true, durationMonths: 6 },
       workPolicy: "Transit residence status; local employment strictly prohibited.",
       registrationAfterDays: 0,
-      requirements: ["Clean criminal record", "CV/Resume", "Proof of foreign remote work", "Passport photo (white background)"]
-    },
+},
     seasonality: { cheapest: [6, 7, 8], sweetSpot: [10, 11, 3, 4], peak: [12, 1, 2] },
     seasonalVolatility: { cheapest: 'low', sweetSpot: 'medium', neutral: 'medium', peak: 'high' }
   },

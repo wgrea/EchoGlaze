@@ -1,6 +1,6 @@
 <!-- src/lib/components/echoglazeui/cards/StayOptionCard.svelte -->
 <script lang="ts">
-  import type { StayOption } from '$lib/schema/types';
+  import type { StayOption } from '$lib/types';
   import WifiBadge from '../badges/WifiBadge.svelte';
   
   export let option: StayOption;

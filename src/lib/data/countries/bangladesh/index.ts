@@ -20,8 +20,7 @@ export default {
       touristStayDays: 30,
       nomadVisa: { available: false },
       workPolicy: 'Remote work for foreign companies is a grey area; most use tourist visas.',
-      requirements: ['Valid passport (6 months)', 'Return flight ticket', 'Proof of $500 USD in funds']
-    },
+},
     flights: {
       friction: 'medium',
       routingNotes: 'Dhaka (DAC) is well connected to Middle East and Asian hubs.',

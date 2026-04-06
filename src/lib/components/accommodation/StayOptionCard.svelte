@@ -39,10 +39,6 @@
           {option.city?.name}, {option.city?.countryName}
         </p>
       </div>
-
-      <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-1 bg-gray-50 text-gray-400 rounded">
-        {option.type}
-      </span>
     </div>
 
 

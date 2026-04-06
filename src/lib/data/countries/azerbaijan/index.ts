@@ -60,12 +60,7 @@ export default {
       },
       workPolicy: "Tourist status; no local employment",
       registrationAfterDays: 15,
-      requirements: [
-        "E-visa (ASAN Visa)",
-        "Passport valid 6+ months",
-        "Proof of accommodation"
-      ]
-    },
+},
     seasonality: {
       cheapest: [1, 2, 11],
       sweetSpot: [5, 6, 9, 10],
