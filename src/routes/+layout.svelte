@@ -29,13 +29,21 @@
     <div class="nostalgic-container">
       <div class="flex justify-between items-center h-16">
         <!-- Logo -->
-        <a href="/" class="flex items-center gap-2 group">
-          <span class="text-2xl">✈️</span>
-          <span class="font-bold text-lg bg-gradient-to-r from-blue-500 to-cyan-400 bg-clip-text text-transparent">
-            EchoGlaze
-          </span>
-          <span class="text-sm text-slate-500 ml-0.5">– Work Abroad Planner</span>
-        </a>
+<a href="/" class="flex items-center gap-3 group">
+  <div class="relative">
+    <div class="absolute -inset-1 bg-gradient-to-r from-blue-500 to-cyan-400 rounded-full blur opacity-0 group-hover:opacity-20 transition duration-500"></div>
+    
+    <img 
+      src="/echoglazelogo.png" 
+      alt="EchoGlaze" 
+      class="relative h-8 w-auto object-contain" 
+    />
+  </div>
+
+  <span class="text-sm text-slate-500 border-l border-slate-200 pl-3 hidden sm:inline-block">
+    Work Abroad Planner
+  </span>
+</a>
       </div>
     </div>
   </header>

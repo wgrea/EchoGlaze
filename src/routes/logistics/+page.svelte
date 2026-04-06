@@ -1,7 +1,7 @@
 <!-- src/routes/logistics/+page.svelte -->
 <script lang="ts">
   import { loadCountry } from '$lib/loaders/countryLoader';
-  import type { Country } from '$lib/schema/types';
+  import type { Country } from '$lib/types';
   import TravelReadinessCard from '$lib/components/logistics/TravelReadinessCard.svelte';
   import { COUNTRY_REGISTRY } from '$lib/data/manifest';
 

@@ -1,7 +1,7 @@
 <!-- src/routes/transportation/+page.svelte -->
 <script lang="ts">
   import { loadCountry } from '$lib/loaders/countryLoader';
-  import type { Transportation, Country } from '$lib/schema/types';
+  import type { Transportation, Country } from '$lib/types';
   import { COUNTRY_REGISTRY } from '$lib/data/manifest';
 
   console.log("TRANSPORTATION PAGE HYDRATED");

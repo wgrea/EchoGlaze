@@ -2,7 +2,6 @@
 <script lang="ts">
   // Home components
   import MenuGrid from '$lib/components/home/MenuGrid.svelte';
-  import PriceNote from '$lib/components/home/PriceNote.svelte';
 
   let loading = false;
 
@@ -72,19 +71,22 @@ const digitalNomadLinks = [
   <!-- Your existing content -->
   <div class="relative z-10 py-12 space-y-16 max-w-6xl mx-auto px-4">
     <!-- Hero -->
-    <div class="text-center mb-20">
-      <h1 class="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-blue-500 to-cyan-400 bg-clip-text text-transparent mb-6 drop-shadow-2xl">
-        EchoGlaze
-      </h1>
-      <p class="text-xl text-slate-600/90 max-w-2xl mx-auto leading-relaxed drop-shadow-sm">
-        A decision‑first planner for digital nomads who care more about vibe and legality than exact prices.
-      </p>
+<div class="text-center mb-20">
+  <div class="flex justify-center mb-10">
+    <div class="relative group w-full max-w-2xl px-4"> <div class="absolute -inset-4 bg-gradient-to-r from-blue-500 to-cyan-400 rounded-full blur-2xl opacity-15 group-hover:opacity-35 transition duration-1000"></div>
+      
+      <img 
+        src="/echoglazelogo.png" 
+        alt="EchoGlaze Logo (Letters)" 
+        class="relative w-full h-auto object-contain mx-auto"
+      />
     </div>
+  </div>
 
-    <!-- Price philosophy note -->
-    <div class="max-w-md mx-auto mb-12">
-      <PriceNote />
-    </div>
+  <p class="text-xl text-slate-600/90 max-w-2xl mx-auto leading-relaxed drop-shadow-sm">
+    A decision‑first planner for digital nomads who care more about vibe and legality than exact prices.
+  </p>
+</div>
 
     <!-- Main menu grid -->
 <div class="max-w-4xl mx-auto mb-16">

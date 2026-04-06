@@ -4,7 +4,7 @@
   import { loadAllStayOptions } from '$lib/loaders/stayLoader';
   import { loadCountries } from '$lib/loaders/countryLoader';
   import { loadCities } from '$lib/loaders/cityLoader';
-  import type { Country, City } from '$lib/schema/types';
+  import type { Country, City } from '$lib/types';
   
   import FilterBar from '$lib/components/accommodation/FilterBar.svelte';
   import StayOptionCard from '$lib/components/accommodation/StayOptionCard.svelte';
@@ -103,8 +103,8 @@
   
   <div class="flex-1">
     <h1 class="text-3xl font-bold text-gray-900 mb-2">🏠 Accommodation Finder</h1>
-    <p class="text-gray-600 mb-8">Verified WiFi for digital nomads</p>
-    
+<p class="text-gray-600 mb-8">All hostels meet a minimum work‑grade Wi‑Fi score of 3.0+.</p>
+
     <!-- Toggle -->
     <div class="flex gap-2 mb-6">
       <button
