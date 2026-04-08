@@ -1,100 +1,117 @@
 <!-- src/routes/logistics/+page.svelte -->
 <script lang="ts">
   import { loadCountry } from '$lib/loaders/countryLoader';
-  import type { Country } from '$lib/types';
-  import TravelReadinessCard from '$lib/components/logistics/TravelReadinessCard.svelte';
   import { COUNTRY_REGISTRY } from '$lib/data/manifest';
-
-  // State Management - We only care about 'to' now
+  import CountryView from '$lib/components/logistics/CountryView.svelte';
+  import GlobalCompareView from '$lib/components/logistics/GlobalCompareView.svelte';
+  
+  // State
   let to = 'azerbaijan';
-  let destinationData: Country | null = null;
+  let destinationData: any = null;
   let loading = false;
+  let mode: 'country' | 'filters' = 'country';
+  let sortMode: 'none' | 'stayAsc' | 'stayDesc' = 'none';
+
+
+  let filters = {
+    workPolicy: 'all',
+    nomadVisa: 'all',
+    longStay: 'all',
+    registration: 'all'
+  };
 
   const countries = COUNTRY_REGISTRY.map(c => ({
-    id: c.slug, 
-    name: c.data.name, 
-    icon: c.icon 
+    id: c.slug,
+    name: c.data.name,
+    icon: c.icon
   }));
 
-  // Reactive Statement: Re-fetch whenever destination changes
+  // Filtering Logic
+  function applyFilters(r: any): boolean {
+    if (!r) return false;
+    if (filters.workPolicy !== 'all' && r.visa.workPolicy !== filters.workPolicy) return false;
+    if (filters.nomadVisa !== 'all') {
+      const hasNomad = r.visa.nomadVisa?.available;
+      if ((filters.nomadVisa === 'yes' && !hasNomad) || (filters.nomadVisa === 'no' && hasNomad)) return false;
+    }
+    if (filters.longStay !== 'all') {
+      const hasLong = !!r.visa.longStayTouristVisaMonths;
+      if ((filters.longStay === 'yes' && !hasLong) || (filters.longStay === 'no' && hasLong)) return false;
+    }
+    if (filters.registration !== 'all') {
+      const requires = !!r.visa.registrationAfterDays;
+      if ((filters.registration === 'required' && !requires) || (filters.registration === 'none' && requires)) return false;
+    }
+    return true;
+  }
+
   $: if (to) updateLogistics(to);
 
   async function updateLogistics(dest: string) {
     loading = true;
-    try {
-      destinationData = await loadCountry(dest);
-    } catch (e) {
-      console.error('Failed to sync logistics:', e);
-    } finally {
-      loading = false;
-    }
+    destinationData = await loadCountry(dest);
+    loading = false;
   }
+
+  const selectCountry = (slug: string) => {
+    to = slug;
+    mode = 'country';
+  };
 </script>
 
-<div class="min-h-screen bg-slate-50/50">
-  <nav class="sticky top-0 z-10 bg-white/80 backdrop-blur-md border-b border-slate-200 p-4 shadow-sm">
-    <div class="max-w-5xl mx-auto flex items-center justify-between gap-4">
-      <div class="flex items-center gap-2">
-        <span class="text-xl">🔍</span>
-        <select id="to" bind:value={to} class="bg-transparent font-bold text-indigo-600 outline-none cursor-pointer text-sm">
-          {#each countries as c}
-            <option value={c.id}>{c.icon} {c.name}</option>
-          {/each}
-        </select>
-      </div>
+<nav class="sticky top-0 z-20 bg-white border-b border-slate-200 p-4 shadow-sm">
+  <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
 
-      {#if destinationData}
-        <div class="text-right">
-          <span class="text-[10px] font-black uppercase tracking-widest text-slate-400 block leading-none mb-1">Region</span>
-          <span class="text-xs font-bold text-slate-600">{destinationData.region}</span>
-        </div>
-      {/if}
+    <!-- Mode Switch -->
+    <div class="flex items-center gap-4">
+      <div class="flex bg-slate-100 p-1 rounded-lg">
+        <button 
+          class="px-3 py-1 rounded-md text-xs font-bold {mode === 'country' ? 'bg-white shadow-sm text-indigo-600' : 'text-slate-500'}"
+          on:click={() => mode = 'country'}
+        >
+          Country View
+        </button>
+
+        <button 
+          class="px-3 py-1 rounded-md text-xs font-bold {mode === 'filters' ? 'bg-white shadow-sm text-indigo-600' : 'text-slate-500'}"
+          on:click={() => mode = 'filters'}
+        >
+          Compare All
+        </button>
+      </div>
     </div>
-  </nav>
 
-  <main class="max-w-5xl mx-auto p-6 space-y-8">
+  </div>
+</nav>
+
+
+<main class="max-w-6xl mx-auto p-6">
+  {#if mode === 'country'}
     {#if loading}
-      <div class="py-20 text-center animate-pulse">
-        <div class="text-4xl mb-4">🌍</div>
-        <p class="text-slate-400 font-medium">Loading entry rules and seasonal data...</p>
-      </div>
-
+      <div class="py-20 text-center animate-pulse">🌍 Loading {to}...</div>
     {:else if destinationData}
-      
-    
-    <section class="space-y-6">
-        <header>
-          <h1 class="text-2xl font-black text-slate-900 tracking-tight">
-             {destinationData.name} Logistics
-          </h1>
-          <p class="text-slate-500 text-xs mt-1">
-            Decision-first entry rules and seasonal timing.
-          </p>
-        </header>
-
-<TravelReadinessCard
-  readiness={destinationData.travelReadiness}
-  countryName={destinationData.name}
+      {#if applyFilters(destinationData.travelReadiness)}
+<CountryView 
+  data={destinationData}
+  {countries}
+  bind:to
 />
 
-<!-- ⭐ Add button here -->
-<section class="space-y-4">
-<a
-  href="/transportation"
-  class="p-4 bg-white rounded-lg shadow hover:shadow-md transition flex items-center gap-3"
->
-
-    <div class="text-2xl">🚗</div>
-    <div>
-      <h2 class="text-lg font-semibold text-slate-800">Transportation</h2>
-      <p class="text-slate-500 text-xs">
-        Daytime mobility, nightlife safety, and recommended apps.
-      </p>
-    </div>
-  </a>
-</section>
-
-      </section>
+      {:else}
+        <div class="p-12 text-center bg-slate-100 rounded-2xl border border-dashed border-slate-300">
+          <p class="text-slate-500 font-bold">Filters hide {destinationData.name}.</p>
+          <button class="text-indigo-600 text-sm underline mt-2" on:click={() => filters = {workPolicy:'all', nomadVisa:'all', longStay:'all', registration:'all'}}>Reset Filters</button>
+        </div>
+      {/if}
     {/if}
-  </main>
-</div>
+  {:else}
+<GlobalCompareView 
+  {applyFilters}
+  {sortMode}
+  {filters}
+  onSelect={selectCountry}
+/>
+
+
+  {/if}
+</main>

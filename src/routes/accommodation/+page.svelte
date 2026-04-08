@@ -98,19 +98,29 @@
     applyFilters();
   });
 </script>
-
 <div class="max-w-6xl mx-auto px-4 py-8 flex flex-col lg:flex-row gap-8">
-  
   <div class="flex-1">
     <h1 class="text-3xl font-bold text-gray-900 mb-2">🏠 Accommodation Finder</h1>
-<p class="text-gray-600 mb-8">All hostels meet a minimum work‑grade Wi‑Fi score of 3.0+.</p>
-
-    <!-- Toggle -->
+      <div class="flex flex-wrap gap-4 mt-6 mb-6">
+        <div>
+          <label for="country-select-stay" class="block text-sm font-medium mb-2">Select Country:</label>
+          <select 
+            id="country-select-stay" 
+            bind:value={selectedCountryId} 
+            class="px-4 py-2 border rounded-lg bg-white"
+          >
+            <option value="all">All Countries</option>
+            {#each countries as country}
+              <option value={country.id}>{country.name}</option>
+            {/each}
+          </select>
+        </div>
+      </div>
     <div class="flex gap-2 mb-6">
       <button
         class="px-3 py-1 rounded-lg text-sm font-bold 
           {mode === 'stay' ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-600'}"
-        on:click={() => mode = 'stay'}
+        on:click={() => (mode = 'stay')}
       >
         Where to Stay
       </button>
@@ -118,87 +128,40 @@
       <button
         class="px-3 py-1 rounded-lg text-sm font-bold 
           {mode === 'food' ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-600'}"
-        on:click={() => mode = 'food'}
+        on:click={() => (mode = 'food')}
       >
         Food Strategy
       </button>
     </div>
 
+    {#if mode === 'stay'}
 
-{#if mode === 'stay'}
-  <FilterBar bind:filters on:change={applyFilters} />
+      <p class="text-gray-600 mb-4">All hostels meet a minimum work‑grade Wi‑Fi score of 3.0+.</p>
 
-  <!-- Location Selector BELOW filters -->
-<div class="flex flex-wrap gap-4 mt-6 mb-6">
-  <div>
-    <label for="country-select-stay" class="block text-sm font-medium mb-2">Select Country:</label>
-    <select 
-      id="country-select-stay" 
-      bind:value={selectedCountryId} 
-      class="px-4 py-2 border rounded-lg bg-white"
-    >
-      <option value="all">All Countries</option>
-      {#each countries as country}
-        <option value={country.id}>{country.name}</option>
-      {/each}
-    </select>
-  </div>
-  
-  </div>
-
-  <div class="grid md:grid-cols-2 gap-6 mt-8">
-    {#each filteredOptions as option}
-      <StayOptionCard {option} />
-    {/each}
-  </div>
-{/if}
+      <FilterBar bind:filters on:change={applyFilters} />
 
 
-{#if mode === 'food'}
-  <div class="flex flex-wrap gap-4 mt-6 mb-6">
-    <div>
-      <label for="country-select-food" class="block text-sm font-medium mb-2">Select Country:</label>
-      <select 
-        id="country-select-food" 
-        bind:value={selectedCountryId} 
-        class="px-4 py-2 border rounded-lg bg-white"
-      >
-        <option value="all">All Countries</option>
-        {#each countries as country}
-          <option value={country.id}>{country.name}</option>
+
+      <div class="grid md:grid-cols-2 gap-6 mt-8">
+        {#each filteredOptions as option}
+          <StayOptionCard {option} />
         {/each}
-      </select>
-    </div>
+      </div>
+    {/if}
 
-    <div>
-      <label for="city-select-food" class="block text-sm font-medium mb-2">Select City:</label>
-      <select 
-        id="city-select-food" 
-        bind:value={selectedCityId} 
-        class="px-4 py-2 border rounded-lg bg-white"
-      >
-        <option value="all">All Cities</option>
-        {#each filteredCities as city}
-          <option value={city.id}>{city.name}</option>
-        {/each}
-      </select>
-    </div>
-  </div>
-
-  {#if selectedCity?.foodStrategy}
-    <FoodStrategyCard strategy={selectedCity.foodStrategy} />
-  {:else}
-    <div class="p-6 bg-orange-50 rounded-xl border border-orange-100 text-center mt-8">
-      <p class="text-xs text-orange-800">
-        Select a city to see where to find the healthiest & cheapest meals.
-      </p>
-    </div>
-  {/if}
-{/if}
-
-
-
-
-
+    {#if mode === 'food'}
+      <div class="flex flex-wrap gap-4 mt-6 mb-6">
+        </div>
+      
+      {#if selectedCity?.foodStrategy}
+        <FoodStrategyCard strategy={selectedCity.foodStrategy} />
+      {:else}
+        <div class="p-6 bg-orange-50 rounded-xl border border-orange-100 text-center mt-8">
+          <p class="text-xs text-orange-800">
+            Select a city to see where to find the healthiest & cheapest meals.
+          </p>
+        </div>
+      {/if}
+    {/if}
   </div>
 </div>
