@@ -110,22 +110,36 @@
 
 <div class="mt-4 space-y-1.5 text-[10px]">
 
-  <div class="flex justify-between">
-    <span class="text-slate-400 uppercase">Nomad Visa</span>
-    <span class="font-bold text-slate-700">
-      {country.data.travelReadiness.visa.nomadVisa?.available ? 'Available' : 'None'}
-    </span>
-  </div>
+  {#if visaType === 'nomad' || visaType === 'all'}
+    <div class="flex justify-between">
+      <span class="text-slate-400 uppercase">Nomad Visa</span>
+      <span class="font-bold text-slate-700">
+        {country.data.travelReadiness.visa.nomadVisa?.available
+          ? `${(country.data.travelReadiness.visa.nomadVisa as { durationMonths?: number | null })?.durationMonths ?? 0} Months`
+          : 'None'}
+      </span>
+    </div>
+  {/if}
 
-  <div class="flex justify-between">
-    <span class="text-slate-400 uppercase">Visa-Free Stay</span>
-    <span class="font-bold text-slate-700">
-      {country.data.travelReadiness.visa.touristStayDays} Days
-    </span>
-  </div>
+  {#if visaType === 'visaFree' || visaType === 'all'}
+    <div class="flex justify-between">
+      <span class="text-slate-400 uppercase">Visa-Free Stay</span>
+      <span class="font-bold text-slate-700">
+        {country.data.travelReadiness.visa.touristStayDays} Days
+      </span>
+    </div>
+  {/if}
+
+  {#if visaType === 'longStay' || visaType === 'all'}
+    <div class="flex justify-between">
+      <span class="text-slate-400 uppercase">Long‑Stay Visa</span>
+      <span class="font-bold text-slate-700">
+        {(country.data.travelReadiness.visa as { longStayTouristVisaMonths?: number | null }).longStayTouristVisaMonths ?? 'None'}
+      </span>
+    </div>
+  {/if}
 
 </div>
-
 
     </button>
   {/each}
