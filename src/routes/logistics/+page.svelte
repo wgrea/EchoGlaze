@@ -11,6 +11,8 @@
   let loading = false;
   let mode: 'country' | 'filters' = 'country';
   let sortMode: 'none' | 'stayAsc' | 'stayDesc' = 'none';
+  let visaType: 'all' | 'nomad' | 'longStay' | 'visaFree' = 'all';
+
 
 
   let filters = {
@@ -27,23 +29,25 @@
   }));
 
   // Filtering Logic
-  function applyFilters(r: any): boolean {
-    if (!r) return false;
-    if (filters.workPolicy !== 'all' && r.visa.workPolicy !== filters.workPolicy) return false;
-    if (filters.nomadVisa !== 'all') {
-      const hasNomad = r.visa.nomadVisa?.available;
-      if ((filters.nomadVisa === 'yes' && !hasNomad) || (filters.nomadVisa === 'no' && hasNomad)) return false;
-    }
-    if (filters.longStay !== 'all') {
-      const hasLong = !!r.visa.longStayTouristVisaMonths;
-      if ((filters.longStay === 'yes' && !hasLong) || (filters.longStay === 'no' && hasLong)) return false;
-    }
-    if (filters.registration !== 'all') {
-      const requires = !!r.visa.registrationAfterDays;
-      if ((filters.registration === 'required' && !requires) || (filters.registration === 'none' && requires)) return false;
-    }
-    return true;
+function applyFilters(r: any): boolean {
+  if (!r) return false;
+
+  // Exclusive visa type filtering
+  if (visaType === 'nomad') {
+    if (!r.visa.nomadVisa?.available) return false;
   }
+
+  if (visaType === 'longStay') {
+    if (!r.visa.longStayTouristVisaMonths) return false;
+  }
+
+  if (visaType === 'visaFree') {
+    if (!r.visa.touristStayDays || r.visa.touristStayDays <= 0) return false;
+  }
+
+  return true;
+}
+
 
   $: if (to) updateLogistics(to);
 
@@ -108,7 +112,7 @@
 <GlobalCompareView 
   {applyFilters}
   {sortMode}
-  {filters}
+  {visaType}
   onSelect={selectCountry}
 />
 
