@@ -6,45 +6,72 @@
   export let onSelect: (slug: string) => void;
   export let sortMode: string;
   export let visaType: string;
+  export let selectedMonth: string;
 
+  type SeasonTier = 'Cheapest' | 'Sweet Spot' | 'Neutral' | 'Peak';
 
-  // Derived sorted + filtered list
+  const monthMap: Record<string, number> = {
+    jan: 1, feb: 2, mar: 3, apr: 4, may: 5, jun: 6,
+    jul: 7, aug: 8, sep: 9, oct: 10, nov: 11, dec: 12
+  };
+
+  const seasonRank: Record<SeasonTier, number> = {
+    Cheapest: 1,
+    'Sweet Spot': 2,
+    Neutral: 3,
+    Peak: 4
+  };
+
+  function getSeasonTier(country: any, month: string): SeasonTier {
+    const s = country.data.travelReadiness.seasonality;
+    const monthNum = monthMap[month];
+
+    if (s.cheapest.includes(monthNum)) return 'Cheapest';
+    if (s.sweetSpot.includes(monthNum)) return 'Sweet Spot';
+    if (s.peak.includes(monthNum)) return 'Peak';
+
+    return 'Neutral';
+  }
+
   $: filtered = COUNTRY_REGISTRY
     .filter(c => applyFilters(c.data.travelReadiness))
-.sort((a, b) => {
-  const aVisa = a.data.travelReadiness.visa;
-  const bVisa = b.data.travelReadiness.visa;
+    .sort((a, b) => {
+      if (selectedMonth !== 'none') {
+        const aTier = getSeasonTier(a, selectedMonth);
+        const bTier = getSeasonTier(b, selectedMonth);
+        return seasonRank[aTier] - seasonRank[bTier];
+      }
 
-  const aNomad = (aVisa.nomadVisa as { durationMonths?: number | null })?.durationMonths ?? 0;
-  const bNomad = (bVisa.nomadVisa as { durationMonths?: number | null })?.durationMonths ?? 0;
+      // Visa sorting
+const aVisa = a.data.travelReadiness.visa;
+const bVisa = b.data.travelReadiness.visa;
 
-  const aLong = (aVisa as { longStayTouristVisaMonths?: number | null }).longStayTouristVisaMonths ?? 0;
-  const bLong = (bVisa as { longStayTouristVisaMonths?: number | null }).longStayTouristVisaMonths ?? 0;
+const aNomad = (aVisa.nomadVisa as { durationMonths?: number | null })?.durationMonths ?? 0;
+const bNomad = (bVisa.nomadVisa as { durationMonths?: number | null })?.durationMonths ?? 0;
 
-  const aStay = aVisa.touristStayDays ?? 0;
-  const bStay = bVisa.touristStayDays ?? 0;
+const aLong = (aVisa as { longStayTouristVisaMonths?: number | null }).longStayTouristVisaMonths ?? 0;
+const bLong = (bVisa as { longStayTouristVisaMonths?: number | null }).longStayTouristVisaMonths ?? 0;
 
-  if (visaType === 'nomad') {
-    if (sortMode === 'nomadAsc') return aNomad - bNomad;
-    if (sortMode === 'nomadDesc') return bNomad - aNomad;
-  }
+const aStay = aVisa.touristStayDays ?? 0;
+const bStay = bVisa.touristStayDays ?? 0;
 
-  if (visaType === 'longStay') {
-    if (sortMode === 'longStayAsc') return aLong - bLong;
-    if (sortMode === 'longStayDesc') return bLong - aLong;
-  }
+      if (visaType === 'nomad') {
+        if (sortMode === 'nomadAsc') return aNomad - bNomad;
+        if (sortMode === 'nomadDesc') return bNomad - aNomad;
+      }
 
-  if (visaType === 'visaFree' || visaType === 'all') {
-    if (sortMode === 'stayAsc') return aStay - bStay;
-    if (sortMode === 'stayDesc') return bStay - aStay;
-  }
+      if (visaType === 'longStay') {
+        if (sortMode === 'longStayAsc') return aLong - bLong;
+        if (sortMode === 'longStayDesc') return bLong - aLong;
+      }
 
-  return 0;
-});
+      if (visaType === 'visaFree' || visaType === 'all') {
+        if (sortMode === 'stayAsc') return aStay - bStay;
+        if (sortMode === 'stayDesc') return bStay - aStay;
+      }
 
-
-
-
+      return 0;
+    });
 </script>
 
 <header class="mb-6 space-y-2">
@@ -54,6 +81,23 @@
 
 <!-- FILTER BAR -->
 <div class="grid grid-cols-2 md:grid-cols-4 gap-2 mb-6">
+
+<select bind:value={selectedMonth} class="text-[10px] font-bold uppercase p-2 rounded border bg-slate-50">
+  <option value="none">Any Month</option>
+  <option value="jan">January</option>
+  <option value="feb">February</option>
+  <option value="mar">March</option>
+  <option value="apr">April</option>
+  <option value="may">May</option>
+  <option value="jun">June</option>
+  <option value="jul">July</option>
+  <option value="aug">August</option>
+  <option value="sep">September</option>
+  <option value="oct">October</option>
+  <option value="nov">November</option>
+  <option value="dec">December</option>
+</select>
+
 
 <!-- Sort -->
 <select bind:value={sortMode} class="text-[10px] font-bold uppercase p-2 rounded border bg-slate-50">
@@ -109,6 +153,15 @@
       </h3>
 
 <div class="mt-4 space-y-1.5 text-[10px]">
+
+  {#if selectedMonth !== 'none'}
+        <div class="flex justify-between border-b border-slate-50 pb-1 mb-1">
+          <span class="text-slate-400 uppercase">Season</span>
+          <span class="font-bold text-indigo-600">
+            {getSeasonTier(country, selectedMonth)}
+          </span>
+        </div>
+      {/if}
 
   {#if visaType === 'nomad' || visaType === 'all'}
     <div class="flex justify-between">
