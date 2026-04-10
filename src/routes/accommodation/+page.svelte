@@ -39,9 +39,13 @@
   $: selectedCity = cities.find(c => c.id === selectedCityId) || null;
 
   // Reset City when Country changes to show ALL hostels for that country
-  $: if (selectedCountryId) {
-    selectedCityId = 'all'; 
-  }
+let prevCountryId = selectedCountryId;
+
+$: if (selectedCountryId !== prevCountryId) {
+  selectedCityId = 'all';
+  prevCountryId = selectedCountryId;
+}
+
 
   // Run the filter automatically whenever any selection or filter changes
   $: {
@@ -150,8 +154,22 @@
     {/if}
 
     {#if mode === 'food'}
-      <div class="flex flex-wrap gap-4 mt-6 mb-6">
-        </div>
+<div class="flex flex-wrap gap-4 mt-6 mb-6">
+  <div>
+    <label for="city-select-food" class="block text-sm font-medium mb-2">Select City:</label>
+    <select 
+      id="city-select-food" 
+      bind:value={selectedCityId} 
+      class="px-4 py-2 border rounded-lg bg-white"
+    >
+      <option value="all">All Cities</option>
+      {#each filteredCities as city}
+        <option value={city.id}>{city.name}</option>
+      {/each}
+    </select>
+  </div>
+</div>
+
       
       {#if selectedCity?.foodStrategy}
         <FoodStrategyCard strategy={selectedCity.foodStrategy} />
