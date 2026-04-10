@@ -10,9 +10,9 @@
   let to = 'azerbaijan';
   let destinationData: any = null;
   let loading = false;
-  let mode: 'country' | 'filters' = 'country';
+  let mode: 'country' | 'filters' = 'filters';
   let sortMode: 'none' | 'stayAsc' | 'stayDesc' = 'none';
-  let visaType: 'all' | 'nomad' | 'longStay' | 'visaFree' = 'all';
+  let visaType: 'all' | 'nomad' | 'tourist' | 'visaFree' = 'all';
 
   const countries = COUNTRY_REGISTRY.map(c => ({
     id: c.slug,
@@ -26,31 +26,28 @@
     jul: 7, aug: 8, sep: 9, oct: 10, nov: 11, dec: 12
   };
 
-  function applyFilters(r: any): boolean {
-    if (!r) return false;
+// inside +page.svelte
+function applyFilters(r: any): boolean {
+  if (!r) return false;
 
-    // Visa filters
-    if (visaType === 'nomad' && !r.visa.nomadVisa?.available) return false;
-    if (visaType === 'longStay' && !r.visa.longStayTouristVisaMonths) return false;
-    if (visaType === 'visaFree' && (!r.visa.touristStayDays || r.visa.touristStayDays <= 0)) return false;
+  // Visa checks
+  if (visaType === 'nomad' && !r.visa.nomadVisa?.available) return false;
+  if (visaType === 'tourist' && !r.visa.longStayTouristVisaMonths) return false;
+  if (visaType === 'visaFree' && (!r.visa.touristStayDays || r.visa.touristStayDays <= 0)) return false;
 
-    // Seasonality filter
-    if (selectedMonth !== 'none') {
-      const s = r.seasonality;
-      if (!s) return false;
+  // Seasonality check
+  if (selectedMonth !== 'none') {
+    const monthNum = monthMap[selectedMonth];
+    const s = r.seasonality;
+    if (!s) return false;
 
-      const monthNum = monthMap[selectedMonth];
-
-      const valid =
-        s.cheapest.includes(monthNum) ||
-        s.sweetSpot.includes(monthNum) ||
-        s.peak.includes(monthNum);
-
-      if (!valid) return false;
-    }
-
-    return true;
+    // Combined check for any valid travel tier
+    const allActiveMonths = [...s.cheapest, ...s.sweetSpot, ...s.peak, ...(s.neutral || [])];
+    if (!allActiveMonths.includes(monthNum)) return false;
   }
+
+  return true;
+}
 
   $: if (to) updateLogistics(to);
 
@@ -72,18 +69,17 @@
     <!-- Mode Switch -->
     <div class="flex items-center gap-4">
       <div class="flex bg-slate-100 p-1 rounded-lg">
+                <button 
+          class="px-3 py-1 rounded-md text-xs font-bold {mode === 'filters' ? 'bg-white shadow-sm text-indigo-600' : 'text-slate-500'}"
+          on:click={() => mode = 'filters'}
+        >
+          Compare All
+        </button>
         <button 
           class="px-3 py-1 rounded-md text-xs font-bold {mode === 'country' ? 'bg-white shadow-sm text-indigo-600' : 'text-slate-500'}"
           on:click={() => mode = 'country'}
         >
           Country View
-        </button>
-
-        <button 
-          class="px-3 py-1 rounded-md text-xs font-bold {mode === 'filters' ? 'bg-white shadow-sm text-indigo-600' : 'text-slate-500'}"
-          on:click={() => mode = 'filters'}
-        >
-          Compare All
         </button>
       </div>
     </div>
@@ -92,6 +88,8 @@
 </nav>
 
 <main class="max-w-6xl mx-auto p-6">
+
+
   {#if mode === 'country'}
     {#if loading}
       <div class="py-20 text-center animate-pulse">🌍 Loading {to}...</div>
