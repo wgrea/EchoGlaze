@@ -96,9 +96,12 @@ export interface TravelReadiness {
       available: boolean;
       name?: string;
       durationMonths?: number | null;
-      incomeRequirement?: number;
     };
+        // HUMAN TEXT (already exists)
     workPolicy: string;
+
+    // NEW MACHINE-READABLE CATEGORY
+    workPolicyCategory: 'tourist' | 'remote-ok' | 'nomad-visa' | 'local-employment' | 'restricted';
     registrationAfterDays?: number | null;
   };
   flights: {
@@ -119,6 +122,14 @@ export interface TravelReadiness {
   };
 }
 
+// src/lib/types.ts - I don't know if this code was necessary
+export interface CityRegistryEntry {
+  id: string;
+  slug: string;
+  countryId: string;
+  data: any;
+}
+
 // --- Main Entities ---
 export interface City extends NamedEntity {
   type: 'capital' | 'metropolis' | 'hub' | 'tech-enclave' | 'remote';
@@ -133,6 +144,7 @@ export interface City extends NamedEntity {
   stayOptions: StayOption[];
   resonanceSignals: Partial<ResonanceSignals>;
   transportationOverrides?: Partial<Transportation>;
+  countryId: string;  // ← ADD THIS LINE
 }
 
 export interface PackingStrategy {

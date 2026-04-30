@@ -1,3 +1,3 @@
 // src/lib/loaders/index.ts
-export { loadCountry } from './countryLoader';
-export { loadCity, loadCitiesByCountry } from './cityLoader';
+export { loadCities, loadCity } from './city';
+export { loadCountries, loadCountry } from './country';

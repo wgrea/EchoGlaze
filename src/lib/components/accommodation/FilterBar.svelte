@@ -15,8 +15,9 @@
 </script>
 
 <div class="bg-slate-100 rounded-2xl border border-slate-200 p-6 mb-10 shadow-inner">
+  <p class="text-gray-600 mb-4">All hostels meet a minimum work‑grade Wi‑Fi score of 3.0+.</p>
+
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-    
     <div class="md:col-span-2 p-5 bg-white border border-slate-200 rounded-xl flex gap-4 items-start shadow-sm">
       <div class="text-2xl mt-1 opacity-80">🗓️</div>
       <div class="flex-1">
