@@ -1,6 +1,6 @@
 <!-- src/routes/packing/+page.svelte -->
 <script lang="ts">
-  import { loadCountry } from '$lib/loaders/countryLoader';
+  import { loadCountry } from '$lib/loaders/country';
   import type { Country, PackingStrategy } from '$lib/types';
   import { COUNTRY_REGISTRY } from '$lib/data/manifest';
   import { GLOBAL_GAMING_LOADOUT } from '$lib/data/constants';

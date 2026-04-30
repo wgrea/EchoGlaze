@@ -1,6 +1,6 @@
 <!-- src/routes/logistics/+page.svelte -->
 <script lang="ts">
-  import { loadCountry } from '$lib/loaders/countryLoader';
+  import { loadCountry } from '$lib/loaders/country';
   import { COUNTRY_REGISTRY } from '$lib/data/manifest';
   import CountryView from '$lib/components/logistics/CountryView.svelte';
   import GlobalCompareView from '$lib/components/logistics/GlobalCompareView.svelte';

@@ -114,6 +114,24 @@ const digitalNomadLinks = [
         <div class="absolute -right-4 -bottom-4 w-12 h-12 bg-gradient-to-br {link.color} blur-2xl opacity-50"></div>
       </a>
     {/each}
+<!-- Compact docs button - matches nomad support scale -->
+<div class="max-w-2xl mx-auto pt-12 px-4">
+<!-- Compact docs button - matches nomad support scale -->
+<a 
+  href="/docs"
+  class="inline-flex items-center gap-2 px-3 py-2 rounded-xl 
+         bg-white/70 border border-slate-200 shadow-sm
+         hover:bg-white hover:shadow-md hover:-translate-y-[1px]
+         transition-all duration-200"
+>
+  <span class="text-lg">📚</span>
+  <span class="font-medium text-xs text-slate-700 tracking-wide">
+    Documentation
+  </span>
+</a>
+
+</div>
+    
   </div>
 </div>
   </div>

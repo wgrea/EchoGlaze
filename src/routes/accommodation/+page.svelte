@@ -1,9 +1,9 @@
 <!-- src/routes/accommodation/+page.svelte -->
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { loadAllStayOptions } from '$lib/loaders/stayLoader';
-  import { loadCountries } from '$lib/loaders/countryLoader';
-  import { loadCities } from '$lib/loaders/cityLoader';
+  import { loadAllStayOptions } from '$lib/loaders/stay';
+  import { loadCountries } from '$lib/loaders/country';
+  import { loadCities } from '$lib/loaders/city';
   import type { Country, City } from '$lib/types';
   
   import FilterBar from '$lib/components/accommodation/FilterBar.svelte';
@@ -139,8 +139,6 @@ $: if (selectedCountryId !== prevCountryId) {
     </div>
 
     {#if mode === 'stay'}
-
-      <p class="text-gray-600 mb-4">All hostels meet a minimum work‑grade Wi‑Fi score of 3.0+.</p>
 
       <FilterBar bind:filters on:change={applyFilters} />
 

@@ -1,7 +1,7 @@
 <!-- src/routes/resonance/+page.svelte -->
 <script lang="ts">
     import { page } from '$app/stores';
-    import { signalsToArray } from '$lib/transformers/resonanceTransformer';
+    import { signalsToArray } from '$lib/transformers/resonance';
     import ExploreBySignal from '$lib/components/resonance/ExploreBySignal.svelte';
     import LevelToggle from '$lib/components/resonance/LevelToggle.svelte';
 

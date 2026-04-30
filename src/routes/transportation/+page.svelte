@@ -1,6 +1,6 @@
 <!-- src/routes/transportation/+page.svelte -->
 <script lang="ts">
-  import { loadCountry } from '$lib/loaders/countryLoader';
+  import { loadCountry } from '$lib/loaders/country';
   import type { Transportation, Country } from '$lib/types';
   import { COUNTRY_REGISTRY } from '$lib/data/manifest';
 
