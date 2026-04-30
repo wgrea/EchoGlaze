@@ -86,14 +86,6 @@
       </div>
     </section>
   </div>
-
-  <a href="/transportation" class="p-6 bg-white rounded-xl border flex items-center gap-6 hover:shadow-lg transition-all group">
-    <span class="text-3xl group-hover:scale-110 transition-transform">🚗</span>
-    <div>
-      <p class="font-bold text-slate-900 text-lg">Transportation Strategy</p>
-      <p class="text-sm text-slate-500">Mobility, safety, and essential apps for {data.name}.</p>
-    </div>
-  </a>
 </div>
 
 <style>

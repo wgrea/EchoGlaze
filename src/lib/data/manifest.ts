@@ -104,79 +104,74 @@ import lpzData from './countries/bolivia/la-paz.ts';
 import pakData from './countries/pakistan/index.ts';
 import lheData from './countries/pakistan/lahore.ts';
 
+// At top of manifest.ts, add country sort helper
+const sortCountriesABC = (a: any, b: any) => a.id.localeCompare(b.id);
+
+// Replace COUNTRY_REGISTRY with:
 export const COUNTRY_REGISTRY = [
-  { id: 'USA', slug: 'united-states', data: usaData, icon: '🇺🇸' },
-  { id: 'TUR', slug: 'turkey', data: turkeyData, icon: '🇹🇷' },
-  { id: 'AZE', slug: 'azerbaijan', data: azeData, icon: '🇦🇿' },
-  { id: 'GRC', slug: 'greece', data: greeceData, icon: '🇬🇷' },
-  { id: 'QAT', slug: 'qatar', data: qatarData, icon: '🇶🇦' },
-  { id: 'ESP', slug: 'spain', data: spainData, icon: '🇪🇸' },
-  { id: 'IND', slug: 'india', data: indiaData, icon: '🇮🇳' },
-  { id: 'LKA', slug: 'sri-lanka', data: sriLankaData, icon: '🇱🇰' },
-  { id: 'NPL', slug: 'nepal', data: nepalData, icon: '🇳🇵' },
-  { id: 'IDN', slug: 'indonesia', data: indonesiaData, icon: '🇮🇩' },
-  { id: 'MEX', slug: 'mexico', data: mexData, icon: '🇲🇽' },
-  { id: 'COL', slug: 'colombia', data: colData, icon: '🇨🇴' },
   { id: 'ARG', slug: 'argentina', data: argData, icon: '🇦🇷' },
-  { id: 'PRT', slug: 'portugal', data: prtData, icon: '🇵🇹' },
-  { id: 'THA', slug: 'thailand', data: thaData, icon: '🇹🇭' },
-  { id: 'GEO', slug: 'georgia', data: geoData, icon: '🇬🇪' },
   { id: 'ARM', slug: 'armenia', data: armData, icon: '🇦🇲' },
+  { id: 'AZE', slug: 'azerbaijan', data: azeData, icon: '🇦🇿' },
   { id: 'BGD', slug: 'bangladesh', data: bgdData, icon: '🇧🇩' },
+  { id: 'BOL', slug: 'bolivia', data: bolData, icon: '🇧🇴' },
   { id: 'BRA', slug: 'brazil', data: braData, icon: '🇧🇷' },
-{ id: 'LAO', slug: 'laos', data: laoData, icon: '🇱🇦' },
-{ id: 'MAR', slug: 'morocco', data: marData, icon: '🇲🇦' },
-{ id: 'PAN', slug: 'panama', data: panData, icon: '🇵🇦' },
-{ id: 'BOL', slug: 'bolivia', data: bolData, icon: '🇧🇴' },
-{ id: 'PAK', slug: 'pakistan', data: pakData, icon: '🇵🇰' },
-];
+  { id: 'COL', slug: 'colombia', data: colData, icon: '🇨🇴' },
+  { id: 'ESP', slug: 'spain', data: spainData, icon: '🇪🇸' },
+  { id: 'GEO', slug: 'georgia', data: geoData, icon: '🇬🇪' },
+  { id: 'GRC', slug: 'greece', data: greeceData, icon: '🇬🇷' },
+  { id: 'IND', slug: 'india', data: indiaData, icon: '🇮🇳' },
+  { id: 'IDN', slug: 'indonesia', data: indonesiaData, icon: '🇮🇩' },
+  { id: 'LAO', slug: 'laos', data: laoData, icon: '🇱🇦' },
+  { id: 'LKA', slug: 'sri-lanka', data: sriLankaData, icon: '🇱🇰' },
+  { id: 'MAR', slug: 'morocco', data: marData, icon: '🇲🇦' },
+  { id: 'MEX', slug: 'mexico', data: mexData, icon: '🇲🇽' },
+  { id: 'NPL', slug: 'nepal', data: nepalData, icon: '🇳🇵' },
+  { id: 'PAN', slug: 'panama', data: panData, icon: '🇵🇦' },
+  { id: 'PAK', slug: 'pakistan', data: pakData, icon: '🇵🇰' },
+  { id: 'PRT', slug: 'portugal', data: prtData, icon: '🇵🇹' },
+  { id: 'QAT', slug: 'qatar', data: qatarData, icon: '🇶🇦' },
+  { id: 'THA', slug: 'thailand', data: thaData, icon: '🇹🇭' },
+  { id: 'TUR', slug: 'turkey', data: turkeyData, icon: '🇹🇷' },
+  { id: 'USA', slug: 'united-states', data: usaData, icon: '🇺🇸' }
+].sort(sortCountriesABC);  // Locks in ABC order forever
+
+const sortCitiesABC = (a: any, b: any) => a.slug.localeCompare(b.slug);
 
 export const CITY_REGISTRY = [
   // USA
-  { id: 'CHI', slug: 'chicago', countryId: 'USA', data: chicagoData },
   { id: 'AUS', slug: 'austin', countryId: 'USA', data: austinData },
-  { id: 'DEN', slug: 'denver', countryId: 'USA', data: denverData },
-  { id: 'MIA', slug: 'miami', countryId: 'USA', data: miamiData },
-  { id: 'SEA', slug: 'seattle', countryId: 'USA', data: seattleData },
-  // TURKEY
-  { id: 'IST', slug: 'istanbul', countryId: 'TUR', data: istanbulData },
-  // AZERBAIJAN
   { id: 'BAK', slug: 'baku', countryId: 'AZE', data: bakuData },
-  // GREECE
-  { id: 'ATH', slug: 'athens', countryId: 'GRC', data: athensData },
-  // QATAR
-  { id: 'DOH', slug: 'doha', countryId: 'QAT', data: dohaData },
-  // SPAIN
-  { id: 'MAD', slug: 'madrid', countryId: 'ESP', data: madridData },
-  { id: 'SVQ', slug: 'seville', countryId: 'ESP', data: sevilleData },
   { id: 'BCN', slug: 'barcelona', countryId: 'ESP', data: barcelonaData },
-  // INDIA
   { id: 'BIR', slug: 'bir', countryId: 'IND', data: birData },
-  { id: 'LNV', slug: 'lonavala', countryId: 'IND', data: lonavalaData },
-  // SRI LANKA
-  { id: 'WLG', slug: 'weligama', countryId: 'LKA', data: weligamaData },
-  // NEPAL
-  { id: 'PKR', slug: 'pokhara', countryId: 'NPL', data: pokharaData },
-  { id: 'KTM', slug: 'kathmandu', countryId: 'NPL', data: kathmanduData },
-  // INDONESIA
-  { id: 'PRN', slug: 'pererenan', countryId: 'IDN', data: pererenanData },
-  // Add these to CITY_REGISTRY in src/lib/data/manifest.ts
-{ id: 'MEX', slug: 'mexico-city', countryId: 'MEX', data: cdmxData },
-  { id: 'MDE', slug: 'medellin', countryId: 'COL', data: medellinData },
-  { id: 'OAX', slug: 'oaxaca', countryId: 'MEX', data: oaxacaData },
-  { id: 'BUE', slug: 'buenos-aires', countryId: 'ARG', data: bueData },
-  {id: 'LIS', slug: 'lisbon', countryId: 'PRT', data: lisData },
   { id: 'BKK', slug: 'bangkok', countryId: 'THA', data: bkkData },
+  { id: 'BUE', slug: 'buenos-aires', countryId: 'ARG', data: bueData },
+  { id: 'CDMX', slug: 'cdmx', countryId: 'MEX', data: cdmxData },
+  { id: 'CHI', slug: 'chicago', countryId: 'USA', data: chicagoData },
+  { id: 'DEN', slug: 'denver', countryId: 'USA', data: denverData },
+  { id: 'DHA', slug: 'dhaka', countryId: 'BGD', data: dhaData },
+  { id: 'DOH', slug: 'doha', countryId: 'QAT', data: dohaData },
+  { id: 'IST', slug: 'istanbul', countryId: 'TUR', data: istanbulData },
+  { id: 'KTM', slug: 'kathmandu', countryId: 'NPL', data: kathmanduData },
+  { id: 'LHE', slug: 'lahore', countryId: 'PAK', data: lheData },
+  { id: 'LIS', slug: 'lisbon', countryId: 'PRT', data: lisData },
+  { id: 'LPB', slug: 'luang-prabang', countryId: 'LAO', data: lpbData },
+  { id: 'LPZ', slug: 'la-paz', countryId: 'BOL', data: lpzData },
+  { id: 'LNV', slug: 'lonavala', countryId: 'IND', data: lonavalaData },
+  { id: 'MAD', slug: 'madrid', countryId: 'ESP', data: madridData },
+  { id: 'MDE', slug: 'medellin', countryId: 'COL', data: medellinData },
+  { id: 'MIA', slug: 'miami', countryId: 'USA', data: miamiData },
+  { id: 'OAX', slug: 'oaxaca', countryId: 'MEX', data: oaxacaData },
+  { id: 'PKR', slug: 'pokhara', countryId: 'NPL', data: pokharaData },
+  { id: 'PRN', slug: 'pererenan', countryId: 'IDN', data: pererenanData },
+  { id: 'PTY', slug: 'panama-city', countryId: 'PAN', data: pcyData },
+  { id: 'RAK', slug: 'marrakech', countryId: 'MAR', data: rktData },
+  { id: 'SAO', slug: 'sao-paulo', countryId: 'BRA', data: saoData },
+  { id: 'SEA', slug: 'seattle', countryId: 'USA', data: seattleData },
+  { id: 'SVQ', slug: 'seville', countryId: 'ESP', data: sevilleData },
   { id: 'TBS', slug: 'tbilisi', countryId: 'GEO', data: tbsData },
-  { id: 'YER', slug: 'yerevan', countryId: 'ARM', data: yerData },
-    { id: 'DHA', slug: 'dhaka', countryId: 'BGD', data: dhaData },
-    { id: 'SAO', slug: 'sao-paulo', countryId: 'BRA', data: saoData },
-{ id: 'LPB', slug: 'luang-prabang', countryId: 'LAO', data: lpbData },
-{ id: 'RAK', slug: 'marrakech', countryId: 'MAR', data: rktData },
-{ id: 'PTY', slug: 'panama-city', countryId: 'PAN', data: pcyData },
-{ id: 'LPZ', slug: 'la-paz', countryId: 'BOL', data: lpzData },
-{ id: 'LHE', slug: 'lahore', countryId: 'PAK', data: lheData },
-];
+  { id: 'WLG', slug: 'weligama', countryId: 'LKA', data: weligamaData },
+  { id: 'YER', slug: 'yerevan', countryId: 'ARM', data: yerData }
+].sort(sortCitiesABC);
 
 /**
  * Example of a country and a city being added to this file

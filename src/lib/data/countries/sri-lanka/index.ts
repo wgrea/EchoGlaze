@@ -60,7 +60,6 @@ export default {
         available: true, 
         name: 'Digital Nomad Visa (Launched Feb 2026)',
         durationMonths: 12,
-        incomeRequirement: 2000 
       },
       workPolicy: "Tourist status allows remote work; Nomad Visa allows local bank accounts.",
       registrationAfterDays: 0,

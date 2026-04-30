@@ -58,7 +58,6 @@ export default {
         available: true, 
         name: 'E33G Remote Worker KITAS',
         durationMonths: 12,
-        incomeRequirement: 5000 // $60k USD annual
       },
       workPolicy: "Strictly remote for foreign entities; no local revenue allowed.",
       registrationAfterDays: 0, 
