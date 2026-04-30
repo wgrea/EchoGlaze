@@ -81,19 +81,6 @@
     </nav>
   </aside>
 
-  <!-- Right-side floating TOC -->
-  <aside class="hidden lg:block fixed right-10 top-40 w-48 text-xs text-slate-400 space-y-2">
-    <p class="font-bold text-slate-500">On this page</p>
-    {#each docGroups as category}
-      <p class="uppercase tracking-widest text-[10px] mt-4">{category.group}</p>
-      {#each category.items as item}
-        <a href={`#${item.id}`} class="block hover:text-blue-600">
-          {item.label}
-        </a>
-      {/each}
-    {/each}
-  </aside>
-
   <!-- Content -->
   <main class="flex-1 md:ml-64 p-8 lg:p-20 bg-gradient-to-br from-white via-[#fcfcfd] to-slate-50/30">
     <div class="max-w-3xl mx-auto">

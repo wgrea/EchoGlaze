@@ -65,24 +65,47 @@ function applyFilters(r: any): boolean {
 
 <nav class="sticky top-0 z-20 bg-white border-b border-slate-200 p-4 shadow-sm">
   <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+  <!-- Mode Switch Container -->
+<div class="flex flex-col md:flex-row items-stretch gap-4 w-full max-w-6xl">
+  
+  <!-- Global View Toggle (Fixed Width Symmetry) -->
+  <div class="flex items-center p-1.5 bg-slate-200/50 backdrop-blur-md rounded-[1.5rem] border border-slate-300/30">
+    <button 
+      class="flex-1 min-w-[140px] relative px-5 py-3 rounded-xl text-xs font-black tracking-widest transition-all duration-300
+      {mode === 'filters' ? 'bg-white text-indigo-600 shadow-md scale-100' : 'text-slate-500 hover:text-slate-700 scale-95'}"
+      on:click={() => mode = 'filters'}
+    >
+      COMPARE ALL
+    </button>
+    <button 
+      class="flex-1 min-w-[140px] relative px-5 py-3 rounded-xl text-xs font-black tracking-widest transition-all duration-300
+      {mode === 'country' ? 'bg-white text-indigo-600 shadow-md scale-100' : 'text-slate-500 hover:text-slate-700 scale-95'}"
+      on:click={() => mode = 'country'}
+    >
+      COUNTRY VIEW
+    </button>
+  </div>
 
-    <!-- Mode Switch -->
-    <div class="flex items-center gap-4">
-      <div class="flex bg-slate-100 p-1 rounded-lg">
-                <button 
-          class="px-3 py-1 rounded-md text-xs font-bold {mode === 'filters' ? 'bg-white shadow-sm text-indigo-600' : 'text-slate-500'}"
-          on:click={() => mode = 'filters'}
-        >
-          Compare All
-        </button>
-        <button 
-          class="px-3 py-1 rounded-md text-xs font-bold {mode === 'country' ? 'bg-white shadow-sm text-indigo-600' : 'text-slate-500'}"
-          on:click={() => mode = 'country'}
-        >
-          Country View
-        </button>
+  <!-- Transportation Action Card (Now scales with the toggle) -->
+  <a href="/transportation" 
+     class="group relative flex-1 flex items-center justify-between p-1 bg-white border border-slate-200 rounded-[1.5rem] shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden"
+  >
+    <div class="flex items-center gap-4 p-3">
+      <div class="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center text-2xl group-hover:bg-indigo-50 transition-colors duration-500">
+        <span class="group-hover:scale-110 group-hover:-rotate-3 transition-transform">🚗</span>
+      </div>
+      <div>
+        <h3 class="font-black text-slate-900 text-sm tracking-tight leading-none">Transportation</h3>
+        <p class="text-[10px] text-slate-500 font-medium mt-1">Strategy & Apps</p>
       </div>
     </div>
+
+    <div class="pr-6 opacity-20 group-hover:opacity-100 group-hover:translate-x-1 transition-all">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
+    </div>
+  </a>
+</div>
+
 
   </div>
 </nav>

@@ -1,161 +1,133 @@
 <!-- src/routes/+page.svelte -->
 <script lang="ts">
-  // Home components
+  // 1. IMPORT YOUR COMPONENTS
   import MenuGrid from '$lib/components/home/MenuGrid.svelte';
 
-  let loading = false;
+  // 2. DECLARE THE MAIN MENU ARRAY
+  const menuItems = [
+    {
+      title: 'Destination Finder',
+      description: 'Match places to your travel style',
+      icon: '🌅',
+      path: '/resonance',
+      color: 'from-pink-50 via-orange-50 to-yellow-100',
+      accent: 'text-pink-600 drop-shadow-lg'
+    },
+    {
+      title: 'Logistics', 
+      description: 'Visa needs and seasonal flight data',
+      icon: '✈️',
+      path: '/logistics',
+      color: 'from-indigo-50 via-blue-50 to-cyan-50',
+      accent: 'text-blue-600 drop-shadow-sm'
+    },
+    {
+      title: 'Accommodation',
+      description: 'Find hostels and coliving spaces',
+      icon: '🏠',
+      path: '/accommodation',
+      color: 'from-amber-50 via-emerald-50 to-stone-100',
+      accent: 'text-amber-600 drop-shadow-md'
+    },
+    {
+      title: 'Packing Strategy',
+      description: 'Regional style and tech loadouts',
+      icon: '🎒',
+      path: '/packing',
+      color: 'from-blue-50 via-indigo-50 to-slate-100',
+      accent: 'text-indigo-600 drop-shadow-sm'
+    }
+  ];
 
-const menuItems = [
-  {
-    title: 'Destination Finder',
-    description: 'Match places to your travel style',
-    icon: '🌅',  // sunset for beach vibe
-    path: '/resonance',
-    color: 'from-pink-50 via-orange-50 to-yellow-100',  // pink-orange-yellow sunset
-    accent: 'text-pink-600 drop-shadow-lg'
-  },
-  {
-    title: 'Logistics', 
-    description: 'Visa needs and seasonal flight data',
-    icon: '✈️',
-    path: '/logistics',
-    color: 'from-indigo-50 via-blue-50 to-cyan-50',  // Frutiger Aero glassy blue
-    accent: 'text-blue-600 drop-shadow-sm'
-  },
-  {
-    title: 'Accommodation',
-    description: 'Find hostels and coliving spaces',
-    icon: '🏠',
-    path: '/accommodation',
-    color: 'from-amber-50 via-emerald-50 to-stone-100',  // Cozy wood cabin warmth
-    accent: 'text-amber-600 drop-shadow-md'
-  },
-  {
-    title: 'Packing Strategy',
-    description: 'Regional style and tech loadouts',
-    icon: '🎒',
-    path: '/packing',
-    color: 'from-blue-50 via-indigo-50 to-slate-100', // Glacial/Tech blue
-    accent: 'text-indigo-600 drop-shadow-sm'
-  }
-];
-
-// Add these to your menuItems or as a secondary section on your home page
-const digitalNomadLinks = [
-  {
-    title: 'Supports',
-    description: 'Mental health & expat networks',
-    icon: '👥',
-    path: '/nomad/support',
-    color: 'from-indigo-50 to-blue-50', // Cold glacier blue
-    accent: 'text-indigo-600'
-  },
-  {
-    title: 'WFA Guide',
-    description: 'Remote career blueprints',
-    icon: '💼',
-    path: '/nomad/how-to-wfa',
-    color: 'from-teal-50 to-cyan-50', // Tropical seafoam
-    accent: 'text-teal-600'
-  }
-];
+  // 3. DECLARE THE MERGED SUPPORT OBJECT
+  const digitalNomadLink = {
+    title: 'Support & WFA Guide',
+    description: 'Career blueprints, mental health, and expat networks',
+    icon: '🌐',
+    path: '/support',
+    color: 'from-indigo-50 via-blue-50 to-teal-50', 
+    accent: 'text-slate-800'
+  };
 </script>
 
-<div class="home-page-container relative max-w-[1440px] mx-auto">
+<div class="home-page-container relative max-w-[1440px] mx-auto min-h-screen">
+  <!-- Beach Glacier Background remains the same -->
   <div class="absolute inset-0 -z-10"> 
-    <div class="beach-glacier-bg absolute inset-0">
-
-    </div>
+    <div class="beach-glacier-bg absolute inset-0"></div>
   </div>
   
-  <!-- Your existing content -->
-  <div class="relative z-10 py-12 space-y-16 max-w-6xl mx-auto px-4">
-    <!-- Hero -->
-<div class="text-center mb-20">
-  <div class="flex justify-center mb-10">
-    <div class="relative group w-full max-w-2xl px-4"> <div class="absolute -inset-4 bg-gradient-to-r from-blue-500 to-cyan-400 rounded-full blur-2xl opacity-15 group-hover:opacity-35 transition duration-1000"></div>
-      
-      <img 
-        src="/echoglazelogo.png" 
-        alt="EchoGlaze Logo (Letters)" 
-        class="relative w-full h-auto object-contain mx-auto"
-      />
-    </div>
-  </div>
+  <div class="relative z-10 py-8 space-y-12 max-w-6xl mx-auto px-4">
 
-  <p class="text-xl text-slate-600/90 max-w-2xl mx-auto leading-relaxed drop-shadow-sm">
-    A decision‑first planner for digital nomads who care more about vibe and legality than exact prices.
-  </p>
-</div>
+    <!-- 2. MAIN HUB: The Core 4 Tools -->
+    <section>
 
-    <!-- Main menu grid -->
-<div class="max-w-4xl mx-auto mb-16">
-  <MenuGrid {menuItems} />
-</div>
+      <MenuGrid {menuItems} />
+    </section>
 
-<div class="max-w-2xl mx-auto pb-20 px-4">
-  <div class="flex items-center gap-4 mb-6">
-    <h2 class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 whitespace-nowrap">Nomad Support</h2>
-    <div class="h-px w-full bg-gradient-to-r from-slate-200 to-transparent"></div>
-  </div>
-  
-  <div class="grid grid-cols-2 gap-4">
-    {#each digitalNomadLinks as link}
-      <a href={link.path} class="group relative p-5 bg-white/40 backdrop-blur-md border border-white/60 rounded-3xl hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden">
-        <div class="flex items-center gap-3">
-          <span class="text-2xl drop-shadow-sm">{link.icon}</span>
-          <div>
-            <h3 class="font-bold text-sm text-slate-800 leading-none">{link.title}</h3>
-            <p class="text-[10px] text-slate-500 mt-1 leading-tight opacity-0 group-hover:opacity-100 transition-opacity">
-              Access resources
-            </p>
+    <!-- 3. SECONDARY HUB: The "Long-Term" Infrastructure -->
+    <section class="max-w-4xl mx-auto border-t border-slate-200/50 pt-12 pb-20">
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Support & WFA Master Button (Visual upgrade) -->
+        <a href={digitalNomadLink.path} 
+           class="group relative p-6 bg-white/40 backdrop-blur-md border border-white/60 rounded-[2rem] hover:shadow-2xl hover:-translate-y-1 transition-all duration-500 overflow-hidden"
+        >
+          <div class="flex items-center gap-5 relative z-10">
+            <span class="text-3xl drop-shadow-md group-hover:scale-110 transition-transform">{digitalNomadLink.icon}</span>
+            <div>
+              <h3 class="font-black text-slate-800 leading-tight text-lg">{digitalNomadLink.title}</h3>
+              <p class="text-xs text-slate-500 mt-1 font-medium italic opacity-80">Career & Resilience</p>
+            </div>
           </div>
-        </div>
-        <div class="absolute -right-4 -bottom-4 w-12 h-12 bg-gradient-to-br {link.color} blur-2xl opacity-50"></div>
-      </a>
-    {/each}
-<!-- Compact docs button - matches nomad support scale -->
-<div class="max-w-2xl mx-auto pt-12 px-4">
-<!-- Compact docs button - matches nomad support scale -->
-<a 
-  href="/docs"
-  class="inline-flex items-center gap-2 px-3 py-2 rounded-xl 
-         bg-white/70 border border-slate-200 shadow-sm
-         hover:bg-white hover:shadow-md hover:-translate-y-[1px]
-         transition-all duration-200"
->
-  <span class="text-lg">📚</span>
-  <span class="font-medium text-xs text-slate-700 tracking-wide">
-    Documentation
-  </span>
-</a>
+          <div class="absolute -right-4 -bottom-4 w-20 h-20 bg-gradient-to-br {digitalNomadLink.color} blur-3xl opacity-30 group-hover:opacity-60 transition-opacity"></div>
+        </a>
 
-</div>
-    
-  </div>
-</div>
+        <!-- Documentation / Wiki Button -->
+        <a href="/docs"
+           class="group relative p-6 bg-white/20 backdrop-blur-sm border border-slate-200/50 rounded-[2rem] hover:bg-white/60 transition-all duration-300"
+        >
+          <div class="flex items-center gap-5">
+            <span class="text-3xl grayscale group-hover:grayscale-0 transition-all">📚</span>
+            <div>
+              <h3 class="font-bold text-slate-700 text-lg">Knowledge Base</h3>
+              <p class="text-xs text-slate-400 mt-1 uppercase tracking-widest font-black">Architecture Docs</p>
+            </div>
+          </div>
+        </a>
+      </div>
+    </section>
   </div>
 </div>
 
 <style>
+  /* Bring back the soft beach‑glacier glow */
   .beach-glacier-bg {
-    background: 
-      /* Beach sunset base */
+    background:
       radial-gradient(circle at 20% 80%, rgba(253, 242, 248, 0.6) 0%, transparent 50%),
       radial-gradient(circle at 80% 20%, rgba(165, 243, 252, 0.4) 0%, transparent 50%),
-      
-      /* Glacier ice blue */
       radial-gradient(circle at 40% 30%, rgba(147, 197, 253, 0.5) 0%, transparent 40%),
       radial-gradient(circle at 70% 60%, rgba(219, 234, 254, 0.7) 0%, transparent 50%),
-      
-      /* Ocean horizon */
-      linear-gradient(135deg, 
-        #f8fafc 0%, 
-        #e2e8f0 30%, 
-        #f1f5f9 70%, 
-        #f8fafc 100%);
-    
+      linear-gradient(135deg,
+        #f8fafc 0%,
+        #e2e8f0 30%,
+        #f1f5f9 70%,
+        #f8fafc 100%
+      );
     filter: blur(20px) brightness(1.1);
     transform: scale(1.1);
+  }
+
+  .home-page-container {
+    min-height: 100vh;
+  }
+
+  /* Re‑create the hero’s breathable text */
+  .hero-copy {
+    color: #2d2a24;
+    font-size: 1.125rem;
+    line-height: 1.7;
+    text-align: center;
+    max-width: 32rem;
+    margin: 0 auto;
   }
 </style>

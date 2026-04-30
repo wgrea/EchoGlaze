@@ -48,10 +48,9 @@ const navLinks = [
     <!-- THE UNIFIED EASY NAV PILL -->
     <div class="pointer-events-auto flex flex-col bg-white/80 backdrop-blur-2xl rounded-[2rem] border border-white/50 shadow-2xl transition-all duration-500 overflow-hidden w-full max-w-fit">
       
-      <!-- Top Row: Logo & Interaction Area -->
+      <!-- Logo (home) -->
       <div class="flex items-center gap-3 p-2">
-        <!-- Integrated Logo (Home Button) -->
-        <a href="/" on:click={closeMenu} class="flex items-center pl-2 pr-1 group transition-transform active:scale-95">
+        <a href="/" class="flex items-center pl-2 pr-1 group transition-transform active:scale-95">
           <img src="/echoglazelogo.png" alt="EchoGlaze" class="h-7 w-auto object-contain" />
         </a>
 
@@ -86,18 +85,18 @@ const navLinks = [
   </div>
 </header>
 
-<!-- Mobile menu panel (OUTSIDE the header, inside the <main>) -->
 {#if isMenuOpen}
   <div
     transition:slide|local
-    class="fixed top-20 left-4 right-4 z-50 bg-white/95 backdrop-blur-md md:hidden rounded-t-3xl p-4 shadow-2xl"
+    class="fixed top-20 left-4 right-4 z-50 bg-white/80 backdrop-blur-2xl md:hidden rounded-[2rem] border border-white/50 shadow-2xl p-4"
   >
-    <nav class="flex flex-col gap-2">
+    <nav class="flex flex-col gap-1">
       {#each navLinks as link}
         <a
           href={`${link.path}?country=${currentCountry}`}
           on:click={closeMenu}
-          class="px-4 py-3 text-sm font-black uppercase tracking-widest text-slate-700 hover:bg-slate-100 rounded-xl transition-colors"
+          class="px-4 py-2.5 text-sm font-black uppercase tracking-widest rounded-full text-slate-700
+                 hover:bg-white/80 hover:shadow-sm transition-all"
         >
           {link.icon} {link.name}
         </a>
