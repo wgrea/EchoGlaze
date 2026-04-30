@@ -2,13 +2,30 @@
   import '../app.css';
   import { page } from '$app/stores';
 
+  import { slide, fade } from 'svelte/transition';
+  import { cubicOut } from 'svelte/easing';
+
+  let isMenuOpen = false;
+  const toggleMenu = () => isMenuOpen = !isMenuOpen;
+  const closeMenu = () => isMenuOpen = false;
+
   let currentYear = new Date().getFullYear();
+
+    import { goto } from '$app/navigation';
+  $: currentCountry = $page.url.searchParams.get('country') || 'USA';
 
   $: themeColor = $page.url.pathname === '/' ? 'beach-glacier' :
                   $page.url.pathname.includes('resonance') ? 'pink-purple' :
                   $page.url.pathname.includes('logistics') ? 'purple-pink' :
                   $page.url.pathname.includes('accommodation') ? 'amber-orange' :
                   'default';
+const navLinks = [
+  { name: 'Logistics', path: '/logistics', icon: '✈️', color: 'bg-blue-100 text-blue-800' },
+  { name: 'Accommodation', path: '/accommodation', icon: '🏠', color: 'bg-amber-100 text-amber-800' },
+  { name: 'Resonance', path: '/resonance', icon: '🌅', color: 'bg-pink-100 text-rose-800', primary: true },
+  { name: 'Packing', path: '/packing', icon: '🎒', color: 'bg-emerald-100 text-emerald-800', secondary: true },
+  { name: 'Support', path: '/support', icon: '🌐', color: 'bg-violet-100 text-violet-800', secondary: true }
+];
 </script>
 
 <svelte:window />  <!-- FIXED: no binding needed -->
@@ -22,34 +39,75 @@
 ></div>
 
 
-<!-- SINGLE layout shell -->
+<!-- inside your layout shell ... -->
 <main class="layout-main relative min-h-screen z-10">
-  <!-- Header -->
-  <header class="relative z-30 bg-white/20 backdrop-blur-xl border-b border-white/30 shadow-2xl shadow-black/10">
-    <div class="nostalgic-container">
-      <div class="flex justify-between items-center h-16">
-        <!-- Logo -->
-<a href="/" class="flex items-center gap-3 group">
-  <div class="relative">
-    <div class="absolute -inset-1 bg-gradient-to-r from-blue-500 to-cyan-400 rounded-full blur opacity-0 group-hover:opacity-20 transition duration-500"></div>
+<!-- STICKY HEADER -->
+<header class="sticky top-0 z-50 py-4 pointer-events-none">
+  <div class="nostalgic-container mx-auto px-4 flex flex-col items-center">
     
-    <img 
-      src="/echoglazelogo.png" 
-      alt="EchoGlaze" 
-      class="relative h-8 w-auto object-contain" 
-    />
-  </div>
+    <!-- THE UNIFIED EASY NAV PILL -->
+    <div class="pointer-events-auto flex flex-col bg-white/80 backdrop-blur-2xl rounded-[2rem] border border-white/50 shadow-2xl transition-all duration-500 overflow-hidden w-full max-w-fit">
+      
+      <!-- Top Row: Logo & Interaction Area -->
+      <div class="flex items-center gap-3 p-2">
+        <!-- Integrated Logo (Home Button) -->
+        <a href="/" on:click={closeMenu} class="flex items-center pl-2 pr-1 group transition-transform active:scale-95">
+          <img src="/echoglazelogo.png" alt="EchoGlaze" class="h-7 w-auto object-contain" />
+        </a>
 
-  <span class="text-sm text-slate-500 border-l border-slate-200 pl-3 hidden sm:inline-block">
-    Work Abroad Planner
-  </span>
-</a>
+        <!-- Vertical Divider (Desktop only) -->
+        <div class="w-px h-6 bg-slate-200/60 hidden md:block"></div>
+
+        <!-- DESKTOP LINKS (Visible always on MD+) -->
+        <nav class="hidden md:flex items-center gap-1">
+          {#each navLinks as link}
+            <a href={`${link.path}?country=${currentCountry}`} 
+               class="px-4 py-2 text-[10px] font-black uppercase tracking-widest rounded-full transition-all hover:bg-white/80 {link.color.split(' ')[1]}">
+              {link.name}
+            </a>
+          {/each}
+        </nav>
+
+        <!-- MOBILE TRIGGER (Visible only on SM) -->
+        <button 
+          on:click={toggleMenu}
+          class="md:hidden flex items-center gap-2 pl-2 pr-4 py-2 hover:bg-slate-50/50 rounded-full transition-colors group"
+        >
+          <span class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">
+            {isMenuOpen ? 'Close' : 'Navigation'}
+          </span>
+          <div class="flex flex-col gap-1 w-4 transition-transform duration-300 {isMenuOpen ? 'rotate-180' : ''}">
+            <span class="h-0.5 w-full bg-slate-400 rounded-full"></span>
+            <span class="h-0.5 w-full bg-slate-400 rounded-full opacity-50"></span>
+          </div>
+        </button>
       </div>
     </div>
-  </header>
+  </div>
+</header>
+
+<!-- Mobile menu panel (OUTSIDE the header, inside the <main>) -->
+{#if isMenuOpen}
+  <div
+    transition:slide|local
+    class="fixed top-20 left-4 right-4 z-50 bg-white/95 backdrop-blur-md md:hidden rounded-t-3xl p-4 shadow-2xl"
+  >
+    <nav class="flex flex-col gap-2">
+      {#each navLinks as link}
+        <a
+          href={`${link.path}?country=${currentCountry}`}
+          on:click={closeMenu}
+          class="px-4 py-3 text-sm font-black uppercase tracking-widest text-slate-700 hover:bg-slate-100 rounded-xl transition-colors"
+        >
+          {link.icon} {link.name}
+        </a>
+      {/each}
+    </nav>
+  </div>
+{/if}
 
   <!-- Content area -->
-  <div class="relative z-20 pt-8 pb-20">
+  <div class="relative z-20 pt-4 pb-24">
     <slot />
   </div>
 
