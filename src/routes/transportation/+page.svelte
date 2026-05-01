@@ -3,32 +3,28 @@
   import { loadCountry } from '$lib/loaders/country';
   import type { Transportation, Country } from '$lib/types';
   import { COUNTRY_REGISTRY } from '$lib/data/manifest';
+  import { selectedCountryId } from '$lib/stores/location';
 
-  console.log("TRANSPORTATION PAGE HYDRATED");
-
-  // Same selector state as Logistics
-  let to = 'azerbaijan';
-  let destinationData: Country | null = null;
-  let transportation: Transportation | null = null;
-  let loading = false;
-
-  // Build the dropdown list exactly like Logistics
+  // ADD THIS:
   const countries = COUNTRY_REGISTRY.map(c => ({
     id: c.slug,
     name: c.data.name,
     icon: c.icon
   }));
+  
+  let destinationData: Country | null = null;
+  let transportation: Transportation | null = null;
+  let loading = false;
 
-  // Reactive: whenever "to" changes, reload
-  $: if (to) updateTransportation(to);
+  $: if ($selectedCountryId && $selectedCountryId !== 'all') {
+    updateTransportation($selectedCountryId);
+  }
 
   async function updateTransportation(dest: string) {
     loading = true;
     try {
       destinationData = await loadCountry(dest);
       transportation = destinationData?.transportation ?? null;
-    } catch (e) {
-      console.error("Failed to load transportation:", e);
     } finally {
       loading = false;
     }
@@ -39,19 +35,22 @@
   <div class="max-w-5xl mx-auto flex items-center justify-between gap-4">
     <div class="flex items-center gap-2">
       <span class="text-xl">🚗</span>
-      <select bind:value={to} class="bg-transparent font-bold text-indigo-600 outline-none cursor-pointer text-sm">
+      <!-- 3. Bind to the store directly -->
+      <select bind:value={$selectedCountryId} 
+        class="bg-transparent font-bold text-indigo-600 outline-none cursor-pointer text-sm"
+      >
         {#each countries as c}
           <option value={c.id}>{c.icon} {c.name}</option>
         {/each}
       </select>
     </div>
 
-    {#if destinationData}
-      <div class="text-right">
-        <span class="text-[10px] font-black uppercase tracking-widest text-slate-400 block leading-none mb-1">Region</span>
-        <span class="text-xs font-bold text-slate-600">{destinationData.region}</span>
-      </div>
-    {/if}
+{#if destinationData}
+  <div class="text-right">
+    <span class="block text-xs font-bold">{destinationData.name}</span>
+    <span class="block text-xs font-bold text-slate-600">{destinationData.region}</span>
+  </div>
+{/if}
   </div>
 </nav>
 

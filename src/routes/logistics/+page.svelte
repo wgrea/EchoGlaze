@@ -4,10 +4,9 @@
   import { COUNTRY_REGISTRY } from '$lib/data/manifest';
   import CountryView from '$lib/components/logistics/CountryView.svelte';
   import GlobalCompareView from '$lib/components/logistics/GlobalCompareView.svelte';
+  import { selectedCountryId } from '$lib/stores/location';
 
   let selectedMonth: string = 'none';
-
-  let to = 'azerbaijan';
   let destinationData: any = null;
   let loading = false;
   let mode: 'country' | 'filters' = 'filters';
@@ -20,36 +19,15 @@
     icon: c.icon
   }));
 
-  // Month → number map (needed for filtering)
   const monthMap: Record<string, number> = {
     jan: 1, feb: 2, mar: 3, apr: 4, may: 5, jun: 6,
     jul: 7, aug: 8, sep: 9, oct: 10, nov: 11, dec: 12
   };
 
-// inside +page.svelte
-function applyFilters(r: any): boolean {
-  if (!r) return false;
-
-  // Visa checks
-  if (visaType === 'nomad' && !r.visa.nomadVisa?.available) return false;
-  if (visaType === 'tourist' && !r.visa.longStayTouristVisaMonths) return false;
-  if (visaType === 'visaFree' && (!r.visa.touristStayDays || r.visa.touristStayDays <= 0)) return false;
-
-  // Seasonality check
-  if (selectedMonth !== 'none') {
-    const monthNum = monthMap[selectedMonth];
-    const s = r.seasonality;
-    if (!s) return false;
-
-    // Combined check for any valid travel tier
-    const allActiveMonths = [...s.cheapest, ...s.sweetSpot, ...s.peak, ...(s.neutral || [])];
-    if (!allActiveMonths.includes(monthNum)) return false;
+  // REACTIVE LOGIC: Fetch data whenever the global store changes
+  $: if ($selectedCountryId && $selectedCountryId !== 'all') {
+    updateLogistics($selectedCountryId);
   }
-
-  return true;
-}
-
-  $: if (to) updateLogistics(to);
 
   async function updateLogistics(dest: string) {
     loading = true;
@@ -58,9 +36,25 @@ function applyFilters(r: any): boolean {
   }
 
   const selectCountry = (slug: string) => {
-    to = slug;
+    selectedCountryId.set(slug); 
     mode = 'country';
   };
+
+  function applyFilters(r: any): boolean {
+    if (!r) return false;
+    if (visaType === 'nomad' && !r.visa.nomadVisa?.available) return false;
+    if (visaType === 'tourist' && !r.visa.longStayTouristVisaMonths) return false;
+    if (visaType === 'visaFree' && (!r.visa.touristStayDays || r.visa.touristStayDays <= 0)) return false;
+
+    if (selectedMonth !== 'none') {
+      const monthNum = monthMap[selectedMonth];
+      const s = r.seasonality;
+      if (!s) return false;
+      const allActiveMonths = [...s.cheapest, ...s.sweetSpot, ...s.peak, ...(s.neutral || [])];
+      if (!allActiveMonths.includes(monthNum)) return false;
+    }
+    return true;
+  }
 </script>
 
 <nav class="sticky top-0 z-20 bg-white border-b border-slate-200 p-4 shadow-sm">
@@ -113,18 +107,18 @@ function applyFilters(r: any): boolean {
 <main class="max-w-6xl mx-auto p-6">
 
 
-  {#if mode === 'country'}
-    {#if loading}
-      <div class="py-20 text-center animate-pulse">🌍 Loading {to}...</div>
-    {:else if destinationData}
-      {#if applyFilters(destinationData.travelReadiness)}
-        <CountryView 
-          data={destinationData}
-          {countries}
-          {selectedMonth} 
-          bind:to
-        />
-      {:else}
+{#if mode === 'country'}
+  {#if loading}
+    <!-- Use the store value for the loading label -->
+    <div class="py-20 text-center animate-pulse">🌍 Loading {$selectedCountryId}...</div>
+  {:else if destinationData}
+    {#if applyFilters(destinationData.travelReadiness)}
+      <CountryView 
+        data={destinationData}
+        {countries}
+        {selectedMonth} 
+      />
+    {:else}
         <div class="p-12 text-center bg-slate-50 rounded-2xl border border-dashed border-slate-200">
           <p class="text-slate-500 font-bold">The filters from "Compare All" are hiding {destinationData.name}.</p>
           <button 
