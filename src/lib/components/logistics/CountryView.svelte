@@ -1,27 +1,30 @@
 <!-- src/lib/components/logistics/CountryView.svelte -->
 <script lang="ts">
   import type { Country } from '$lib/types';
+  import { selectedCountryId } from '$lib/stores/location';
 
-  // 1. Add { icon?: string } to the type to fix the 'icon' error from earlier
-  export let data: Country & { icon?: string }; 
+  export let data: Country & { icon?: string };
   export let countries: { id: string; name: string; icon: string }[];
-  export let to: string;
-  
-  // 2. Ensure this has the 'export' keyword
   export let selectedMonth: string = 'none';
 
   const monthLabels = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   const monthKeys = ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'];
 
   $: readiness = data.travelReadiness;
+  $: selectedCountryName = countries.find(c => c.id === $selectedCountryId)?.name ?? data.name;
+    // Make sure to define the reactive variable explicitly based on the store
+  $: countryData = countries.find(c => c.id === $selectedCountryId);
 </script>
+
+
+<span class="text-2xl">{countryData?.icon ?? data.icon}</span>
 
 <div class="space-y-8 animate-in fade-in duration-300">
   <header>
     <div class="flex items-center gap-2">
       <span class="text-2xl">{data.icon}</span>
-      <select 
-        bind:value={to} 
+      <select
+        bind:value={$selectedCountryId}
         class="bg-transparent font-black text-slate-900 text-xl outline-none cursor-pointer hover:text-indigo-600 transition-colors"
       >
         {#each countries as c}
@@ -29,7 +32,11 @@
         {/each}
       </select>
     </div>
-    <p class="text-slate-500 text-sm italic mt-1">Region: {data.region}</p>
+
+    <p class="text-slate-500 text-sm italic mt-1">
+      Selected country: {selectedCountryName}
+    </p>
+    <p class="text-slate-500 text-sm italic">Region: {data.region}</p>
   </header>
 
   <div class="space-y-6">
