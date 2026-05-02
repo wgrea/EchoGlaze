@@ -4,34 +4,33 @@
   import type { Country, PackingStrategy } from '$lib/types';
   import { COUNTRY_REGISTRY } from '$lib/data/manifest';
   import { GLOBAL_GAMING_LOADOUT } from '$lib/data/constants';
+  import { selectedCountryId } from '$lib/stores/location';
 
-  console.log("PACKING PAGE HYDRATED");
-
-  // Default to Argentina for testing since it has the new data
-  let to = 'argentina'; 
   let destinationData: Country | null = null;
   let packing: PackingStrategy | null = null;
   let loading = false;
 
   const countries = COUNTRY_REGISTRY.map(c => ({
-    id: c.slug,
+    id: c.id,
     name: c.data.name,
     icon: c.icon
   }));
 
-  $: if (to) updatePacking(to);
+  // This reactive block handles the "listening" for you
+  $: if ($selectedCountryId && $selectedCountryId !== 'all') {
+      const entry = COUNTRY_REGISTRY.find(c => c.id === $selectedCountryId);
+      if (entry) {
+          updatePacking(entry.slug); 
+      }
+  }
 
-  async function updatePacking(dest: string) {
+  async function updatePacking(slug: string) {
     loading = true;
-    console.log(`DEBUG: Loading data for ${dest}...`);
     try {
-      destinationData = await loadCountry(dest);
-      console.log("DEBUG: Raw Country Object:", destinationData);
-      
+      destinationData = await loadCountry(slug);
       packing = destinationData?.packing ?? null;
-      console.log("DEBUG: Packing Object extracted:", packing);
     } catch (e) {
-      console.error("DEBUG: Failed to load packing data:", e);
+      console.error("Failed to sync packing list:", e);
     } finally {
       loading = false;
     }
@@ -42,11 +41,13 @@
   <div class="max-w-5xl mx-auto flex items-center justify-between gap-4">
     <div class="flex items-center gap-2">
       <span class="text-xl">🎒</span>
-      <select bind:value={to} class="bg-transparent font-bold text-blue-600 outline-none cursor-pointer text-sm">
-        {#each countries as c}
-          <option value={c.id}>{c.icon} {c.name}</option>
-        {/each}
-      </select>
+<select bind:value={$selectedCountryId}>
+  {#each countries as country}
+    <option value={country.id}>
+      {country.icon} {country.name}
+    </option>
+  {/each}
+</select>
     </div>
   </div>
 </nav>
@@ -93,10 +94,14 @@
       </div>
     </section>
   {:else}
-    <div class="p-8 text-center bg-slate-50 rounded-3xl border border-dashed border-slate-300">
-      <p class="text-slate-400 text-sm">No packing data found in <strong>{to}</strong> file.</p>
-      <p class="text-[10px] mt-2 text-slate-300">Check if 'packing' object is exported in the index.ts of this country.</p>
-    </div>
+<div class="p-8 text-center bg-slate-50 rounded-3xl border border-dashed border-slate-300">
+  <p class="text-slate-400 text-sm">
+    No packing data found in <strong>{$selectedCountryId}</strong> file.
+  </p>
+  <p class="text-[10px] mt-2 text-slate-300">
+    Check if 'packing' object is exported in the index.ts of this country.
+  </p>
+</div>
   {/if}
 
     <section class="bg-slate-900 text-white p-8 rounded-[2rem] shadow-2xl">
