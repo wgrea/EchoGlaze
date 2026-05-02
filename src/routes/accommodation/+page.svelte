@@ -25,15 +25,22 @@
     socialTone: 'all'
   };
 
-  // 2. Reactive Helpers
-  $: selectedCity = cities.find(c => c.id === $selectedCityId) || null;
-
   // Logic: If a city is selected (even from another page), 
   // auto-sync the country store so the filter doesn't break.
-  $: if ($selectedCityId !== 'all' && cities.length > 0) {
-    const cityObj = cities.find(c => c.id === $selectedCityId);
-    if (cityObj && cityObj.countryId !== $selectedCountryId) {
-      selectedCountryId.set(cityObj.countryId);
+// ONLY sync country if we are NOT in the middle of a country change
+  $: {
+    if (cities.length > 0 && $selectedCityId !== 'all') {
+      const cityObj = cities.find(c => c.id === $selectedCityId);
+      
+      // Safety: Only force the country to match the city if the city 
+      // actually belongs to a country. If we just switched to Spain 
+      // and Medellin is still there, this should NOT fire.
+      if (cityObj && cityObj.countryId === $selectedCountryId) {
+        // City and Country match, all good.
+      } else if (cityObj && $selectedCountryId === 'all') {
+        // Only auto-select country if no country is currently picked
+        selectedCountryId.set(cityObj.countryId);
+      }
     }
   }
 
@@ -68,99 +75,63 @@
     }
   });
 
+// 2. Reactive Helpers
+  $: selectedCity = cities.find(c => c.id === $selectedCityId) || null;
+
+// 1. Monitor Country changes to reset City
+  // This is the "Reset Switch" that prevents the sticky-city bug.
+  $: if ($selectedCountryId) {
+    // If the country changes, we check if the current city still belongs to it.
+    if ($selectedCityId !== 'all' && cities.length > 0) {
+      const cityObj = cities.find(c => c.id === $selectedCityId);
+      if (!cityObj || cityObj.countryId !== $selectedCountryId) {
+        // Force reset to 'all' so the filter doesn't get stuck searching for
+        // a city that isn't in the new country.
+        selectedCityId.set('all');
+      }
+    }
+  }
+
+// Remove all previous $: blocks and replace with this:
+// Replace your existing $: blocks with this single one:
+$: {
+  if (cities.length > 0 && stayOptions.length > 0) {
+    const cityObj = cities.find(c => c.id === $selectedCityId);
+
+    // Bottom-Up Sync:
+    // If a city is somehow selected (like from a saved state or link),
+    // make sure the country dropdown matches it.
+    if ($selectedCityId !== 'all' && cityObj && $selectedCountryId !== cityObj.countryId) {
+       selectedCountryId.set(cityObj.countryId);
+    }
+
+    // Always run the filter engine whenever these values change
+    applyFilters();
+  }
+}
+
 function applyFilters() {
-  // 1. Get the current selection from the store
-  const selection = ($selectedCountryId || "").toString().toLowerCase().trim();
-  const citySelection = ($selectedCityId || "").toString().toLowerCase().trim();
+  // Normalize selections
+  const countrySel = ($selectedCountryId || "all").toLowerCase();
+  const citySel = ($selectedCityId || "all").toLowerCase();
 
-  filteredOptions = stayOptions.filter(option => {
-    // 2. Flexible Country Filtering
-    if (selection !== 'all') {
-      // Get data from the nested city object created in stay.ts loader
-      const countryId = (option.city?.countryId || "").toLowerCase();
-      const countryName = (option.city?.countryName || "").toLowerCase();
-      
-      // We need the slug. Since stay.ts doesn't include it by default, 
-      // we check against ID (QAT) and Name (Qatar). 
-      // If your Logistics page saves "qatar", countryName.toLowerCase() will catch it.
-      const isCountryMatch = countryId === selection || countryName === selection;
-      
-      if (!isCountryMatch) return false;
-    }
+  filteredOptions = stayOptions.filter(opt => {
+    const optCountryId = (opt.city?.countryId || opt.countryId || "").toLowerCase();
+    const optCityId = (opt.cityId || "").toLowerCase();
 
-    // 3. Flexible City Filtering
-    if (citySelection !== 'all') {
-      const cityId = (option.cityId || "").toLowerCase();
-      const cityName = (option.cityName || "").toLowerCase();
-      
-      const isCityMatch = cityId === citySelection || cityName === citySelection;
-      if (!isCityMatch) return false;
-    }
+    // 1. Country Match
+    if (countrySel !== 'all' && optCountryId !== countrySel) return false;
+    
+    // 2. City Match
+    if (citySel !== 'all' && optCityId !== citySel) return false;
 
-    // 4. Existing Functional Filters
-    if (filters.type !== 'all' && option.type !== filters.type) return false;
-    if ((option.wifiScore ?? 0) < filters.wifiMin) return false;
+    // 3. Attribute Filters
+    if (filters.type !== 'all' && opt.type !== filters.type) return false;
+    if ((opt.wifiScore ?? 0) < filters.wifiMin) return false;
     
     return true;
   });
 }
-  // Reactive log to track the store changing globally
-  $: console.log("Current Global Store Country:", $selectedCountryId);
+
+
 </script>
-
-<div class="max-w-6xl mx-auto px-4 py-8 flex flex-col lg:flex-row gap-8">
-  <div class="flex-1">
-    <h1 class="text-3xl font-bold text-gray-900 mb-2">🏠 Accommodation Finder</h1>
-    
-    <div class="mt-6 mb-6">
-      <p class="text-sm font-medium mb-2 text-slate-500">Global Location</p>
-      <!-- This component handles the $selectedCountryId and $selectedCityId internally -->
-      <GlobalLocationSelector level="city" />
-    </div>
-
-    <div class="flex gap-2 mb-6">
-      <button
-        class="px-3 py-1 rounded-lg text-sm font-bold 
-          {mode === 'stay' ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-600'}"
-        on:click={() => (mode = 'stay')}
-      >
-        Where to Stay
-      </button>
-
-      <button
-        class="px-3 py-1 rounded-lg text-sm font-bold 
-          {mode === 'food' ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-600'}"
-        on:click={() => (mode = 'food')}
-      >
-        Food Strategy
-      </button>
-    </div>
-
-    {#if mode === 'stay'}
-      <FilterBar bind:filters on:change={applyFilters} />
-
-      <div class="grid md:grid-cols-2 gap-6 mt-8">
-        {#each filteredOptions as option}
-          <StayOptionCard {option} />
-        {/each}
-        {#if filteredOptions.length === 0}
-          <div class="col-span-full py-12 text-center text-slate-400 italic">
-            No stays match the current filters.
-          </div>
-        {/if}
-      </div>
-    {:else if mode === 'food'}
-      <div class="space-y-6">
-        {#if selectedCity?.foodStrategy}
-          <FoodStrategyCard strategy={selectedCity.foodStrategy} />
-        {:else}
-          <div class="p-6 bg-orange-50 rounded-xl border border-orange-100 text-center">
-            <p class="text-xs text-orange-800">
-              Select a specific city to see its food strategy.
-            </p>
-          </div>
-        {/if}
-      </div>
-    {/if}
-  </div>
-</div>
