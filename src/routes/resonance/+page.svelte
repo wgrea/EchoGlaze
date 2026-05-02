@@ -12,30 +12,40 @@
     let level: 'country' | 'city' = 'country';
     let selectedSignals: string[] = [];
 
-    // 1. Initialize default country if needed
+    // 1. DECLARE variables that will be set reactively
+    let filteredCities: any[] = [];
+    let rawActiveItem: any = null;
+
+    // 2. Initialize default country
     $: if (countries.length > 0 && (!$selectedCountryId || $selectedCountryId === 'all')) {
         selectedCountryId.set(countries[0].id);
     }
 
-    // 2. Filter Cities (Handle "all" vs specific country)
-    $: filteredCities = ($selectedCountryId === 'all') 
-        ? allCities 
-        : allCities.filter(c => c.countryId === $selectedCountryId);
-
-    // 3. Auto-select city ONLY if the current selection is invalid for the new filter
-    $: if (filteredCities.length > 0) {
-        const isCityInList = filteredCities.some(c => c.id === $selectedCityId);
-        if (!isCityInList) {
-            selectedCityId.set(filteredCities[0].id);
+    // 3. Consolidated Reactive Block for "Single Source of Truth"
+    $: {
+        // Step A: Filter
+        const currentFiltered = ($selectedCountryId === 'all') 
+            ? allCities 
+            : allCities.filter(c => c.countryId === $selectedCountryId);
+        
+        // Step B: Validate city selection
+        if (currentFiltered.length > 0) {
+            const isValid = currentFiltered.some(c => c.id === $selectedCityId);
+            if (!isValid) {
+                selectedCityId.set(currentFiltered[0].id);
+            }
         }
+
+        // Step C: Assign to declared variables
+        filteredCities = currentFiltered;
+        
+        // Step D: Resolve Active Item
+        rawActiveItem = level === 'country' 
+            ? countries.find(c => c.id === $selectedCountryId)
+            : (currentFiltered.find(c => c.id === $selectedCityId) || currentFiltered[0]);
     }
-
-    // 4. Derived Active Item
-    $: rawActiveItem = level === 'country' 
-        ? countries.find(c => c.id === $selectedCountryId)
-        : (filteredCities.find(c => c.id === $selectedCityId) || filteredCities[0]);
-
-    // 6. TRANSFORM for UI
+    
+    // 4. Transform for UI remains the same
     $: displayData = rawActiveItem ? {
         name: rawActiveItem.name,
         signals: signalsToArray(rawActiveItem.resonanceSignals),
