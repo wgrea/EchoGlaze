@@ -1,104 +1,87 @@
 <!-- src/routes/resonance/+page.svelte -->
 <script lang="ts">
     import { page } from '$app/stores';
+    import { selectedCountryId, selectedCityId } from '$lib/stores/location';
     import { signalsToArray } from '$lib/transformers/resonance';
     import ExploreBySignal from '$lib/components/resonance/ExploreBySignal.svelte';
     import LevelToggle from '$lib/components/resonance/LevelToggle.svelte';
 
-    // Reactive data from the loader
     $: countries = ($page.data.data.allCountries as any[]) || [];
     $: allCities = ($page.data.data.allCities as any[]) || [];
 
     let level: 'country' | 'city' = 'country';
-    let selectedCountryId = '';
-    let selectedCityId = '';
     let selectedSignals: string[] = [];
 
-    // Initialize selection
-    $: if (countries.length > 0 && !selectedCountryId) {
-        selectedCountryId = countries[0].id;
+    // 1. Initialize default country if needed
+    $: if (countries.length > 0 && (!$selectedCountryId || $selectedCountryId === 'all')) {
+        selectedCountryId.set(countries[0].id);
     }
 
-    // This ensures that when the country changes, we select the first city available
-    $: if (selectedCountryId) {
-        const citiesForCountry = allCities.filter(c => c.countryId === selectedCountryId);
-        if (citiesForCountry.length > 0) {
-            // Only reset if the current city isn't part of the new country
-            if (!citiesForCountry.find(c => c.id === selectedCityId)) {
-                selectedCityId = citiesForCountry[0].id;
-            }
+    // 2. Filter Cities (Handle "all" vs specific country)
+    $: filteredCities = ($selectedCountryId === 'all') 
+        ? allCities 
+        : allCities.filter(c => c.countryId === $selectedCountryId);
+
+    // 3. Auto-select city ONLY if the current selection is invalid for the new filter
+    $: if (filteredCities.length > 0) {
+        const isCityInList = filteredCities.some(c => c.id === $selectedCityId);
+        if (!isCityInList) {
+            selectedCityId.set(filteredCities[0].id);
         }
     }
 
-    // Toggle logic
+    // 4. Derived Active Item
+    $: rawActiveItem = level === 'country' 
+        ? countries.find(c => c.id === $selectedCountryId)
+        : (filteredCities.find(c => c.id === $selectedCityId) || filteredCities[0]);
+
+    // 6. TRANSFORM for UI
+    $: displayData = rawActiveItem ? {
+        name: rawActiveItem.name,
+        signals: signalsToArray(rawActiveItem.resonanceSignals),
+        places: level === 'country' 
+            ? (rawActiveItem.cities?.map((c: any) => ({ 
+                name: c.name, 
+                signalMatch: 85,
+                description: `Explore ${c.name}`,
+                slug: c.id.toLowerCase()
+            })) || [])
+            : (rawActiveItem.stayOptions?.map((s: any) => ({
+                name: s.name,
+                signalMatch: 90,
+                description: `${s.type.charAt(0).toUpperCase() + s.type.slice(1)} — ${s.socialTone} vibe`,
+                slug: s.id
+            })) || [])
+    } : null;
+
     function handleToggle() {
         level = level === 'country' ? 'city' : 'country';
     }
 
-    // Reactive filtering
-    $: filteredCities = allCities.filter(c => c.countryId === selectedCountryId);
+    const reverseNameMap: Record<string, string> = {
+        "Snow Activities": "snowActivities",
+        "Water Activities": "waterActivities",
+        "Dance Scene": "danceScene",
+        "Music Scene": "musicScene",
+        "Nightlife": "nightlifeOverall",
+        "Drinking Culture": "drinkingCulture",
+        "Expat Community": "expatCommunityStrength", 
+        "Solo Friendly": "soloFriendly",
+        "Nature Access": "natureAccess",
+        "Bar Density": "barDensity",
+        "Social Meetups": "socialMeetups",
+        "Festival Culture": "festivalCulture",
+        "Late Night Dining": "lateNightDining",
+        "Night Safety": "safetyAtNight",
+        "Social Ease": "socialEase" 
+    };
 
-    // Get the RAW active item based on user selection
-    $: rawActiveItem = level === 'country' 
-        ? countries.find(c => c.id === selectedCountryId)
-        : (allCities.find(c => c.id === selectedCityId) || filteredCities[0]);
-
-    // TRANSFORM for UI
-$: displayData = rawActiveItem ? {
-name: rawActiveItem.name,
-    signals: signalsToArray(rawActiveItem.resonanceSignals),
-    places: level === 'country' 
-        ? (rawActiveItem.cities?.map((c: any) => ({ 
-            name: c.name, 
-            signalMatch: 85,
-            description: `Explore ${c.name}`,
-            slug: c.id.toLowerCase()
-        })) || [])
-        : (rawActiveItem.stayOptions?.map((s: any) => ({
-            name: s.name,
-            signalMatch: 90,
-            description: `${s.type.charAt(0).toUpperCase() + s.type.slice(1)} — ${s.socialTone} vibe`,
-            slug: s.id
-        })) || [])
-} : null;
-
-// Inside src/routes/resonance/+page.svelte script block
-
-// Inside src/routes/resonance/+page.svelte script block
-
-const reverseNameMap: Record<string, string> = {
-    // Top Section
-    "Snow Activities": "snowActivities",
-    "Water Activities": "waterActivities",
-    "Dance Scene": "danceScene",
-    "Music Scene": "musicScene",
-    "Nightlife": "nightlifeOverall",
-    "Drinking Culture": "drinkingCulture", // <--- ADD THIS LINE
-    
-    // "Other" Signals Section (Crucial for your current screenshots)
-    "Expat Community": "expatCommunityStrength", 
-    "Solo Friendly": "soloFriendly",
-    "Nature Access": "natureAccess",
-    "Bar Density": "barDensity",
-    "Social Meetups": "socialMeetups",
-    "Festival Culture": "festivalCulture",
-    "Late Night Dining": "lateNightDining",
-    "Night Safety": "safetyAtNight",
-    "Social Ease": "socialEase" 
-};
-
-$: scoutedCountries = (() => {
-    // This line tells Svelte: "Re-run whenever this variable changes"
-    if (!selectedSignals || selectedSignals.length === 0) return [];
-    
-    const uiLabel = selectedSignals[0];
-    const dataKey = reverseNameMap[uiLabel] || uiLabel;
-    
-    return countries.filter(country => {
-        const val = country.resonanceSignals?.[dataKey];
-        return val >= 7;
-    });
-})();
+    $: scoutedCountries = (() => {
+        if (!selectedSignals || selectedSignals.length === 0) return [];
+        const uiLabel = selectedSignals[0];
+        const dataKey = reverseNameMap[uiLabel] || uiLabel;
+        return countries.filter(country => (country.resonanceSignals?.[dataKey] ?? 0) >= 7);
+    })();
 </script>
 
 <div class="container mx-auto p-6">
@@ -112,33 +95,29 @@ $: scoutedCountries = (() => {
     <div class="flex flex-wrap gap-4 mt-6 mb-6">
         <div>
             <label for="country-select" class="block text-sm font-medium mb-2">Select Country:</label>
-            <select
-                id="country-select"
-                bind:value={selectedCountryId}
-                class="px-4 py-2 border rounded-lg bg-white dark:bg-gray-800"
-            >
-                {#each countries as country}
-                    <option value={country.id}>{country.name}</option>
-                {/each}
-            </select>
+<select
+    id="country-select"
+    bind:value={$selectedCountryId} 
+    class="px-4 py-2 border rounded-lg bg-white dark:bg-gray-800"
+>
+    {#each countries as country}
+        <option value={country.id}>{country.name}</option>
+    {/each}
+</select>
         </div>
 
         {#if level === 'city'}
             <div>
                 <label for="city-select" class="block text-sm font-medium mb-2">Select City:</label>
-                <select
-                    id="city-select"
-                    bind:value={selectedCityId}
-                    class="px-4 py-2 border rounded-lg bg-white dark:bg-gray-800"
-                >
-                    {#if filteredCities.length === 0}
-                        <option disabled>No cities found</option>
-                    {:else}
-                        {#each filteredCities as city}
-                            <option value={city.id}>{city.name}</option>
-                        {/each}
-                    {/if}
-                </select>
+<select
+    id="city-select"
+    bind:value={$selectedCityId} 
+    class="px-4 py-2 border rounded-lg bg-white dark:bg-gray-800"
+>
+    {#each filteredCities as city}
+        <option value={city.id}>{city.name}</option>
+    {/each}
+</select>
             </div>
         {/if}
     </div>
