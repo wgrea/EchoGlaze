@@ -17,37 +17,36 @@
     ? allCities 
     : allCities.filter(c => c.countryId === $selectedCountryId);
 
-  // Auto-reset city if it doesn't belong to the selected country
-  $: if ($selectedCountryId !== 'all') {
-    const currentCity = allCities.find(c => c.id === $selectedCityId);
-    if (currentCity && currentCity.countryId !== $selectedCountryId) {
-      selectedCityId.set('all');
-    }
-  }
-
   onMount(async () => {
     [countries, allCities] = await Promise.all([
       loadCountries(),
       loadCities()
     ]);
   });
-</script>
 
+function handleCountryChange() {
+    // 1. Wipe the city first
+    selectedCityId.set('all');
+    
+    // 2. The bind:value on the select handles the Country store,
+    // but forcing a small tick ensures the city is gone before
+    // the page's filter logic re-runs.
+  }
+</script>
 <div class="flex flex-wrap gap-4">
-  <!-- Country Selector -->
   <div class="flex flex-col">
     <select 
       bind:value={$selectedCountryId}
+      on:change={() => selectedCityId.set('all')}
       class="px-3 py-2 border rounded-lg bg-white font-bold text-slate-900 focus:ring-2 focus:ring-indigo-500 outline-none"
     >
       {#if showAllOption}<option value="all">All Countries</option>{/if}
-{#each countries as country}
-  <option value={country.id}>{country.icon} {country.name}</option>
-{/each}
+      {#each countries as country}
+        <option value={country.id}>{country.icon} {country.name}</option>
+      {/each}
     </select>
   </div>
 
-  <!-- City Selector (Only shows if level is 'city') -->
   {#if level === 'city'}
     <div class="flex flex-col">
       <select 

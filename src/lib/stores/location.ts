@@ -2,7 +2,7 @@
 import { browser } from '$app/environment';
 import { writable } from 'svelte/store';
 
-// 1. The Helper Function (Keep this!)
+// 1. The Helper Function (Keep this as is)
 function persisted<T>(key: string, fallback: T) {
   const initial = browser ? JSON.parse(localStorage.getItem(key) ?? 'null') ?? fallback : fallback;
   const store = writable<T>(initial);
@@ -16,26 +16,6 @@ function persisted<T>(key: string, fallback: T) {
   return store;
 }
 
-// 2. Create the underlying persisted store
-const countryStore = persisted<string>('selectedCountryId', 'all');
-
-// 3. Export a wrapper that handles the "Safety Net" normalization
-export const selectedCountryId = {
-  subscribe: countryStore.subscribe,
-  set: (val: string) => {
-    // Safety Net Mapping
-    const mapping: Record<string, string> = {
-      "united-states": "USA",
-      "qatar": "QAT",
-      "greece": "GRC"
-    };
-    
-    // Normalize: Check mapping first, then uppercase, or stay 'all'
-    const normalized = val === 'all' ? 'all' : (mapping[val.toLowerCase()] || val.toUpperCase());
-    
-    countryStore.set(normalized);
-  },
-  update: countryStore.update
-};
-
+// 2. Simplified Exports (NO WRAPPERS, NO MAPPINGS)
+export const selectedCountryId = persisted<string>('selectedCountryId', 'all');
 export const selectedCityId = persisted<string>('selectedCityId', 'all');
