@@ -140,6 +140,7 @@ const sortCitiesABC = (a: any, b: any) => a.slug.localeCompare(b.slug);
 export const CITY_REGISTRY = [
   // USA
   { id: 'AUS', slug: 'austin', countryId: 'USA', data: austinData },
+  { id: 'ATH', slug: 'athens', countryId: 'GRC', data: athensData }, // Add this
   { id: 'BAK', slug: 'baku', countryId: 'AZE', data: bakuData },
   { id: 'BCN', slug: 'barcelona', countryId: 'ESP', data: barcelonaData },
   { id: 'BIR', slug: 'bir', countryId: 'IND', data: birData },
