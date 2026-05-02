@@ -155,6 +155,7 @@ export interface PackingStrategy {
 }
 
 export interface Country extends NamedEntity {
+  icon?: string; // Add this line here
   region: string;
   costTier: string;
   viewMode?: 'country-first' | 'city-first';

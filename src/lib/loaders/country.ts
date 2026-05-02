@@ -29,6 +29,8 @@ export async function loadCountry(id: string): Promise<Country | null> {
   return normalizeCountry(entry.data, entry.id);
 }
 
+
+
 export async function loadCountries(): Promise<Country[]> {
   // DYNAMIC LOAD: Just map over whatever is in the registry
   const countries = await Promise.all(
