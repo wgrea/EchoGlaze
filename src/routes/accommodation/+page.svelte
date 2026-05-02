@@ -11,7 +11,6 @@
   import GlobalLocationSelector from '$lib/components/layout/GlobalLocationSelector.svelte';
   import { selectedCountryId, selectedCityId } from '$lib/stores/location';
 
-
   // 1. Data State
   let stayOptions: any[] = [];
   let filteredOptions: any[] = [];
@@ -26,24 +25,26 @@
     socialTone: 'all'
   };
 
-  // 2. THE MASTER CONTROLLER (Replaces all other $: blocks)
+// 2. THE MASTER CONTROLLER
   $: {
     if (cities.length > 0 && stayOptions.length > 0) {
       const cityObj = cities.find(c => c.id === $selectedCityId);
 
-      // A. Bottom-Up Sync: If city is selected but doesn't match country, sync country
-      if ($selectedCityId !== 'all' && cityObj && cityObj.countryId !== $selectedCountryId) {
-        selectedCountryId.set(cityObj.countryId);
-      }
-
-      // B. Top-Down Reset: If country changed and current city doesn't belong, wipe city
+      // STEP A: Top-Down Reset (PRIORITY)
+      // If we pick a country, and the current city doesn't live there, kill the city immediately.
       if ($selectedCountryId !== 'all' && $selectedCityId !== 'all' && cityObj) {
         if (cityObj.countryId !== $selectedCountryId) {
           selectedCityId.set('all');
         }
       }
 
-      // C. Trigger Filter
+      // STEP B: Bottom-Up Sync
+      // Only sync country to city if the country is currently set to 'all'.
+      // This prevents the city from "dragging" the country back to the old one.
+      if ($selectedCityId !== 'all' && cityObj && $selectedCountryId === 'all') {
+        selectedCountryId.set(cityObj.countryId);
+      }
+
       applyFilters();
     }
   }
