@@ -1,59 +1,62 @@
 <!-- src/routes/transportation/+page.svelte -->
 <script lang="ts">
   import { loadCountry } from '$lib/loaders/country';
-  import type { Transportation, Country } from '$lib/types';
   import { COUNTRY_REGISTRY } from '$lib/data/manifest';
   import { selectedCountryId } from '$lib/stores/location';
+  import type { Country } from '$lib/types';
 
-  // ADD THIS:
+  // ✅ CORRECT: Map to ID so the Store and Accommodation page sync up
   const countries = COUNTRY_REGISTRY.map(c => ({
-    id: c.slug,
-    name: c.data.name,
+    id: c.id,          // "QAT"
+    name: c.data.name, // "Qatar"
     icon: c.icon
   }));
-  
+
   let destinationData: Country | null = null;
-  let transportation: Transportation | null = null;
   let loading = false;
 
+  // This reactive block calls the update function when the store changes
   $: if ($selectedCountryId && $selectedCountryId !== 'all') {
     updateTransportation($selectedCountryId);
   }
 
-  async function updateTransportation(dest: string) {
+  // ✅ THIS STAYS HERE: It manages the local 'loading' and 'destinationData' states
+  async function updateTransportation(id: string) {
     loading = true;
     try {
-      destinationData = await loadCountry(dest);
-      transportation = destinationData?.transportation ?? null;
+      destinationData = await loadCountry(id);
+    } catch (e) {
+      console.error("Failed to load transport data", e);
     } finally {
       loading = false;
     }
   }
+
+  $: transportation = destinationData?.transportation ?? null;
 </script>
 
-<nav class="sticky top-0 z-10 bg-white/80 backdrop-blur-md border-b border-slate-200 p-4 shadow-sm">
+<nav class="sticky top-0 z-10 bg-white/80 backdrop-blur-md border-b border-slate-200 p-4">
   <div class="max-w-5xl mx-auto flex items-center justify-between gap-4">
     <div class="flex items-center gap-2">
       <span class="text-xl">🚗</span>
-      <!-- 3. Bind to the store directly -->
       <select bind:value={$selectedCountryId} 
         class="bg-transparent font-bold text-indigo-600 outline-none cursor-pointer text-sm"
       >
+        <option value="all">Select a country...</option>
         {#each countries as c}
           <option value={c.id}>{c.icon} {c.name}</option>
         {/each}
       </select>
     </div>
 
-{#if destinationData}
-  <div class="text-right">
-    <span class="block text-xs font-bold">{destinationData.name}</span>
-    <span class="block text-xs font-bold text-slate-600">{destinationData.region}</span>
-  </div>
-{/if}
+    {#if destinationData}
+      <div class="text-right">
+        <span class="block text-xs font-bold text-slate-900">{destinationData.name}</span>
+        <span class="block text-[10px] uppercase tracking-wider text-slate-500">{destinationData.region}</span>
+      </div>
+    {/if}
   </div>
 </nav>
-
 <div class="max-w-6xl mx-auto px-4 py-8">
   <h1 class="text-3xl font-bold text-gray-900 mb-2">🚗 Transportation</h1>
   <p class="text-gray-600 mb-8">How locals move — cheapest by day, safest by night.</p>

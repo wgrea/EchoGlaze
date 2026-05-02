@@ -8,49 +8,10 @@
   import FilterBar from '$lib/components/accommodation/FilterBar.svelte';
   import StayOptionCard from '$lib/components/accommodation/StayOptionCard.svelte';
   import FoodStrategyCard from '$lib/components/accommodation/FoodStrategyCard.svelte';
-
+  import GlobalLocationSelector from '$lib/components/layout/GlobalLocationSelector.svelte';
   import { selectedCountryId, selectedCityId } from '$lib/stores/location';
 
-
-  // 1. Reactive Data Hub
-  $: currentCountry = countries.find(c => c.id === $selectedCountryId);
-  $: currentCity = cities.find(c => c.id === $selectedCityId);
-
-  // 2. City Filtering Logic
-  // Show all cities if no country is selected, otherwise filter by country
-  $: filteredCities = $selectedCountryId === 'all'
-    ? cities
-    : cities.filter(c => (c as any).countryId === $selectedCountryId);
-
-// If the user selects a country, and the currently selected city 
-  // doesn't belong to that country, reset city to 'all'
-  $: if ($selectedCountryId !== 'all') {
-    const activeCity = cities.find(c => c.id === $selectedCityId);
-    if (activeCity && activeCity.countryId !== $selectedCountryId) {
-      selectedCityId.set('all');
-    }
-  }
-
-// 2. If a user changes country, and the current city isn't in that country, reset city to 'all'
-$: if ($selectedCountryId !== 'all' && $selectedCityId !== 'all') {
-  const city = cities.find(c => c.id === $selectedCityId);
-  if (city && city.countryId !== $selectedCountryId) {
-    selectedCityId.set('all');
-  }
-}
-
-  // 2. Reactive display values
-  $: countryName = currentCountry ? currentCountry.name : 'All Countries';
-  $: cityName = currentCity ? currentCity.name : 'All Cities';
-
-  // Keep these as plain variables, update them reactively
-  let localCountryId = 'all';
-  let localCityId = 'all';
-
-  // 1. Sync store -> local (when user navigates or selects elsewhere)
-  $: localCountryId = $selectedCountryId;
-  $: localCityId = $selectedCityId;
-
+  // 1. Data State
   let stayOptions: any[] = [];
   let filteredOptions: any[] = [];
   let countries: Country[] = [];
@@ -64,98 +25,97 @@ $: if ($selectedCountryId !== 'all' && $selectedCityId !== 'all') {
     socialTone: 'all'
   };
 
-  // Sync city object
+  // 2. Reactive Helpers
   $: selectedCity = cities.find(c => c.id === $selectedCityId) || null;
 
-// 1. WATCHERS: When the local dropdown changes, update the global store
-$: if (localCountryId !== $selectedCountryId) {
-  selectedCountryId.set(localCountryId);
-}
-
-$: if (localCityId !== $selectedCityId) {
-  selectedCityId.set(localCityId);
-}
-
-// 2. AUTO-RESET CITY: If country changes to something new, reset city to 'all'
-// This prevents being stuck in "Lahore" while the country is "Greece"
-$: if ($selectedCountryId) {
-  const city = cities.find(c => c.id === $selectedCityId);
-  if (city && $selectedCountryId !== 'all' && city.countryId !== $selectedCountryId) {
-    selectedCityId.set('all');
+  // Logic: If a city is selected (even from another page), 
+  // auto-sync the country store so the filter doesn't break.
+  $: if ($selectedCityId !== 'all' && cities.length > 0) {
+    const cityObj = cities.find(c => c.id === $selectedCityId);
+    if (cityObj && cityObj.countryId !== $selectedCountryId) {
+      selectedCountryId.set(cityObj.countryId);
+    }
   }
-}
 
-// Reactive Filter Runner
+  // 3. The Master Filter Trigger
+  // This block watches the data array AND the stores. 
+  // It will re-fire as soon as stayOptions is populated.
   $: {
-    // These lines act as "listeners"
-    $selectedCountryId; 
-    $selectedCityId;
-    filters;
-    
-    // This runs every time one of the above changes
     if (stayOptions.length > 0) {
+      // Accessing these values makes the block reactive to them
+      $selectedCountryId;
+      $selectedCityId;
+      filters;
       applyFilters();
     }
   }
 
   onMount(async () => {
-    const [optionsData, citiesData, countriesData] = await Promise.all([
-      loadAllStayOptions(),
-      loadCities(),
-      loadCountries()
-    ]);
-    
-    stayOptions = optionsData;
-    cities = citiesData;
-    countries = countriesData;
-    
-    // Force sync local proxy to current store value now that data is ready
-    localCountryId = $selectedCountryId;
-    localCityId = $selectedCityId;
-    
-    applyFilters();
+    try {
+      const [optionsData, citiesData, countriesData] = await Promise.all([
+        loadAllStayOptions(),
+        loadCities(),
+        loadCountries()
+      ]);
+      
+      stayOptions = optionsData;
+      cities = citiesData;
+      countries = countriesData;
+      
+      // Note: The $: block above will handle the filtering once stayOptions is set
+    } catch (error) {
+      console.error("Failed to fetch accommodation data:", error);
+    }
   });
 
 function applyFilters() {
-    filteredOptions = stayOptions.filter(option => {
-      // 1. If a country is selected, check if the hostel's city belongs to that country
-      if ($selectedCountryId !== 'all' && option.city.countryId !== $selectedCountryId) return false;
-      
-      // 2. If a city is ALSO selected, narrow it down to just that city
-      if ($selectedCityId !== 'all' && option.cityId !== $selectedCityId) return false;
-      
-      // 3. Functional UI Filters
-      if (filters.type !== 'all' && option.type !== filters.type) return false;
-      if ((option.wifiScore || 0) < filters.wifiMin) return false;
-      
-      if (filters.maxPriceTier !== 'all') {
-        const maxTier = parseInt(filters.maxPriceTier);
-        if (option.priceTier > maxTier) return false;
-      }
-      return true;
-    });
-  }
+  // 1. Get the current selection from the store
+  const selection = ($selectedCountryId || "").toString().toLowerCase().trim();
+  const citySelection = ($selectedCityId || "").toString().toLowerCase().trim();
 
+  filteredOptions = stayOptions.filter(option => {
+    // 2. Flexible Country Filtering
+    if (selection !== 'all') {
+      // Get data from the nested city object created in stay.ts loader
+      const countryId = (option.city?.countryId || "").toLowerCase();
+      const countryName = (option.city?.countryName || "").toLowerCase();
+      
+      // We need the slug. Since stay.ts doesn't include it by default, 
+      // we check against ID (QAT) and Name (Qatar). 
+      // If your Logistics page saves "qatar", countryName.toLowerCase() will catch it.
+      const isCountryMatch = countryId === selection || countryName === selection;
+      
+      if (!isCountryMatch) return false;
+    }
+
+    // 3. Flexible City Filtering
+    if (citySelection !== 'all') {
+      const cityId = (option.cityId || "").toLowerCase();
+      const cityName = (option.cityName || "").toLowerCase();
+      
+      const isCityMatch = cityId === citySelection || cityName === citySelection;
+      if (!isCityMatch) return false;
+    }
+
+    // 4. Existing Functional Filters
+    if (filters.type !== 'all' && option.type !== filters.type) return false;
+    if ((option.wifiScore ?? 0) < filters.wifiMin) return false;
+    
+    return true;
+  });
+}
+  // Reactive log to track the store changing globally
+  $: console.log("Current Global Store Country:", $selectedCountryId);
 </script>
 
 <div class="max-w-6xl mx-auto px-4 py-8 flex flex-col lg:flex-row gap-8">
   <div class="flex-1">
     <h1 class="text-3xl font-bold text-gray-900 mb-2">🏠 Accommodation Finder</h1>
     
-    <div class="flex flex-wrap gap-4 mt-6 mb-6">
-      <div>
-        <label for="country-select" class="block text-sm font-medium mb-2 text-slate-500">Selected Country</label>
-        <select 
-          id="country-select" 
-          bind:value={$selectedCountryId} 
-          class="px-4 py-2 border rounded-lg bg-white font-bold text-slate-900"
-        >
-          <option value="all">All Countries</option>
-          {#each countries as country}
-            <option value={country.id}>{country.name}</option>
-          {/each}
-        </select>
-      </div>
+    <div class="mt-6 mb-6">
+      <p class="text-sm font-medium mb-2 text-slate-500">Global Location</p>
+      <!-- This component handles the $selectedCountryId and $selectedCityId internally -->
+      <GlobalLocationSelector level="city" />
     </div>
 
     <div class="flex gap-2 mb-6">
@@ -183,29 +143,20 @@ function applyFilters() {
         {#each filteredOptions as option}
           <StayOptionCard {option} />
         {/each}
+        {#if filteredOptions.length === 0}
+          <div class="col-span-full py-12 text-center text-slate-400 italic">
+            No stays match the current filters.
+          </div>
+        {/if}
       </div>
     {:else if mode === 'food'}
       <div class="space-y-6">
-        <div>
-          <label for="city-select" class="block text-sm font-medium mb-2 text-slate-500">Selected City</label>
-          <select 
-            id="city-select" 
-            bind:value={$selectedCityId} 
-            class="px-4 py-2 border rounded-lg bg-white font-bold text-slate-900 w-full md:w-auto"
-          >
-            <option value="all">All Cities</option>
-            {#each filteredCities as city}
-              <option value={city.id}>{city.name}</option>
-            {/each}
-          </select>
-        </div>
-
         {#if selectedCity?.foodStrategy}
           <FoodStrategyCard strategy={selectedCity.foodStrategy} />
         {:else}
           <div class="p-6 bg-orange-50 rounded-xl border border-orange-100 text-center">
             <p class="text-xs text-orange-800">
-              Select a city to see where to find the healthiest & cheapest meals.
+              Select a specific city to see its food strategy.
             </p>
           </div>
         {/if}
@@ -213,4 +164,3 @@ function applyFilters() {
     {/if}
   </div>
 </div>
-
