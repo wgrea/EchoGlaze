@@ -14,7 +14,7 @@
   let visaType: 'all' | 'nomad' | 'tourist' | 'visaFree' = 'all';
 
   const countries = COUNTRY_REGISTRY.map(c => ({
-    id: c.slug,
+    id: c.id,
     name: c.data.name,
     icon: c.icon
   }));
