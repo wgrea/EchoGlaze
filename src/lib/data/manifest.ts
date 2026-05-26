@@ -104,6 +104,26 @@ import lpzData from './countries/bolivia/la-paz.ts';
 import pakData from './countries/pakistan/index.ts';
 import lheData from './countries/pakistan/lahore.ts';
 
+// --- JORDAN ---
+import jorData from './countries/jordan/index.ts';
+import ammData from './countries/jordan/amman.ts';
+
+// --- ROMANIA ---
+import rouData from './countries/romania/index.ts';
+import cljData from './countries/romania/cluj.ts';
+
+// --- KAZAKHSTAN ---
+import kazData from './countries/kazakhstan/index.ts';
+import alaData from './countries/kazakhstan/almaty.ts';
+
+// --- UZBEKISTAN ---
+import uzbData from './countries/uzbekistan/index.ts';
+import tasData from './countries/uzbekistan/tashkent.ts';
+
+// --- EGYPT ---
+import egyData from './countries/egypt/index.ts';
+import caiData from './countries/egypt/cairo.ts';
+
 // At top of manifest.ts, add country sort helper
 const sortCountriesABC = (a: any, b: any) => a.id.localeCompare(b.id);
 
@@ -116,11 +136,14 @@ export const COUNTRY_REGISTRY = [
   { id: 'BOL', slug: 'bolivia', data: bolData, icon: '🇧🇴' },
   { id: 'BRA', slug: 'brazil', data: braData, icon: '🇧🇷' },
   { id: 'COL', slug: 'colombia', data: colData, icon: '🇨🇴' },
+  { id: 'EGY', slug: 'egypt', data: egyData, icon: '🇪🇬' },
   { id: 'ESP', slug: 'spain', data: spainData, icon: '🇪🇸' },
   { id: 'GEO', slug: 'georgia', data: geoData, icon: '🇬🇪' },
   { id: 'GRC', slug: 'greece', data: greeceData, icon: '🇬🇷' },
   { id: 'IND', slug: 'india', data: indiaData, icon: '🇮🇳' },
   { id: 'IDN', slug: 'indonesia', data: indonesiaData, icon: '🇮🇩' },
+  { id: 'JOR', slug: 'jordan', data: jorData, icon: '🇯🇴' },
+  { id: 'KAZ', slug: 'kazakhstan', data: kazData, icon: '🇰🇿' },
   { id: 'LAO', slug: 'laos', data: laoData, icon: '🇱🇦' },
   { id: 'LKA', slug: 'sri-lanka', data: sriLankaData, icon: '🇱🇰' },
   { id: 'MAR', slug: 'morocco', data: marData, icon: '🇲🇦' },
@@ -130,15 +153,19 @@ export const COUNTRY_REGISTRY = [
   { id: 'PAK', slug: 'pakistan', data: pakData, icon: '🇵🇰' },
   { id: 'PRT', slug: 'portugal', data: prtData, icon: '🇵🇹' },
   { id: 'QAT', slug: 'qatar', data: qatarData, icon: '🇶🇦' },
+  { id: 'ROU', slug: 'romania', data: rouData, icon: '🇷🇴' },
   { id: 'THA', slug: 'thailand', data: thaData, icon: '🇹🇭' },
   { id: 'TUR', slug: 'turkey', data: turkeyData, icon: '🇹🇷' },
-  { id: 'USA', slug: 'united-states', data: usaData, icon: '🇺🇸' }
+  { id: 'USA', slug: 'united-states', data: usaData, icon: '🇺🇸' },
+  { id: 'UZB', slug: 'uzbekistan', data: uzbData, icon: '🇺🇿' }
 ].sort(sortCountriesABC);  // Locks in ABC order forever
 
 const sortCitiesABC = (a: any, b: any) => a.slug.localeCompare(b.slug);
 
 export const CITY_REGISTRY = [
   // USA
+  { id: 'ALA', slug: 'almaty', countryId: 'KAZ', data: alaData },
+  { id: 'AMM', slug: 'amman', countryId: 'JOR', data: ammData },
   { id: 'AUS', slug: 'austin', countryId: 'USA', data: austinData },
   { id: 'ATH', slug: 'athens', countryId: 'GRC', data: athensData }, // Add this
   { id: 'BAK', slug: 'baku', countryId: 'AZE', data: bakuData },
@@ -146,8 +173,10 @@ export const CITY_REGISTRY = [
   { id: 'BIR', slug: 'bir', countryId: 'IND', data: birData },
   { id: 'BKK', slug: 'bangkok', countryId: 'THA', data: bkkData },
   { id: 'BUE', slug: 'buenos-aires', countryId: 'ARG', data: bueData },
+  { id: 'CAI', slug: 'cairo', countryId: 'EGY', data: caiData },
   { id: 'CDMX', slug: 'cdmx', countryId: 'MEX', data: cdmxData },
   { id: 'CHI', slug: 'chicago', countryId: 'USA', data: chicagoData },
+  { id: 'CLJ', slug: 'cluj-napoca', countryId: 'ROU', data: cljData },
   { id: 'DEN', slug: 'denver', countryId: 'USA', data: denverData },
   { id: 'DHA', slug: 'dhaka', countryId: 'BGD', data: dhaData },
   { id: 'DOH', slug: 'doha', countryId: 'QAT', data: dohaData },
@@ -169,6 +198,7 @@ export const CITY_REGISTRY = [
   { id: 'SAO', slug: 'sao-paulo', countryId: 'BRA', data: saoData },
   { id: 'SEA', slug: 'seattle', countryId: 'USA', data: seattleData },
   { id: 'SVQ', slug: 'seville', countryId: 'ESP', data: sevilleData },
+  { id: 'TAS', slug: 'tashkent', countryId: 'UZB', data: tasData },
   { id: 'TBS', slug: 'tbilisi', countryId: 'GEO', data: tbsData },
   { id: 'WLG', slug: 'weligama', countryId: 'LKA', data: weligamaData },
   { id: 'YER', slug: 'yerevan', countryId: 'ARM', data: yerData }
@@ -181,10 +211,11 @@ export const CITY_REGISTRY = [
 import prtData from './countries/portugal/index.ts';
 import lisData from './countries/portugal/lisbon.ts';
 
- * 
+ * // Country data
  *   { id: 'LKA', slug: 'sri-lanka', data: sriLankaData, icon: '🇱🇰' },
   { id: 'NPL', slug: 'nepal', data: nepalData, icon: '🇳🇵' },
  * 
+  * // City data
  *   { id: 'BUE', slug: 'buenos-aires', countryId: 'ARG', data: bueData },
   {id: 'LIS', slug: 'lisbon', countryId: 'PRT', data: lisData },
  * 
